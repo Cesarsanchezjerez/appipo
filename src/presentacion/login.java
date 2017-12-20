@@ -130,7 +130,7 @@ public class login extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (String.valueOf(pwdContrasea.getPassword()).equals(contraseña)) {
 				lblAviso.setBackground(Color.GREEN); lblAviso.setText("Contraseña correcta. Puede entrar"); lblAviso.setVisible(true); 
-				
+				hjgdf
 				} else {
 				lblAviso.setBackground(Color.RED); lblAviso.setText("Contraseña incorrecta. Vuelva a intentarlo"); lblAviso.setVisible(true);
 				
