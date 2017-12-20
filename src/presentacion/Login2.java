@@ -6,12 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class Login2 {
 
 	private JFrame frmLogin;
 	private JPanel panel;
 	private JLabel lblEstado;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -46,6 +48,11 @@ public class Login2 {
 		{
 			panel = new JPanel();
 			frmLogin.getContentPane().add(panel, BorderLayout.CENTER);
+			{
+				textField = new JTextField();
+				panel.add(textField);
+				textField.setColumns(10);
+			}
 		}
 		{
 			lblEstado = new JLabel("");
