@@ -3,17 +3,10 @@ package presentacion;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class Login2 {
 
-	private JFrame frmLogin;
-	private JPanel panel;
-	private JLabel lblEstado;
-	private JTextField textField;
+	private JFrame Login2;
 
 	/**
 	 * Launch the application.
@@ -23,7 +16,7 @@ public class Login2 {
 			public void run() {
 				try {
 					Login2 window = new Login2();
-					window.frmLogin.setVisible(true);
+					window.Login2.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -42,22 +35,9 @@ public class Login2 {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmLogin = new JFrame();
-		frmLogin.setBounds(100, 100, 450, 300);
-		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		{
-			panel = new JPanel();
-			frmLogin.getContentPane().add(panel, BorderLayout.CENTER);
-			{
-				textField = new JTextField();
-				panel.add(textField);
-				textField.setColumns(10);
-			}
-		}
-		{
-			lblEstado = new JLabel("");
-			frmLogin.getContentPane().add(lblEstado, BorderLayout.SOUTH);
-		}
+		Login2 = new JFrame();
+		Login2.setBounds(100, 100, 450, 300);
+		Login2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 }
