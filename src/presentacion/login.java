@@ -50,6 +50,7 @@ public class login extends JFrame {
 	 * Create the frame.
 	 */
 	public login() {
+		setTitle("login");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 657, 425);
@@ -130,6 +131,10 @@ public class login extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (String.valueOf(pwdContrasea.getPassword()).equals(contraseña)) {
 				lblAviso.setBackground(Color.GREEN); lblAviso.setText("Contraseña correcta. Puede entrar"); lblAviso.setVisible(true); 
+				contentPane.setVisible(false); //pongo lo de dentro del jpanel vacio..... casi pero no XD
+				
+				app app=new app();// crea la ventana nueva pero dudo que sea asin sobre todo x lo de abajo a null
+				app.main(null);
 				
 				} else {
 				lblAviso.setBackground(Color.RED); lblAviso.setText("Contraseña incorrecta. Vuelva a intentarlo"); lblAviso.setVisible(true);
