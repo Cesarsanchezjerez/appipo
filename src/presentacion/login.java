@@ -140,6 +140,7 @@ public class login extends JFrame {
 				lblAviso.setBackground(Color.RED); lblAviso.setText("Contraseña incorrecta. Vuelva a intentarlo"); lblAviso.setVisible(true);
 				
 				}
+			
 		}
 	}
 }
