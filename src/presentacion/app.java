@@ -35,6 +35,9 @@ public class App {
 	private JList listaProyectos;
 	private JLabel lblArchivo;
 	private JPanel pnlProyecto;
+	private JPanel pnlPendientes;
+	private JPanel pnlEnProceso;
+	private JPanel pnlTerminadas;
 
 	/**
 	 * Launch the application.
@@ -86,11 +89,40 @@ public class App {
 			pnlProyecto.setBorder(new TitledBorder(null, "Proyecto ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			frame.getContentPane().add(pnlProyecto, "cell 1 0 1 2,grow");
 			GridBagLayout gbl_pnlProyecto = new GridBagLayout();
-			gbl_pnlProyecto.columnWidths = new int[]{0};
-			gbl_pnlProyecto.rowHeights = new int[]{0};
-			gbl_pnlProyecto.columnWeights = new double[]{Double.MIN_VALUE};
-			gbl_pnlProyecto.rowWeights = new double[]{Double.MIN_VALUE};
+			gbl_pnlProyecto.columnWidths = new int[]{0, 0, 0, 0};
+			gbl_pnlProyecto.rowHeights = new int[]{0, 0};
+			gbl_pnlProyecto.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+			gbl_pnlProyecto.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 			pnlProyecto.setLayout(gbl_pnlProyecto);
+			{
+				pnlPendientes = new JPanel();
+				pnlPendientes.setBorder(new TitledBorder(null, "Pendientes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				GridBagConstraints gbc_pnlPendientes = new GridBagConstraints();
+				gbc_pnlPendientes.insets = new Insets(0, 0, 0, 5);
+				gbc_pnlPendientes.fill = GridBagConstraints.BOTH;
+				gbc_pnlPendientes.gridx = 0;
+				gbc_pnlPendientes.gridy = 0;
+				pnlProyecto.add(pnlPendientes, gbc_pnlPendientes);
+			}
+			{
+				pnlEnProceso = new JPanel();
+				pnlEnProceso.setBorder(new TitledBorder(null, "En proceso", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				GridBagConstraints gbc_pnlEnProceso = new GridBagConstraints();
+				gbc_pnlEnProceso.insets = new Insets(0, 0, 0, 5);
+				gbc_pnlEnProceso.fill = GridBagConstraints.BOTH;
+				gbc_pnlEnProceso.gridx = 1;
+				gbc_pnlEnProceso.gridy = 0;
+				pnlProyecto.add(pnlEnProceso, gbc_pnlEnProceso);
+			}
+			{
+				pnlTerminadas = new JPanel();
+				pnlTerminadas.setBorder(new TitledBorder(null, "Terminadas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				GridBagConstraints gbc_pnlTerminadas = new GridBagConstraints();
+				gbc_pnlTerminadas.fill = GridBagConstraints.BOTH;
+				gbc_pnlTerminadas.gridx = 2;
+				gbc_pnlTerminadas.gridy = 0;
+				pnlProyecto.add(pnlTerminadas, gbc_pnlTerminadas);
+			}
 		}
 		{
 			btnAadirProyecto = new JButton("Añadir proyecto");

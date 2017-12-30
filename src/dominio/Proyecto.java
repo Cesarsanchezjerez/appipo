@@ -11,8 +11,7 @@ public class Proyecto {
 	private Date fechaInin;
 	private Date fechaFin;
 	
-	public Proyecto(String nombre, ArrayList<Actividad> actividades, ArrayList<Persona> integrantes, Date fechaInin,
-			Date fechaFin) {
+	public Proyecto(String nombre, ArrayList<Persona> integrantes, Date fechaInin, Date fechaFin) {
 		this.nombre = nombre;
 		this.actividades = actividades;
 		this.integrantes = integrantes;
