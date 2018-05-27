@@ -34,6 +34,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class App {
 //asassadassd
@@ -166,6 +168,7 @@ public class App {
 		pnlProyecto.setVisible(false);
 		{
 			btnAadirProyecto = new JButton("Añadir proyecto");
+			btnAadirProyecto.addActionListener(new BtnAadirProyectoActionListener());
 			frame.getContentPane().add(btnAadirProyecto, "cell 0 1,alignx center,aligny center");
 			
 		}
@@ -229,6 +232,12 @@ public class App {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			pnlProyecto.setVisible(true);
+		}
+	}
+	private class BtnAadirProyectoActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+			
 		}
 	}
 }

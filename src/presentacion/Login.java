@@ -94,8 +94,8 @@ public class Login {
 			if(txtUser.getText().equals("perico") && txtPass.getText().equals("palote")) {
 				
 				frame.setVisible(false);
-				App app = new App();
-				app.main(null);
+				
+				App.main(null);
 			}
 		}
 	}
