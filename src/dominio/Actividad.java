@@ -1,9 +1,15 @@
 package dominio;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class Actividad {
 
 	private String nombre;
-
+	//private ArrayList<Persona> integrantes;
+	//private Date fechaInin;
+	//private Date fechaFin;
+	//private int prioridad;
 	
 	public Actividad(String nombre) {
 		this.nombre = nombre;

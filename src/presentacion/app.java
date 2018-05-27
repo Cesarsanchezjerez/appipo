@@ -26,6 +26,12 @@ import java.awt.Color;
 import javax.swing.AbstractListModel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class App {
 
@@ -35,6 +41,10 @@ public class App {
 	private JList listaProyectos;
 	private JLabel lblArchivo;
 	private JPanel pnlProyecto;
+	private JPanel pnlPendientes;
+	private JPanel pnlEnProceso;
+	private JPanel pnlTerminadas;
+	private JButton btnNuevaActividad;
 
 	/**
 	 * Launch the application.
@@ -69,6 +79,7 @@ public class App {
 		frame.getContentPane().setLayout(new MigLayout("", "[182.00px][697px,grow]", "[421px,grow][23px]"));
 		{
 			listaProyectos = new JList();
+			listaProyectos.addMouseListener(new ListaProyectosMouseListener());
 			listaProyectos.setBorder(new TitledBorder(null, "Lista de proyectos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			listaProyectos.setModel(new AbstractListModel() {
 				String[] values = new String[] {"Proyecto A", "Proyecto B", "Proyecto C"};
@@ -86,12 +97,51 @@ public class App {
 			pnlProyecto.setBorder(new TitledBorder(null, "Proyecto ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			frame.getContentPane().add(pnlProyecto, "cell 1 0 1 2,grow");
 			GridBagLayout gbl_pnlProyecto = new GridBagLayout();
-			gbl_pnlProyecto.columnWidths = new int[]{0};
-			gbl_pnlProyecto.rowHeights = new int[]{0};
-			gbl_pnlProyecto.columnWeights = new double[]{Double.MIN_VALUE};
-			gbl_pnlProyecto.rowWeights = new double[]{Double.MIN_VALUE};
+			gbl_pnlProyecto.columnWidths = new int[]{0, 0, 0, 0, 0};
+			gbl_pnlProyecto.rowHeights = new int[]{0, 0};
+			gbl_pnlProyecto.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+			gbl_pnlProyecto.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 			pnlProyecto.setLayout(gbl_pnlProyecto);
+			{
+				pnlPendientes = new JPanel();
+				pnlPendientes.setBorder(new TitledBorder(null, "Pendientes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				GridBagConstraints gbc_pnlPendientes = new GridBagConstraints();
+				gbc_pnlPendientes.insets = new Insets(0, 0, 0, 5);
+				gbc_pnlPendientes.fill = GridBagConstraints.BOTH;
+				gbc_pnlPendientes.gridx = 0;
+				gbc_pnlPendientes.gridy = 0;
+				pnlProyecto.add(pnlPendientes, gbc_pnlPendientes);
+			}
+			{
+				pnlEnProceso = new JPanel();
+				pnlEnProceso.setBorder(new TitledBorder(null, "En proceso", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				GridBagConstraints gbc_pnlEnProceso = new GridBagConstraints();
+				gbc_pnlEnProceso.insets = new Insets(0, 0, 0, 5);
+				gbc_pnlEnProceso.fill = GridBagConstraints.BOTH;
+				gbc_pnlEnProceso.gridx = 1;
+				gbc_pnlEnProceso.gridy = 0;
+				pnlProyecto.add(pnlEnProceso, gbc_pnlEnProceso);
+			}
+			{
+				pnlTerminadas = new JPanel();
+				pnlTerminadas.setBorder(new TitledBorder(null, "Terminadas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				GridBagConstraints gbc_pnlTerminadas = new GridBagConstraints();
+				gbc_pnlTerminadas.insets = new Insets(0, 0, 0, 5);
+				gbc_pnlTerminadas.fill = GridBagConstraints.BOTH;
+				gbc_pnlTerminadas.gridx = 2;
+				gbc_pnlTerminadas.gridy = 0;
+				pnlProyecto.add(pnlTerminadas, gbc_pnlTerminadas);
+			}
+			{
+				btnNuevaActividad = new JButton("Nueva actividad");
+				GridBagConstraints gbc_btnNuevaActividad = new GridBagConstraints();
+				gbc_btnNuevaActividad.anchor = GridBagConstraints.NORTH;
+				gbc_btnNuevaActividad.gridx = 3;
+				gbc_btnNuevaActividad.gridy = 0;
+				pnlProyecto.add(btnNuevaActividad, gbc_btnNuevaActividad);
+			}
 		}
+		pnlProyecto.setVisible(false);
 		{
 			btnAadirProyecto = new JButton("Añadir proyecto");
 			frame.getContentPane().add(btnAadirProyecto, "cell 0 1,alignx center,aligny center");
@@ -107,4 +157,12 @@ public class App {
 		}
 	}
 
+	
+	
+	private class ListaProyectosMouseListener extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			pnlProyecto.setVisible(true);
+		}
+	}
 }
