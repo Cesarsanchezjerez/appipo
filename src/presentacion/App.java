@@ -32,6 +32,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class App {
 //asassadassd
@@ -39,12 +41,29 @@ public class App {
 	private JButton btnAadirProyecto;
 	private JMenuBar menuBar;
 	private JList listaProyectos;
-	private JLabel lblArchivo;
 	private JPanel pnlProyecto;
 	private JPanel pnlPendientes;
 	private JPanel pnlEnProceso;
 	private JPanel pnlTerminadas;
 	private JButton btnNuevaActividad;
+	private JMenu mnArchivo;
+	private JMenu mnEdicion;
+	private JMenu mnAyuda;
+	private JMenuItem mntmNuevo;
+	private JMenuItem mntmAbrir;
+	private JSeparator separator;
+	private JMenuItem mntmSalir;
+	private JMenuItem mntmGuardar;
+	private JMenuItem mntmManual;
+	private JMenuItem mntmIdioma;
+	private JSeparator separator_1;
+	private JSeparator separator_2;
+	private JScrollPane scrollPane;
+	private JScrollPane scrollPane_1;
+	private JScrollPane scrollPane_2;
+	private JLabel lblPendientes;
+	private JLabel lblEnProceso;
+	private JLabel lblTerminadas;
 
 	/**
 	 * Launch the application.
@@ -96,49 +115,52 @@ public class App {
 			pnlProyecto = new JPanel();
 			pnlProyecto.setBorder(new TitledBorder(null, "Proyecto ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			frame.getContentPane().add(pnlProyecto, "cell 1 0 1 2,grow");
-			GridBagLayout gbl_pnlProyecto = new GridBagLayout();
-			gbl_pnlProyecto.columnWidths = new int[]{0, 0, 0, 0, 0};
-			gbl_pnlProyecto.rowHeights = new int[]{0, 0};
-			gbl_pnlProyecto.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-			gbl_pnlProyecto.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-			pnlProyecto.setLayout(gbl_pnlProyecto);
+			pnlProyecto.setLayout(new BoxLayout(pnlProyecto, BoxLayout.X_AXIS));
 			{
 				pnlPendientes = new JPanel();
-				pnlPendientes.setBorder(new TitledBorder(null, "Pendientes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				GridBagConstraints gbc_pnlPendientes = new GridBagConstraints();
-				gbc_pnlPendientes.insets = new Insets(0, 0, 0, 5);
-				gbc_pnlPendientes.fill = GridBagConstraints.BOTH;
-				gbc_pnlPendientes.gridx = 0;
-				gbc_pnlPendientes.gridy = 0;
-				pnlProyecto.add(pnlPendientes, gbc_pnlPendientes);
+				pnlPendientes.setBorder(null);
+				pnlProyecto.add(pnlPendientes);
+				pnlPendientes.setLayout(new BorderLayout(0, 0));
+				{
+					scrollPane = new JScrollPane();
+					pnlPendientes.add(scrollPane);
+				}
+				{
+					lblPendientes = new JLabel("Pendientes");
+					pnlPendientes.add(lblPendientes, BorderLayout.NORTH);
+				}
 			}
 			{
 				pnlEnProceso = new JPanel();
-				pnlEnProceso.setBorder(new TitledBorder(null, "En proceso", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				GridBagConstraints gbc_pnlEnProceso = new GridBagConstraints();
-				gbc_pnlEnProceso.insets = new Insets(0, 0, 0, 5);
-				gbc_pnlEnProceso.fill = GridBagConstraints.BOTH;
-				gbc_pnlEnProceso.gridx = 1;
-				gbc_pnlEnProceso.gridy = 0;
-				pnlProyecto.add(pnlEnProceso, gbc_pnlEnProceso);
+				pnlEnProceso.setBorder(null);
+				pnlProyecto.add(pnlEnProceso);
+				pnlEnProceso.setLayout(new BorderLayout(0, 0));
+				{
+					scrollPane_1 = new JScrollPane();
+					pnlEnProceso.add(scrollPane_1, BorderLayout.CENTER);
+				}
+				{
+					lblEnProceso = new JLabel("En Proceso");
+					pnlEnProceso.add(lblEnProceso, BorderLayout.NORTH);
+				}
 			}
 			{
 				pnlTerminadas = new JPanel();
-				pnlTerminadas.setBorder(new TitledBorder(null, "Terminadas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				GridBagConstraints gbc_pnlTerminadas = new GridBagConstraints();
-				gbc_pnlTerminadas.insets = new Insets(0, 0, 0, 5);
-				gbc_pnlTerminadas.fill = GridBagConstraints.BOTH;
-				gbc_pnlTerminadas.gridx = 2;
-				gbc_pnlTerminadas.gridy = 0;
-				pnlProyecto.add(pnlTerminadas, gbc_pnlTerminadas);
+				pnlTerminadas.setBorder(null);
+				pnlProyecto.add(pnlTerminadas);
+				pnlTerminadas.setLayout(new BorderLayout(0, 0));
+				{
+					scrollPane_2 = new JScrollPane();
+					pnlTerminadas.add(scrollPane_2, BorderLayout.CENTER);
+				}
+				{
+					lblTerminadas = new JLabel("Terminadas");
+					pnlTerminadas.add(lblTerminadas, BorderLayout.NORTH);
+				}
 			}
 			{
 				btnNuevaActividad = new JButton("Nueva actividad");
-				GridBagConstraints gbc_btnNuevaActividad = new GridBagConstraints();
-				gbc_btnNuevaActividad.anchor = GridBagConstraints.NORTH;
-				gbc_btnNuevaActividad.gridx = 3;
-				gbc_btnNuevaActividad.gridy = 0;
-				pnlProyecto.add(btnNuevaActividad, gbc_btnNuevaActividad);
+				pnlProyecto.add(btnNuevaActividad);
 			}
 		}
 		pnlProyecto.setVisible(false);
@@ -151,8 +173,52 @@ public class App {
 			menuBar = new JMenuBar();
 			frame.setJMenuBar(menuBar);
 			{
-				lblArchivo = new JLabel("Archivo");
-				menuBar.add(lblArchivo);
+				mnArchivo = new JMenu("Archivo");
+				menuBar.add(mnArchivo);
+				{
+					mntmNuevo = new JMenuItem("Nuevo");
+					mnArchivo.add(mntmNuevo);
+				}
+				{
+					mntmAbrir = new JMenuItem("Abrir");
+					mnArchivo.add(mntmAbrir);
+				}
+				{
+					separator_2 = new JSeparator();
+					mnArchivo.add(separator_2);
+				}
+				{
+					mntmGuardar = new JMenuItem("Guardar");
+					mnArchivo.add(mntmGuardar);
+				}
+				{
+					separator = new JSeparator();
+					mnArchivo.add(separator);
+				}
+				{
+					mntmSalir = new JMenuItem("Salir");
+					mnArchivo.add(mntmSalir);
+				}
+			}
+			{
+				mnEdicion = new JMenu("Edicion");
+				menuBar.add(mnEdicion);
+			}
+			{
+				mnAyuda = new JMenu("Ayuda");
+				menuBar.add(mnAyuda);
+				{
+					mntmManual = new JMenuItem("Manual");
+					mnAyuda.add(mntmManual);
+				}
+				{
+					separator_1 = new JSeparator();
+					mnAyuda.add(separator_1);
+				}
+				{
+					mntmIdioma = new JMenuItem("Idioma");
+					mnAyuda.add(mntmIdioma);
+				}
 			}
 		}
 	}
