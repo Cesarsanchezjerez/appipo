@@ -38,6 +38,8 @@ public class DialogoProyecto extends JDialog {
 	 * Create the dialog.
 	 */
 	public DialogoProyecto() {
+		setResizable(false);
+		setModal(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
