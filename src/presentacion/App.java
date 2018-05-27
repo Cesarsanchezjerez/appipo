@@ -237,17 +237,15 @@ public class App {
 	}
 	private class BtnAadirProyectoActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
+			DialogoProyecto dp = new DialogoProyecto();
+			dp.setVisible(true);
 			
 		}
 	}
 	private class BtnNuevaActividadActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			CrearActividad panel = new CrearActividad();
-	         frame.getContentPane().add(panel);
-	         
-	         frame.pack();
-	         frame.setVisible(true);
+			DialogoActividad da = new DialogoActividad();
+			da.setVisible(true);
 		}
 	}
 }
