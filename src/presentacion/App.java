@@ -162,6 +162,7 @@ public class App {
 			}
 			{
 				btnNuevaActividad = new JButton("Nueva actividad");
+				btnNuevaActividad.addActionListener(new BtnNuevaActividadActionListener());
 				pnlProyecto.add(btnNuevaActividad);
 			}
 		}
@@ -238,6 +239,15 @@ public class App {
 		public void actionPerformed(ActionEvent e) {
 			
 			
+		}
+	}
+	private class BtnNuevaActividadActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			CrearActividad panel = new CrearActividad();
+	         frame.getContentPane().add(panel);
+	         
+	         frame.pack();
+	         frame.setVisible(true);
 		}
 	}
 }
