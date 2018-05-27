@@ -95,6 +95,7 @@ public class App {
 		{
 			btnAadirProyecto = new JButton("Añadir proyecto");
 			frame.getContentPane().add(btnAadirProyecto, "cell 0 1,alignx center,aligny center");
+			
 		}
 		{
 			menuBar = new JMenuBar();
