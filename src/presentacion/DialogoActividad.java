@@ -13,6 +13,14 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
+import javax.swing.JList;
+import javax.swing.JTextPane;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+import javax.swing.border.TitledBorder;
+import javax.swing.AbstractListModel;
+import javax.swing.JCheckBox;
+import javax.swing.JScrollPane;
 
 public class DialogoActividad extends JDialog {
 
@@ -20,6 +28,7 @@ public class DialogoActividad extends JDialog {
 	private JTextField txtNombre;
 	private JTextField txtInicio;
 	private JTextField txtFin;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -38,6 +47,7 @@ public class DialogoActividad extends JDialog {
 	 * Create the dialog.
 	 */
 	public DialogoActividad() {
+		setTitle("Nueva actividad");
 		setResizable(false);
 		setModal(true);
 		setBounds(100, 100, 450, 300);
@@ -45,10 +55,10 @@ public class DialogoActividad extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lblNombre = new JLabel("Nombre");
@@ -61,8 +71,8 @@ public class DialogoActividad extends JDialog {
 		}
 		{
 			txtNombre = new JTextField();
-			txtNombre.setText("Nombre");
 			GridBagConstraints gbc_txtNombre = new GridBagConstraints();
+			gbc_txtNombre.gridwidth = 2;
 			gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
 			gbc_txtNombre.fill = GridBagConstraints.HORIZONTAL;
 			gbc_txtNombre.gridx = 2;
@@ -74,16 +84,16 @@ public class DialogoActividad extends JDialog {
 			JLabel lblInicio = new JLabel("Inicio");
 			GridBagConstraints gbc_lblInicio = new GridBagConstraints();
 			gbc_lblInicio.anchor = GridBagConstraints.EAST;
-			gbc_lblInicio.insets = new Insets(0, 0, 0, 5);
+			gbc_lblInicio.insets = new Insets(0, 0, 5, 5);
 			gbc_lblInicio.gridx = 1;
 			gbc_lblInicio.gridy = 2;
 			contentPanel.add(lblInicio, gbc_lblInicio);
 		}
 		{
 			txtInicio = new JTextField();
-			txtInicio.setText("Inicio");
 			GridBagConstraints gbc_txtInicio = new GridBagConstraints();
-			gbc_txtInicio.insets = new Insets(0, 0, 0, 5);
+			gbc_txtInicio.gridwidth = 2;
+			gbc_txtInicio.insets = new Insets(0, 0, 5, 5);
 			gbc_txtInicio.fill = GridBagConstraints.HORIZONTAL;
 			gbc_txtInicio.gridx = 2;
 			gbc_txtInicio.gridy = 2;
@@ -93,21 +103,104 @@ public class DialogoActividad extends JDialog {
 		{
 			JLabel lblFin = new JLabel("Fin");
 			GridBagConstraints gbc_lblFin = new GridBagConstraints();
-			gbc_lblFin.insets = new Insets(0, 0, 0, 5);
+			gbc_lblFin.insets = new Insets(0, 0, 5, 5);
 			gbc_lblFin.anchor = GridBagConstraints.EAST;
-			gbc_lblFin.gridx = 3;
+			gbc_lblFin.gridx = 4;
 			gbc_lblFin.gridy = 2;
 			contentPanel.add(lblFin, gbc_lblFin);
 		}
 		{
 			txtFin = new JTextField();
-			txtFin.setText("Fin");
 			GridBagConstraints gbc_txtFin = new GridBagConstraints();
-			gbc_txtFin.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtFin.gridx = 4;
+			gbc_txtFin.anchor = GridBagConstraints.WEST;
+			gbc_txtFin.gridwidth = 2;
+			gbc_txtFin.insets = new Insets(0, 0, 5, 5);
+			gbc_txtFin.gridx = 5;
 			gbc_txtFin.gridy = 2;
 			contentPanel.add(txtFin, gbc_txtFin);
 			txtFin.setColumns(10);
+		}
+		{
+			JList list = new JList();
+			list.setModel(new AbstractListModel() {
+				String[] values = new String[] {"lalala", "lelele", "lelelel"};
+				public int getSize() {
+					return values.length;
+				}
+				public Object getElementAt(int index) {
+					return values[index];
+				}
+			});
+			list.setBorder(new TitledBorder(null, "Integrantes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			GridBagConstraints gbc_list = new GridBagConstraints();
+			gbc_list.gridheight = 2;
+			gbc_list.gridwidth = 2;
+			gbc_list.insets = new Insets(0, 0, 5, 5);
+			gbc_list.fill = GridBagConstraints.BOTH;
+			gbc_list.gridx = 2;
+			gbc_list.gridy = 4;
+			contentPanel.add(list, gbc_list);
+		}
+		{
+			JScrollPane scrollPane = new JScrollPane();
+			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+			gbc_scrollPane.gridheight = 2;
+			gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+			gbc_scrollPane.fill = GridBagConstraints.BOTH;
+			gbc_scrollPane.gridx = 4;
+			gbc_scrollPane.gridy = 4;
+			contentPanel.add(scrollPane, gbc_scrollPane);
+			{
+				JCheckBox chckbxNewCheckBox = new JCheckBox("New check box");
+				scrollPane.setViewportView(chckbxNewCheckBox);
+			}
+		}
+		{
+			JTextPane txtpnDescripcin = new JTextPane();
+			txtpnDescripcin.setBorder(new TitledBorder(null, "Descripci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			GridBagConstraints gbc_txtpnDescripcin = new GridBagConstraints();
+			gbc_txtpnDescripcin.gridwidth = 3;
+			gbc_txtpnDescripcin.gridheight = 2;
+			gbc_txtpnDescripcin.insets = new Insets(0, 0, 5, 0);
+			gbc_txtpnDescripcin.fill = GridBagConstraints.BOTH;
+			gbc_txtpnDescripcin.gridx = 5;
+			gbc_txtpnDescripcin.gridy = 4;
+			contentPanel.add(txtpnDescripcin, gbc_txtpnDescripcin);
+		}
+		{
+			JLabel lblPrioridad = new JLabel("Prioridad");
+			GridBagConstraints gbc_lblPrioridad = new GridBagConstraints();
+			gbc_lblPrioridad.insets = new Insets(0, 0, 5, 5);
+			gbc_lblPrioridad.gridx = 2;
+			gbc_lblPrioridad.gridy = 6;
+			contentPanel.add(lblPrioridad, gbc_lblPrioridad);
+		}
+		{
+			JRadioButton rdbtnBaja = new JRadioButton("Baja");
+			buttonGroup.add(rdbtnBaja);
+			GridBagConstraints gbc_rdbtnBaja = new GridBagConstraints();
+			gbc_rdbtnBaja.insets = new Insets(0, 0, 0, 5);
+			gbc_rdbtnBaja.gridx = 2;
+			gbc_rdbtnBaja.gridy = 7;
+			contentPanel.add(rdbtnBaja, gbc_rdbtnBaja);
+		}
+		{
+			JRadioButton rdbtnMedia = new JRadioButton("Media");
+			buttonGroup.add(rdbtnMedia);
+			GridBagConstraints gbc_rdbtnMedia = new GridBagConstraints();
+			gbc_rdbtnMedia.insets = new Insets(0, 0, 0, 5);
+			gbc_rdbtnMedia.gridx = 3;
+			gbc_rdbtnMedia.gridy = 7;
+			contentPanel.add(rdbtnMedia, gbc_rdbtnMedia);
+		}
+		{
+			JRadioButton rdbtnAlta = new JRadioButton("Alta");
+			buttonGroup.add(rdbtnAlta);
+			GridBagConstraints gbc_rdbtnAlta = new GridBagConstraints();
+			gbc_rdbtnAlta.insets = new Insets(0, 0, 0, 5);
+			gbc_rdbtnAlta.gridx = 4;
+			gbc_rdbtnAlta.gridy = 7;
+			contentPanel.add(rdbtnAlta, gbc_rdbtnAlta);
 		}
 		{
 			JPanel buttonPane = new JPanel();
