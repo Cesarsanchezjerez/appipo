@@ -8,12 +8,11 @@ public class Proyecto {
 	private String nombre;
 	private ArrayList<Actividad> actividades;
 	private ArrayList<Persona> integrantes;
-	private Date fechaInin;
-	private Date fechaFin;
+	private String fechaInin;
+	private String fechaFin;
 	
-	public Proyecto(String nombre, ArrayList<Persona> integrantes, Date fechaInin, Date fechaFin) {
+	public Proyecto(String nombre, ArrayList<Persona> integrantes, String fechaInin, String fechaFin) {
 		this.nombre = nombre;
-		this.actividades = actividades;
 		this.integrantes = integrantes;
 		this.fechaInin = fechaInin;
 		this.fechaFin = fechaFin;
@@ -59,20 +58,24 @@ public class Proyecto {
 		this.integrantes = integrantes;
 	}
 
-	public Date getFechaInin() {
+	public String getFechaInin() {
 		return fechaInin;
 	}
 
-	public void setFechaInin(Date fechaInin) {
+	public void setFechaInin(String fechaInin) {
 		this.fechaInin = fechaInin;
 	}
 
-	public Date getFechaFin() {
+	public String getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(String fechaFin) {
 		this.fechaFin = fechaFin;
+	}
+	@Override
+	public String toString() {
+		return nombre;
 	}
 	
 }

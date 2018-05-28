@@ -6,13 +6,18 @@ import java.util.Date;
 public class Actividad {
 
 	private String nombre;
-	//private ArrayList<Persona> integrantes;
-	//private Date fechaInin;
-	//private Date fechaFin;
-	//private int prioridad;
+	private ArrayList<Persona> integrantes;
+	private String fechaInin;
+	private String fechaFin;
+	private int prioridad;
 	
-	public Actividad(String nombre) {
-		this.nombre = nombre;
+	
+	public Actividad (String nomb, ArrayList<Persona> integ, String fechaI, String fechaF, int prior ) {
+		nombre = nomb;
+		integrantes=integ;
+		fechaInin=fechaI;
+		fechaFin=fechaF;
+		prioridad=prior;
 	}
 	
 	public String getNombre() {
@@ -23,9 +28,37 @@ public class Actividad {
 		this.nombre = nombre;
 	}
 
-	@Override
-	public String toString() {
-		return "actividad [nombre=" + nombre + "]";
+
+	public ArrayList<Persona> getIntegrantes() {
+		return integrantes;
+	}
+
+	public void setIntegrantes(ArrayList<Persona> integrantes) {
+		this.integrantes = integrantes;
+	}
+
+	public String getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(String fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	public String getFechaInin() {
+		return fechaInin;
+	}
+
+	public void setFechaInin(String fechaInin) {
+		this.fechaInin = fechaInin;
+	}
+
+	public int getPrioridad() {
+		return prioridad;
+	}
+
+	public void setPrioridad(int prioridad) {
+		this.prioridad = prioridad;
 	}
 
 	
