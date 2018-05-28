@@ -38,12 +38,12 @@ public class DialogoActividad extends JDialog {
 	private JTextField txtInicio;
 	private JTextField txtFin;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private Actividad nActividad;
+	private Actividad actividad;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main() {
+	public static void main(String[] args) {
 		try {
 			DialogoActividad dialog = new DialogoActividad();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -174,8 +174,11 @@ public class DialogoActividad extends JDialog {
 		}
 		{
 			JRadioButton rdbtnBaja = new JRadioButton("Baja");
+			rdbtnBaja.setMnemonic('3');
+			rdbtnBaja.setSelected(true);
 			buttonGroup.add(rdbtnBaja);
 			GridBagConstraints gbc_rdbtnBaja = new GridBagConstraints();
+			gbc_rdbtnBaja.anchor = GridBagConstraints.WEST;
 			gbc_rdbtnBaja.insets = new Insets(0, 0, 0, 5);
 			gbc_rdbtnBaja.gridx = 2;
 			gbc_rdbtnBaja.gridy = 7;
@@ -183,8 +186,10 @@ public class DialogoActividad extends JDialog {
 		}
 		{
 			JRadioButton rdbtnMedia = new JRadioButton("Media");
+			rdbtnMedia.setMnemonic('2');
 			buttonGroup.add(rdbtnMedia);
 			GridBagConstraints gbc_rdbtnMedia = new GridBagConstraints();
+			gbc_rdbtnMedia.anchor = GridBagConstraints.WEST;
 			gbc_rdbtnMedia.insets = new Insets(0, 0, 0, 5);
 			gbc_rdbtnMedia.gridx = 3;
 			gbc_rdbtnMedia.gridy = 7;
@@ -192,8 +197,10 @@ public class DialogoActividad extends JDialog {
 		}
 		{
 			JRadioButton rdbtnAlta = new JRadioButton("Alta");
+			rdbtnAlta.setMnemonic('1');
 			buttonGroup.add(rdbtnAlta);
 			GridBagConstraints gbc_rdbtnAlta = new GridBagConstraints();
+			gbc_rdbtnAlta.anchor = GridBagConstraints.WEST;
 			gbc_rdbtnAlta.insets = new Insets(0, 0, 0, 5);
 			gbc_rdbtnAlta.gridx = 4;
 			gbc_rdbtnAlta.gridy = 7;
@@ -213,22 +220,23 @@ public class DialogoActividad extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new CancelButtonActionListener());
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 	}
 	
-	private int prioridad(String pr) {
+	private int prioridad( int pr) {
 		int prioridad=-1;
 		switch (pr) {
-		case "Alta":
+		case 49:
 			prioridad=1;
 			break;
-		case "Media":
+		case 50:
 			prioridad=2;
 			break;
-		case "Baja":
+		case 51:
 			prioridad=3;
 			break;
 		}
@@ -236,18 +244,22 @@ public class DialogoActividad extends JDialog {
 	}
 	private class OkButtonActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			Actividad actividad = new Actividad("", null,"","",0);;
-			actividad.setNombre(txtNombre.getText());
-			actividad.setFechaInin(txtInicio.getText());
-			actividad.setFechaFin(txtFin.getText());
-			actividad.setFechaInin(txtInicio.getText());
-			actividad.setFechaFin(txtFin.getText());
-			actividad.setPrioridad(prioridad(buttonGroup.getSelection().toString()));
-			nActividad=actividad;
+			Actividad nActividad = new Actividad("", null,"","",0);;
+			nActividad.setNombre(txtNombre.getText());
+			nActividad.setFechaInin(txtInicio.getText());
+			nActividad.setFechaFin(txtFin.getText());
+			//integrantes
+			nActividad.setPrioridad(prioridad(buttonGroup.getSelection().getMnemonic()));
+			actividad=nActividad;
+			dispose();
+		}
+	}
+	private class CancelButtonActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
 			dispose();
 		}
 	}
 	public Actividad getActividad() {
-		return this.nActividad;
+		return this.actividad;
 	}
 }
