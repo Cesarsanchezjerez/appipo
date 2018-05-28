@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BoxLayout;
@@ -24,6 +25,7 @@ import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
 
 import dominio.Actividad;
+import dominio.Persona;
 import dominio.Proyecto;
 import net.miginfocom.swing.MigLayout;
 
@@ -56,7 +58,9 @@ public class App {
 	private JLabel lblPendientes;
 	private JLabel lblEnProceso;
 	private JLabel lblTerminadas;
-
+	private ArrayList<Proyecto> proyectos;
+	private ArrayList<Actividad> actividades;
+	private ArrayList<Persona> personas;
 	/**
 	 * Launch the application.
 	 */
@@ -92,7 +96,9 @@ public class App {
 			
 			listaProyectos = new JList<Proyecto>();
 			DefaultListModel<Proyecto> modeloLista = new DefaultListModel<Proyecto>();
+			
 			listaProyectos.setModel(modeloLista); 
+			
 			
 			listaProyectos.addMouseListener(new ListaProyectosMouseListener());
 			listaProyectos.setBorder(new TitledBorder(null, "Lista de proyectos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -225,7 +231,7 @@ public class App {
 		public void actionPerformed(ActionEvent e) {
 			DialogoProyecto dp = new DialogoProyecto();
 			dp.setVisible(true);
-			
+			proyectos.add(dp.getProyecto());
 		}
 	}
 	private class BtnNuevaActividadActionListener implements ActionListener {
@@ -238,4 +244,5 @@ public class App {
 			
 		}
 	}
+//	private 
 }
