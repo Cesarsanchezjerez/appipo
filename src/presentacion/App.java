@@ -239,7 +239,6 @@ public class App {
 		public void actionPerformed(ActionEvent e) {
 			DialogoProyecto dp = new DialogoProyecto();
 			dp.setVisible(true);
-			
 		}
 	}
 	private class BtnNuevaActividadActionListener implements ActionListener {

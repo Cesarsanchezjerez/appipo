@@ -18,6 +18,9 @@ import javax.swing.JTextPane;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.border.TitledBorder;
+
+import dominio.Actividad;
+
 import javax.swing.AbstractListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
@@ -35,6 +38,7 @@ public class DialogoActividad extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
+			Actividad actividad= new Actividad("", null, null, null, 0);
 			DialogoActividad dialog = new DialogoActividad();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
@@ -140,20 +144,6 @@ public class DialogoActividad extends JDialog {
 			gbc_list.gridx = 2;
 			gbc_list.gridy = 4;
 			contentPanel.add(list, gbc_list);
-		}
-		{
-			JScrollPane scrollPane = new JScrollPane();
-			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-			gbc_scrollPane.gridheight = 2;
-			gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-			gbc_scrollPane.fill = GridBagConstraints.BOTH;
-			gbc_scrollPane.gridx = 4;
-			gbc_scrollPane.gridy = 4;
-			contentPanel.add(scrollPane, gbc_scrollPane);
-			{
-				JCheckBox chckbxNewCheckBox = new JCheckBox("New check box");
-				scrollPane.setViewportView(chckbxNewCheckBox);
-			}
 		}
 		{
 			JTextPane txtpnDescripcin = new JTextPane();
