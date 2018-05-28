@@ -237,10 +237,15 @@ public class App {
 	private class BtnNuevaActividadActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
+			Persona p1= new Persona("perico", "palote");
+			Persona p2= new Persona("pepe", "palote");
+
 			DialogoActividad da;
-			da = new DialogoActividad();
+			ArrayList <Persona> listaPersonas= new ArrayList<Persona>();
+			listaPersonas.add(p1);
+			listaPersonas.add(p2);
+			da = new DialogoActividad(listaPersonas);
 			da.setVisible(true);
-			System.out.println(da.getActividad().getNombre());
 			
 		}
 	}
