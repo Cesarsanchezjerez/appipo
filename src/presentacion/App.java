@@ -94,15 +94,23 @@ public class App {
 		frame.getContentPane().setLayout(new MigLayout("", "[182.00px][697px,grow]", "[421px,grow][23px]"));
 		{
 			
-			listaProyectos = new JList<Proyecto>();
-			DefaultListModel<Proyecto> modeloLista = new DefaultListModel<Proyecto>();
+			Proyecto pr = new Proyecto("prueba", null, "", "");
+			proyectos= new ArrayList<Proyecto>();
+			proyectos.add(pr);
 			
-			listaProyectos.setModel(modeloLista); 
 			
-			
-			listaProyectos.addMouseListener(new ListaProyectosMouseListener());
-			listaProyectos.setBorder(new TitledBorder(null, "Lista de proyectos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			
+				listaProyectos = new JList<Proyecto>();
+				listaProyectos.addMouseListener(new ListaProyectosMouseListener());
+				listaProyectos.setBorder(new TitledBorder(null, "Lista de proyectos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				listaProyectos.setModel(new AbstractListModel<Proyecto>() {
+					
+					public int getSize() {
+						return proyectos.size();
+					}
+					public Proyecto getElementAt(int index) {
+						return proyectos.get(index);
+					}
+				});
 			frame.getContentPane().add(listaProyectos, "cell 0 0,grow");
 		}
 		{

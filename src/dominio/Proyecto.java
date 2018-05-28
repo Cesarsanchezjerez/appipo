@@ -73,5 +73,9 @@ public class Proyecto {
 	public void setFechaFin(String fechaFin) {
 		this.fechaFin = fechaFin;
 	}
+	@Override
+	public String toString() {
+		return nombre;
+	}
 	
 }
