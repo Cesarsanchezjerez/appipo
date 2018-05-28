@@ -15,6 +15,7 @@ import java.awt.Insets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JList;
@@ -24,6 +25,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.border.TitledBorder;
 
 import dominio.Actividad;
+import dominio.Persona;
 
 import javax.swing.AbstractListModel;
 import java.awt.event.ActionListener;
@@ -43,21 +45,13 @@ public class DialogoActividad extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			DialogoActividad dialog = new DialogoActividad();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	/**
 	 * Create the dialog.
 	 *  
 	 */
-	public DialogoActividad() {
+	public DialogoActividad(ArrayList <Persona> listaPersonas) {
 		setTitle("Nueva actividad");
 		setResizable(false);
 		setModal(true);
@@ -132,14 +126,14 @@ public class DialogoActividad extends JDialog {
 			txtFin.setColumns(10);
 		}
 		{
-			JList list = new JList();
-			list.setModel(new AbstractListModel() {
-				String[] values = new String[] {"lalala", "lelele", "lelelel"};
+			JList<Persona> list = new JList<Persona>();
+			list.setModel(new AbstractListModel<Persona>() {
+				ArrayList<Persona> values = listaPersonas;
 				public int getSize() {
-					return values.length;
+					return listaPersonas.size();
 				}
-				public Object getElementAt(int index) {
-					return values[index];
+				public Persona getElementAt(int index) {
+					return listaPersonas.get(index);
 				}
 			});
 			list.setBorder(new TitledBorder(null, "Integrantes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
