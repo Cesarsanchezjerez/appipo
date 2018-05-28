@@ -10,6 +10,7 @@ import java.text.ParseException;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
 
 import dominio.Actividad;
+import dominio.Proyecto;
 import net.miginfocom.swing.MigLayout;
 
 public class App {
@@ -30,7 +32,7 @@ public class App {
 	private JFrame frame;
 	private JButton btnAadirProyecto;
 	private JMenuBar menuBar;
-	private JList listaProyectos;
+	private JList<Proyecto> listaProyectos;
 	private JPanel pnlProyecto;
 	private JPanel pnlPendientes;
 	private JPanel pnlEnProceso;
@@ -87,18 +89,14 @@ public class App {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[182.00px][697px,grow]", "[421px,grow][23px]"));
 		{
-			listaProyectos = new JList();
+			
+			listaProyectos = new JList<Proyecto>();
+			DefaultListModel<Proyecto> modeloLista = new DefaultListModel<Proyecto>();
+			listaProyectos.setModel(modeloLista); 
+			
 			listaProyectos.addMouseListener(new ListaProyectosMouseListener());
 			listaProyectos.setBorder(new TitledBorder(null, "Lista de proyectos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			listaProyectos.setModel(new AbstractListModel() {
-				String[] values = new String[] {};
-				public int getSize() {
-					return values.length;
-				}
-				public Object getElementAt(int index) {
-					return values[index];
-				}
-			});
+			
 			frame.getContentPane().add(listaProyectos, "cell 0 0,grow");
 		}
 		{
@@ -227,6 +225,7 @@ public class App {
 		public void actionPerformed(ActionEvent e) {
 			DialogoProyecto dp = new DialogoProyecto();
 			dp.setVisible(true);
+			
 		}
 	}
 	private class BtnNuevaActividadActionListener implements ActionListener {

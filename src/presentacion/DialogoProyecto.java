@@ -11,6 +11,8 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import dominio.Proyecto;
+
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -21,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
 import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DialogoProyecto extends JDialog {
 
@@ -28,7 +32,7 @@ public class DialogoProyecto extends JDialog {
 	private JTextField txtNombre;
 	private JTextField txtInicio;
 	private JTextField txtFin;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private Proyecto proyecto;
 	/**
 	 * Launch the application.
 	 */
@@ -46,7 +50,7 @@ public class DialogoProyecto extends JDialog {
 	 * Create the dialog.
 	 */
 	public DialogoProyecto() {
-		setTitle("Nueva actividad");
+		setTitle("Nuevo Proyecto");
 		setResizable(false);
 		setModal(true);
 		setBounds(100, 100, 450, 300);
@@ -132,58 +136,12 @@ public class DialogoProyecto extends JDialog {
 			contentPanel.add(list, gbc_list);
 		}
 		{
-			JTextPane txtpnDescripcin = new JTextPane();
-			txtpnDescripcin.setBorder(new TitledBorder(null, "Descripci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			GridBagConstraints gbc_txtpnDescripcin = new GridBagConstraints();
-			gbc_txtpnDescripcin.gridwidth = 3;
-			gbc_txtpnDescripcin.gridheight = 2;
-			gbc_txtpnDescripcin.insets = new Insets(0, 0, 5, 0);
-			gbc_txtpnDescripcin.fill = GridBagConstraints.BOTH;
-			gbc_txtpnDescripcin.gridx = 5;
-			gbc_txtpnDescripcin.gridy = 4;
-			contentPanel.add(txtpnDescripcin, gbc_txtpnDescripcin);
-		}
-		{
-			JLabel lblPrioridad = new JLabel("Prioridad");
-			GridBagConstraints gbc_lblPrioridad = new GridBagConstraints();
-			gbc_lblPrioridad.insets = new Insets(0, 0, 5, 5);
-			gbc_lblPrioridad.gridx = 2;
-			gbc_lblPrioridad.gridy = 6;
-			contentPanel.add(lblPrioridad, gbc_lblPrioridad);
-		}
-		{
-			JRadioButton rdbtnBaja = new JRadioButton("Baja");
-			buttonGroup.add(rdbtnBaja);
-			GridBagConstraints gbc_rdbtnBaja = new GridBagConstraints();
-			gbc_rdbtnBaja.insets = new Insets(0, 0, 0, 5);
-			gbc_rdbtnBaja.gridx = 2;
-			gbc_rdbtnBaja.gridy = 7;
-			contentPanel.add(rdbtnBaja, gbc_rdbtnBaja);
-		}
-		{
-			JRadioButton rdbtnMedia = new JRadioButton("Media");
-			buttonGroup.add(rdbtnMedia);
-			GridBagConstraints gbc_rdbtnMedia = new GridBagConstraints();
-			gbc_rdbtnMedia.insets = new Insets(0, 0, 0, 5);
-			gbc_rdbtnMedia.gridx = 3;
-			gbc_rdbtnMedia.gridy = 7;
-			contentPanel.add(rdbtnMedia, gbc_rdbtnMedia);
-		}
-		{
-			JRadioButton rdbtnAlta = new JRadioButton("Alta");
-			buttonGroup.add(rdbtnAlta);
-			GridBagConstraints gbc_rdbtnAlta = new GridBagConstraints();
-			gbc_rdbtnAlta.insets = new Insets(0, 0, 0, 5);
-			gbc_rdbtnAlta.gridx = 4;
-			gbc_rdbtnAlta.gridy = 7;
-			contentPanel.add(rdbtnAlta, gbc_rdbtnAlta);
-		}
-		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new OkButtonActionListener());
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -195,4 +153,17 @@ public class DialogoProyecto extends JDialog {
 			}
 		}
 }
+	private class OkButtonActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Proyecto nproyecto= new Proyecto("",null,"","");
+			nproyecto.setNombre(txtNombre.getText());
+			nproyecto.setFechaInin(txtInicio.getText());
+			nproyecto.setFechaFin(txtFin.getText());
+			//integrantes 
+			proyecto=nproyecto;
+		}
+	}
+	public Proyecto getProyecto() {
+		return proyecto;
+	}
 }
