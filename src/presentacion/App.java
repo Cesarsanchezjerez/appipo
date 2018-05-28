@@ -27,11 +27,16 @@ import javax.swing.AbstractListModel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
+
+import dominio.Actividad;
+
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
@@ -243,8 +248,15 @@ public class App {
 	}
 	private class BtnNuevaActividadActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			DialogoActividad da = new DialogoActividad();
-			da.setVisible(true);
+			DialogoActividad da;
+			try {
+				da = new DialogoActividad(null);
+				da.setVisible(true);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 		}
 	}
 }

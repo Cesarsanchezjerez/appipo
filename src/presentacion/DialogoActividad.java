@@ -7,12 +7,16 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JList;
 import javax.swing.JTextPane;
 import javax.swing.JRadioButton;
@@ -22,8 +26,8 @@ import javax.swing.border.TitledBorder;
 import dominio.Actividad;
 
 import javax.swing.AbstractListModel;
-import javax.swing.JCheckBox;
-import javax.swing.JScrollPane;
+
+
 
 public class DialogoActividad extends JDialog {
 
@@ -39,7 +43,7 @@ public class DialogoActividad extends JDialog {
 	public static void main(String[] args) {
 		try {
 			Actividad actividad= new Actividad("", null, null, null, 0);
-			DialogoActividad dialog = new DialogoActividad();
+			DialogoActividad dialog = new DialogoActividad(actividad);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -49,8 +53,9 @@ public class DialogoActividad extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws ParseException 
 	 */
-	public DialogoActividad() {
+	public DialogoActividad(Actividad actividad) throws ParseException {
 		setTitle("Nueva actividad");
 		setResizable(false);
 		setModal(true);
@@ -201,6 +206,13 @@ public class DialogoActividad extends JDialog {
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
+				actividad.setNombre(txtNombre.getText());
+				DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+			    Date fechaI =  df.parse(txtInicio.getText());
+				actividad.setFechaInin(fechaI);
+				Date fechaF =  df.parse(txtFin.getText());
+				actividad.setFechaFin(fechaF);
+				actividad.setPrioridad(prioridad(buttonGroup.getSelection().toString()));
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
@@ -209,5 +221,20 @@ public class DialogoActividad extends JDialog {
 			}
 		}
 	}
-
+	
+	private int prioridad(String pr) {
+		int prioridad=-1;
+		switch (pr) {
+		case "Alta":
+			prioridad=3;
+			break;
+		case "Media":
+			prioridad=2;
+			break;
+		case "Baja":
+			prioridad=1;
+			break;
+		}
+		return prioridad;
+	}
 }
