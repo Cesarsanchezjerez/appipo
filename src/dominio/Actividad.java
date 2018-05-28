@@ -11,6 +11,7 @@ public class Actividad {
 	private Date fechaFin;
 	private int prioridad;
 	
+	
 	public Actividad (String nomb, ArrayList<Persona> integ, Date fechaI, Date fechaF, int prior ) {
 		nombre = nomb;
 		integrantes=integ;
