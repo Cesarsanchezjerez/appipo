@@ -7,12 +7,12 @@ public class Actividad {
 
 	private String nombre;
 	private ArrayList<Persona> integrantes;
-	private Date fechaInin;
-	private Date fechaFin;
+	private String fechaInin;
+	private String fechaFin;
 	private int prioridad;
 	
 	
-	public Actividad (String nomb, ArrayList<Persona> integ, Date fechaI, Date fechaF, int prior ) {
+	public Actividad (String nomb, ArrayList<Persona> integ, String fechaI, String fechaF, int prior ) {
 		nombre = nomb;
 		integrantes=integ;
 		fechaInin=fechaI;
@@ -37,19 +37,19 @@ public class Actividad {
 		this.integrantes = integrantes;
 	}
 
-	public Date getFechaFin() {
+	public String getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(String fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 
-	public Date getFechaInin() {
+	public String getFechaInin() {
 		return fechaInin;
 	}
 
-	public void setFechaInin(Date fechaInin) {
+	public void setFechaInin(String fechaInin) {
 		this.fechaInin = fechaInin;
 	}
 

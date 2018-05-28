@@ -26,6 +26,8 @@ import javax.swing.border.TitledBorder;
 import dominio.Actividad;
 
 import javax.swing.AbstractListModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 
@@ -36,14 +38,14 @@ public class DialogoActividad extends JDialog {
 	private JTextField txtInicio;
 	private JTextField txtFin;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private Actividad nActividad;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main() {
 		try {
-			Actividad actividad= new Actividad("", null, null, null, 0);
-			DialogoActividad dialog = new DialogoActividad(actividad);
+			DialogoActividad dialog = new DialogoActividad();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -53,9 +55,9 @@ public class DialogoActividad extends JDialog {
 
 	/**
 	 * Create the dialog.
-	 * @throws ParseException 
+	 *  
 	 */
-	public DialogoActividad(Actividad actividad) throws ParseException {
+	public DialogoActividad() {
 		setTitle("Nueva actividad");
 		setResizable(false);
 		setModal(true);
@@ -203,16 +205,11 @@ public class DialogoActividad extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new OkButtonActionListener());
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
-				actividad.setNombre(txtNombre.getText());
-				DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-			    Date fechaI =  df.parse(txtInicio.getText());
-				actividad.setFechaInin(fechaI);
-				Date fechaF =  df.parse(txtFin.getText());
-				actividad.setFechaFin(fechaF);
-				actividad.setPrioridad(prioridad(buttonGroup.getSelection().toString()));
+				
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
@@ -226,15 +223,31 @@ public class DialogoActividad extends JDialog {
 		int prioridad=-1;
 		switch (pr) {
 		case "Alta":
-			prioridad=3;
+			prioridad=1;
 			break;
 		case "Media":
 			prioridad=2;
 			break;
 		case "Baja":
-			prioridad=1;
+			prioridad=3;
 			break;
 		}
 		return prioridad;
+	}
+	private class OkButtonActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Actividad actividad = new Actividad("", null,"","",0);;
+			actividad.setNombre(txtNombre.getText());
+			actividad.setFechaInin(txtInicio.getText());
+			actividad.setFechaFin(txtFin.getText());
+			actividad.setFechaInin(txtInicio.getText());
+			actividad.setFechaFin(txtFin.getText());
+			actividad.setPrioridad(prioridad(buttonGroup.getSelection().toString()));
+			nActividad=actividad;
+			dispose();
+		}
+	}
+	public Actividad getActividad() {
+		return this.nActividad;
 	}
 }

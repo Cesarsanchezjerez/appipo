@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
 
+import dominio.Actividad;
 import net.miginfocom.swing.MigLayout;
 
 public class App {
@@ -90,7 +91,7 @@ public class App {
 			listaProyectos.addMouseListener(new ListaProyectosMouseListener());
 			listaProyectos.setBorder(new TitledBorder(null, "Lista de proyectos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			listaProyectos.setModel(new AbstractListModel() {
-				String[] values = new String[] {"Proyecto A", "Proyecto B", "Proyecto C"};
+				String[] values = new String[] {};
 				public int getSize() {
 					return values.length;
 				}
@@ -230,14 +231,11 @@ public class App {
 	}
 	private class BtnNuevaActividadActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			
 			DialogoActividad da;
-			try {
-				da = new DialogoActividad(null);
-				da.setVisible(true);
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			da = new DialogoActividad();
+			da.setVisible(true);
+			System.out.println(da.getActividad().getNombre());
 			
 		}
 	}
