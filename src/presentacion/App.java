@@ -91,8 +91,17 @@ public class App {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[182.00px][697px,grow]", "[421px,grow][23px]"));
 		{
+			//********************************
+			Persona p1= new Persona("perico", "palote");
+			Persona p2= new Persona("pepe", "palote");
+
+			DialogoActividad da;
+			ArrayList <Persona> listaPersonas= new ArrayList<Persona>();
+			listaPersonas.add(p1);
+			listaPersonas.add(p2);
 			
-			Proyecto pr = new Proyecto("prueba", null, "", "");
+			
+			Proyecto pr = new Proyecto("prueba", listaPersonas, "", "");
 			proyectos= new ArrayList<Proyecto>();
 			proyectos.add(pr);
 			
@@ -243,14 +252,10 @@ public class App {
 	private class BtnNuevaActividadActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
-			Persona p1= new Persona("perico", "palote");
-			Persona p2= new Persona("pepe", "palote");
-
+		
 			DialogoActividad da;
-			ArrayList <Persona> listaPersonas= new ArrayList<Persona>();
-			listaPersonas.add(p1);
-			listaPersonas.add(p2);
-			da = new DialogoActividad(listaPersonas);
+			
+			da = new DialogoActividad(listaProyectos.getSelectedValue());
 			da.setVisible(true);
 			
 		}
