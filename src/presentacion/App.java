@@ -26,6 +26,8 @@ import dominio.Actividad;
 import dominio.Persona;
 import dominio.Proyecto;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class App {
 //asassadassd
@@ -50,15 +52,15 @@ public class App {
 	private JMenuItem mntmIdioma;
 	private JSeparator separator_1;
 	private JSeparator separator_2;
-	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
 	private JScrollPane scrollPane_2;
 	private JLabel lblPendientes;
 	private JLabel lblEnProceso;
 	private JLabel lblTerminadas;
-	private ArrayList<Proyecto> proyectos;
-	private ArrayList<Actividad> actividades;
-	private ArrayList<Persona> personas;
+	private ArrayList<Proyecto> proyectos= new ArrayList<Proyecto>();
+	private ArrayList<Actividad> actividades= new ArrayList<Actividad>();
+	private ArrayList<Persona> personas= new ArrayList<Persona>();
+	private JLabel lblActividadesAadidas;
 	/**
 	 * Launch the application.
 	 */
@@ -102,12 +104,11 @@ public class App {
 			
 			
 			Proyecto pr = new Proyecto("prueba", listaPersonas, "", "");
-			proyectos= new ArrayList<Proyecto>();
 			proyectos.add(pr);
 			
 			
 				listaProyectos = new JList<Proyecto>();
-				listaProyectos.addMouseListener(new ListaProyectosMouseListener());
+				listaProyectos.addListSelectionListener(new ListaProyectosListSelectionListener());
 				listaProyectos.setBorder(new TitledBorder(null, "Lista de proyectos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				listaProyectos.setModel(new AbstractListModel<Proyecto>() {
 					
@@ -131,12 +132,12 @@ public class App {
 				pnlProyecto.add(pnlPendientes);
 				pnlPendientes.setLayout(new BorderLayout(0, 0));
 				{
-					scrollPane = new JScrollPane();
-					pnlPendientes.add(scrollPane);
-				}
-				{
 					lblPendientes = new JLabel("Pendientes");
 					pnlPendientes.add(lblPendientes, BorderLayout.NORTH);
+				}
+				{
+					lblActividadesAadidas = new JLabel("Actividades añadidas");
+					pnlPendientes.add(lblActividadesAadidas, BorderLayout.CENTER);
 				}
 			}
 			{
@@ -236,17 +237,21 @@ public class App {
 
 	
 	
-	private class ListaProyectosMouseListener extends MouseAdapter {
-		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			pnlProyecto.setVisible(true);
-		}
-	}
+	
 	private class BtnAadirProyectoActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			DialogoProyecto dp = new DialogoProyecto();
 			dp.setVisible(true);
 			proyectos.add(dp.getProyecto());
+			listaProyectos.setModel(new AbstractListModel<Proyecto>() {
+				
+				public int getSize() {
+					return proyectos.size();
+				}
+				public Proyecto getElementAt(int index) {
+					return proyectos.get(index);
+				}
+			});
 		}
 	}
 	private class BtnNuevaActividadActionListener implements ActionListener {
@@ -260,5 +265,17 @@ public class App {
 			
 		}
 	}
-//	private 
+	private class ListaProyectosListSelectionListener implements ListSelectionListener {
+		public void valueChanged(ListSelectionEvent arg0) {
+			pnlProyecto.setVisible(true);
+			cargarActividades(listaProyectos.getSelectedValue());
+		}
+	}
+	private void cargarActividades(Proyecto pr) {
+		try {
+			lblActividadesAadidas.setText(pr.getActividades().toString());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 }
