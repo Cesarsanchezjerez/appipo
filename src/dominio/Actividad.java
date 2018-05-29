@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Actividad {
-
+///
 	private String nombre;
 	private ArrayList<Persona> integrantes;
 	private String fechaInin;

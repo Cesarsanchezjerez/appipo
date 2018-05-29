@@ -6,7 +6,7 @@ import java.util.Date;
 public class Proyecto {
 
 	private String nombre;
-	private ArrayList<Actividad> actividades;
+	private ArrayList<Actividad> actividades = new ArrayList<Actividad>();
 	private ArrayList<Persona> integrantes;
 	private String fechaInin;
 	private String fechaFin;
