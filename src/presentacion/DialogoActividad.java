@@ -26,6 +26,7 @@ import javax.swing.border.TitledBorder;
 
 import dominio.Actividad;
 import dominio.Persona;
+import dominio.Proyecto;
 
 import javax.swing.AbstractListModel;
 import java.awt.event.ActionListener;
@@ -41,6 +42,7 @@ public class DialogoActividad extends JDialog {
 	private JTextField txtFin;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private Actividad actividad;
+	private Proyecto proyecto;
 
 	/**
 	 * Launch the application.
@@ -51,7 +53,11 @@ public class DialogoActividad extends JDialog {
 	 * Create the dialog.
 	 *  
 	 */
-	public DialogoActividad(ArrayList <Persona> listaPersonas) {
+	public DialogoActividad(Proyecto pr) {
+		proyecto=pr;
+		System.out.println(pr.getNombre());
+		System.out.println(proyecto.getNombre());
+		
 		setTitle("Nueva actividad");
 		setResizable(false);
 		setModal(true);
@@ -128,12 +134,12 @@ public class DialogoActividad extends JDialog {
 		{
 			JList<Persona> list = new JList<Persona>();
 			list.setModel(new AbstractListModel<Persona>() {
-				ArrayList<Persona> values = listaPersonas;
+				ArrayList<Persona> values = pr.getIntegrantes();
 				public int getSize() {
-					return listaPersonas.size();
+					return pr.getIntegrantes().size();
 				}
 				public Persona getElementAt(int index) {
-					return listaPersonas.get(index);
+					return pr.getIntegrantes().get(index);
 				}
 			});
 			list.setBorder(new TitledBorder(null, "Integrantes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -206,7 +212,7 @@ public class DialogoActividad extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new OkButtonActionListener());
+				okButton.addActionListener(new OkButtonActionListener(pr));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -236,8 +242,30 @@ public class DialogoActividad extends JDialog {
 		}
 		return prioridad;
 	}
+	private void añadirActividad() {
+		Actividad nActividad = new Actividad("", null,"","",0);;
+		nActividad.setNombre(txtNombre.getText());
+		nActividad.setFechaInin(txtInicio.getText());
+		nActividad.setFechaFin(txtFin.getText());
+		//integrantes
+		nActividad.setPrioridad(prioridad(buttonGroup.getSelection().getMnemonic()));
+		actividad=nActividad;
+		System.out.println(actividad.getNombre());
+		System.out.println("nomnre del proyecto "+proyecto.getNombre());
+		proyecto.añadirActividad(actividad);
+		System.out.println(proyecto.getNombre());
+		System.out.println("tienen que poner arriba de mi prueba" );
+		
+	}
+	
 	private class OkButtonActionListener implements ActionListener {
+		private Proyecto pr2;
+		public OkButtonActionListener(Proyecto pr) {
+			pr2=pr;
+		}
 		public void actionPerformed(ActionEvent e) {
+			//añadirActividad();
+			
 			Actividad nActividad = new Actividad("", null,"","",0);;
 			nActividad.setNombre(txtNombre.getText());
 			nActividad.setFechaInin(txtInicio.getText());
@@ -245,6 +273,12 @@ public class DialogoActividad extends JDialog {
 			//integrantes
 			nActividad.setPrioridad(prioridad(buttonGroup.getSelection().getMnemonic()));
 			actividad=nActividad;
+			System.out.println(actividad.getNombre());
+			System.out.println("nomnre del proyecto "+pr2.getNombre());
+			pr2.añadirActividad(nActividad);
+			System.out.println(pr2.getNombre());
+			System.out.println("tienen que poner arriba de mi prueba" );
+			
 			dispose();
 		}
 	}

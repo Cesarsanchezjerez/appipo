@@ -26,6 +26,8 @@ import dominio.Actividad;
 import dominio.Persona;
 import dominio.Proyecto;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class App {
 //asassadassd
@@ -50,7 +52,6 @@ public class App {
 	private JMenuItem mntmIdioma;
 	private JSeparator separator_1;
 	private JSeparator separator_2;
-	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
 	private JScrollPane scrollPane_2;
 	private JLabel lblPendientes;
@@ -59,6 +60,7 @@ public class App {
 	private ArrayList<Proyecto> proyectos;
 	private ArrayList<Actividad> actividades;
 	private ArrayList<Persona> personas;
+	private JLabel lblActividadesproyecto;
 	/**
 	 * Launch the application.
 	 */
@@ -91,13 +93,23 @@ public class App {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[182.00px][697px,grow]", "[421px,grow][23px]"));
 		{
+			//********* metodo cargar datos***************
+			Persona p1= new Persona("perico", "palote");
+			Persona p2= new Persona("pepe", "palote");
 			
-			Proyecto pr = new Proyecto("prueba", null, "", "");
+			ArrayList <Persona> listaPersonas= new ArrayList<Persona>();
+			
+			
+			listaPersonas.add(p1);
+			listaPersonas.add(p2);
+			Proyecto pr = new Proyecto("prueba", listaPersonas, "", "");
 			proyectos= new ArrayList<Proyecto>();
 			proyectos.add(pr);
 			
 			
+			//*********** *************************************
 				listaProyectos = new JList<Proyecto>();
+				listaProyectos.addListSelectionListener(new ListaProyectosListSelectionListener());
 				listaProyectos.addMouseListener(new ListaProyectosMouseListener());
 				listaProyectos.setBorder(new TitledBorder(null, "Lista de proyectos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				listaProyectos.setModel(new AbstractListModel<Proyecto>() {
@@ -122,12 +134,12 @@ public class App {
 				pnlProyecto.add(pnlPendientes);
 				pnlPendientes.setLayout(new BorderLayout(0, 0));
 				{
-					scrollPane = new JScrollPane();
-					pnlPendientes.add(scrollPane);
-				}
-				{
 					lblPendientes = new JLabel("Pendientes");
 					pnlPendientes.add(lblPendientes, BorderLayout.NORTH);
+				}
+				{
+					lblActividadesproyecto = new JLabel("actividadesProyecto");
+					pnlPendientes.add(lblActividadesproyecto, BorderLayout.CENTER);
 				}
 			}
 			{
@@ -230,7 +242,9 @@ public class App {
 	private class ListaProyectosMouseListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-			pnlProyecto.setVisible(true);
+			
+			
+			
 		}
 	}
 	private class BtnAadirProyectoActionListener implements ActionListener {
@@ -242,18 +256,43 @@ public class App {
 	}
 	private class BtnNuevaActividadActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			// la creacion fuera de aqui ************************************************
+		
+			proyectos.get(listaProyectos.getSelectedIndex());
 			
-			Persona p1= new Persona("perico", "palote");
-			Persona p2= new Persona("pepe", "palote");
-
 			DialogoActividad da;
-			ArrayList <Persona> listaPersonas= new ArrayList<Persona>();
-			listaPersonas.add(p1);
-			listaPersonas.add(p2);
-			da = new DialogoActividad(listaPersonas);
+		
+			
+			//listaProyectos.getSelectedValue().getIntegrantes();    esto se le pasa a da
+			
+			da = new DialogoActividad(listaProyectos.getSelectedValue());
 			da.setVisible(true);
+			
 			
 		}
 	}
-//	private 
+	
+	// *************  seleccionar de lista de proyectos 
+	private class ListaProyectosListSelectionListener implements ListSelectionListener {
+		public void valueChanged(ListSelectionEvent e) {
+			
+			pnlProyecto.setVisible(true);
+			
+			cargarActividades(listaProyectos.getSelectedValue());
+			
+		}
+	}
+	private void cargarActividades(Proyecto pr) {
+		
+		try {
+			lblActividadesproyecto.setText(pr.getActividades().toString());
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		
+	}
 }
