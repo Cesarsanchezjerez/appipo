@@ -7,13 +7,13 @@ public class Proyecto {
 
 	private String nombre;
 	private ArrayList<Actividad> actividades= new ArrayList<Actividad>();
-	private ArrayList<Persona> integrantes;
+	private ArrayList<Persona> integrantes = new ArrayList<Persona>();
 	private String fechaInin;
 	private String fechaFin;
 	
-	public Proyecto(String nombre, ArrayList<Persona> integrantes, String fechaInin, String fechaFin) {
+	public Proyecto(String nombre, String fechaInin, String fechaFin) {
 		this.nombre = nombre;
-		this.integrantes = integrantes;
+		
 		this.fechaInin = fechaInin;
 		this.fechaFin = fechaFin;
 	}

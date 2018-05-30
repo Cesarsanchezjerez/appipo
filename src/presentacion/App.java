@@ -2,10 +2,9 @@ package presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
@@ -21,13 +20,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import dominio.Actividad;
 import dominio.Persona;
 import dominio.Proyecto;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
 
 public class App {
 //asassadassd
@@ -58,9 +57,10 @@ public class App {
 	private JLabel lblEnProceso;
 	private JLabel lblTerminadas;
 	private ArrayList<Proyecto> proyectos= new ArrayList<Proyecto>();
-	private ArrayList<Actividad> actividades= new ArrayList<Actividad>();
 	private ArrayList<Persona> personas= new ArrayList<Persona>();
-	private JLabel lblActividadesAadidas;
+	private JLabel lbl3;
+	private JLabel lbl2;
+	private JLabel lbl1;
 	/**
 	 * Launch the application.
 	 */
@@ -101,9 +101,10 @@ public class App {
 			ArrayList <Persona> listaPersonas= new ArrayList<Persona>();
 			listaPersonas.add(p1);
 			listaPersonas.add(p2);
+			personas=listaPersonas;
 			
-			
-			Proyecto pr = new Proyecto("prueba", listaPersonas, "", "");
+			Proyecto pr = new Proyecto("prueba" ,"", "");
+			pr.setIntegrantes(listaPersonas);
 			proyectos.add(pr);
 			
 			
@@ -130,14 +131,22 @@ public class App {
 				pnlPendientes = new JPanel();
 				pnlPendientes.setBorder(null);
 				pnlProyecto.add(pnlPendientes);
-				pnlPendientes.setLayout(new BorderLayout(0, 0));
+				pnlPendientes.setLayout(new GridLayout(0, 1, 0, 0));
 				{
 					lblPendientes = new JLabel("Pendientes");
-					pnlPendientes.add(lblPendientes, BorderLayout.NORTH);
+					pnlPendientes.add(lblPendientes);
 				}
 				{
-					lblActividadesAadidas = new JLabel("Actividades añadidas");
-					pnlPendientes.add(lblActividadesAadidas, BorderLayout.CENTER);
+					lbl1 = new JLabel("New label");
+					pnlPendientes.add(lbl1);
+				}
+				{
+					lbl2 = new JLabel("New label");
+					pnlPendientes.add(lbl2);
+				}
+				{
+					lbl3 = new JLabel("Actividades añadidas");
+					pnlPendientes.add(lbl3);
 				}
 			}
 			{
@@ -240,7 +249,7 @@ public class App {
 	
 	private class BtnAadirProyectoActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			DialogoProyecto dp = new DialogoProyecto();
+			DialogoProyecto dp = new DialogoProyecto(personas);
 			dp.setVisible(true);
 			proyectos.add(dp.getProyecto());
 			listaProyectos.setModel(new AbstractListModel<Proyecto>() {
@@ -252,6 +261,8 @@ public class App {
 					return proyectos.get(index);
 				}
 			});
+			
+			pnlProyecto.setVisible(false);
 		}
 	}
 	private class BtnNuevaActividadActionListener implements ActionListener {
@@ -268,14 +279,39 @@ public class App {
 	private class ListaProyectosListSelectionListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
 			pnlProyecto.setVisible(true);
+			limpiarpanel();
 			cargarActividades(listaProyectos.getSelectedValue());
 		}
 	}
 	private void cargarActividades(Proyecto pr) {
+		
+		JLabel lista_lbl []= {lbl1,lbl2,lbl3};
+		 
+		
 		try {
-			lblActividadesAadidas.setText(pr.getActividades().toString());
+			for(int i =0; i<pr.getActividades().size();i++) {
+				lista_lbl[i].setText(pr.getActividades().get(i).getNombre());
+			}
+			
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
+	private void limpiarpanel() {
+		
+		JLabel lista_lbl []= {lbl1,lbl2,lbl3};
+		 
+		
+		try {
+			for(int i =0; i<lista_lbl.length;i++) {
+				lista_lbl[i].setText("");
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
 }
