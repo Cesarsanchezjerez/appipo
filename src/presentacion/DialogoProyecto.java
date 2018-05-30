@@ -123,6 +123,7 @@ public class DialogoProyecto extends JDialog {
 			
 			
 			JList<Persona> lista = new JList<Persona>();
+			
 			lista.setModel(new AbstractListModel<Persona>() {
 				ArrayList<Persona> values =personas;
 				public int getSize() {
@@ -149,7 +150,7 @@ public class DialogoProyecto extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new OkButtonActionListener());
+				okButton.addActionListener(new OkButtonActionListener( personas));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -163,13 +164,23 @@ public class DialogoProyecto extends JDialog {
 		}
 }
 	private class OkButtonActionListener implements ActionListener {
+		private ArrayList<Persona> seleccionadas;
+		public OkButtonActionListener(ArrayList<Persona> personas) {
+			seleccionadas=personas;
+		}
+
 		public void actionPerformed(ActionEvent e) {
 			Proyecto nproyecto= new Proyecto("","","");
 			nproyecto.setNombre(txtNombre.getText());
 			nproyecto.setFechaInin(txtInicio.getText());
 			nproyecto.setFechaFin(txtFin.getText());
 			System.out.println(listaPersonas.getSelectedValue().toString());
-			nproyecto.añadirIntegrante(listaPersonas.getSelectedValue());
+			int [] x= listaPersonas.getSelectedIndices();
+			for (int i = 0; i < x.length; i++) {
+				nproyecto.añadirIntegrante(seleccionadas.get(i));
+			}
+			
+			
 			//integrantes 
 			proyecto=nproyecto;
 			dispose();
