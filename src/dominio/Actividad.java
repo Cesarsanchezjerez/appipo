@@ -19,6 +19,7 @@ public class Actividad {
 		fechaInin=fechaI;
 		fechaFin=fechaF;
 		prioridad=prior;
+		estado="pendiente";
 	}
 	
 	public String getNombre() {
