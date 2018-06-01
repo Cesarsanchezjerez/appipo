@@ -34,7 +34,7 @@ import java.awt.event.ActionEvent;
 
 
 
-public class DialogoActividad extends JDialog {
+public class Dialogoeditaractividad extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombre;
@@ -52,8 +52,9 @@ public class DialogoActividad extends JDialog {
 	 * Create the dialog.
 	 *  
 	 */
-	public DialogoActividad(Proyecto pr) {
-		setTitle("Nueva actividad");
+	public Dialogoeditaractividad(Proyecto pr,String act) {
+		
+		setTitle("Editar actividad");
 		setResizable(false);
 		setModal(true);
 		setBounds(100, 100, 450, 300);
@@ -77,6 +78,7 @@ public class DialogoActividad extends JDialog {
 		}
 		{
 			txtNombre = new JTextField();
+			txtNombre.setEditable(false);
 			GridBagConstraints gbc_txtNombre = new GridBagConstraints();
 			gbc_txtNombre.gridwidth = 2;
 			gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
@@ -97,6 +99,7 @@ public class DialogoActividad extends JDialog {
 		}
 		{
 			txtInicio = new JTextField();
+			txtInicio.setEditable(false);
 			GridBagConstraints gbc_txtInicio = new GridBagConstraints();
 			gbc_txtInicio.gridwidth = 2;
 			gbc_txtInicio.insets = new Insets(0, 0, 5, 5);
@@ -117,6 +120,7 @@ public class DialogoActividad extends JDialog {
 		}
 		{
 			txtFin = new JTextField();
+			txtFin.setEditable(false);
 			GridBagConstraints gbc_txtFin = new GridBagConstraints();
 			gbc_txtFin.anchor = GridBagConstraints.WEST;
 			gbc_txtFin.gridwidth = 2;
@@ -170,7 +174,6 @@ public class DialogoActividad extends JDialog {
 		{
 			JRadioButton rdbtnBaja = new JRadioButton("Baja");
 			rdbtnBaja.setMnemonic('3');
-			rdbtnBaja.setSelected(true);
 			buttonGroup.add(rdbtnBaja);
 			GridBagConstraints gbc_rdbtnBaja = new GridBagConstraints();
 			gbc_rdbtnBaja.anchor = GridBagConstraints.WEST;
@@ -207,7 +210,13 @@ public class DialogoActividad extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new OkButtonActionListener(pr));
+				okButton.setEnabled(false);
+				okButton.addActionListener(new OkButtonActionListener(pr,act));
+				{
+					JButton btnEditar = new JButton("Editar");
+					btnEditar.addActionListener(new BtnEditarActionListener(okButton));
+					buttonPane.add(btnEditar);
+				}
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -218,6 +227,15 @@ public class DialogoActividad extends JDialog {
 				cancelButton.addActionListener(new CancelButtonActionListener());
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
+			}
+		}
+		
+		for (int i = 0; i < pr.getActividades().size(); i++) {
+			if(pr.getActividades().get(i).getNombre().equals(act)) {
+				txtNombre.setText(pr.getActividades().get(i).getNombre());
+				txtInicio.setText(pr.getActividades().get(i).getFechaInin());
+				txtFin.setText(pr.getActividades().get(i).getFechaFin());
+				
 			}
 		}
 	}
@@ -239,18 +257,23 @@ public class DialogoActividad extends JDialog {
 	}
 	private class OkButtonActionListener implements ActionListener {
 		private Proyecto proyecto;
-		public OkButtonActionListener(Proyecto pr) {
+		private String act;
+		public OkButtonActionListener(Proyecto pr, String nact) {
 			proyecto=pr;
+			act=nact;
 		}
 		public void actionPerformed(ActionEvent e) {
+			
 			Actividad nActividad = new Actividad("", null,"","",0);;
 			nActividad.setNombre(txtNombre.getText());
 			nActividad.setFechaInin(txtInicio.getText());
 			nActividad.setFechaFin(txtFin.getText());
+			
 			//integrantes
 			nActividad.setPrioridad(prioridad(buttonGroup.getSelection().getMnemonic()));
 			actividad=nActividad;
-			proyecto.añadirActividad(nActividad);
+			
+			proyecto.modificarActividad(act, nActividad);
 			
 			dispose();
 		}
@@ -258,6 +281,22 @@ public class DialogoActividad extends JDialog {
 	private class CancelButtonActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			dispose();
+		}
+	}
+	private class BtnEditarActionListener implements ActionListener {
+		private JButton ok;
+		public BtnEditarActionListener(JButton okButton) {
+		 ok=okButton;
+		 
+		 
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			ok.setEnabled(true);
+			txtNombre.setEditable(true);
+			 txtFin.setEditable(true);
+			 txtInicio.setEditable(true);
+			 
 		}
 	}
 	public Actividad getActividad() {

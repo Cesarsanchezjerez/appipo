@@ -10,6 +10,7 @@ public class Actividad {
 	private String fechaInin;
 	private String fechaFin;
 	private int prioridad;
+	private String estado;
 	
 	
 	public Actividad (String nomb, ArrayList<Persona> integ, String fechaI, String fechaF, int prior ) {
@@ -18,6 +19,7 @@ public class Actividad {
 		fechaInin=fechaI;
 		fechaFin=fechaF;
 		prioridad=prior;
+		estado="pendiente";
 	}
 	
 	public String getNombre() {
@@ -59,6 +61,14 @@ public class Actividad {
 
 	public void setPrioridad(int prioridad) {
 		this.prioridad = prioridad;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	

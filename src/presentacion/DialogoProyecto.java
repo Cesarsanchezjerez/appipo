@@ -3,6 +3,7 @@ package presentacion;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.AbstractListModel;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -11,6 +12,7 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import dominio.Persona;
 import dominio.Proyecto;
 
 import java.awt.GridLayout;
@@ -24,7 +26,10 @@ import javax.swing.JTextPane;
 
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DialogoProyecto extends JDialog {
 
@@ -33,23 +38,16 @@ public class DialogoProyecto extends JDialog {
 	private JTextField txtInicio;
 	private JTextField txtFin;
 	private Proyecto proyecto;
+	private JList<Persona> listaPersonas;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			DialogoProyecto dialog = new DialogoProyecto();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	/**
 	 * Create the dialog.
 	 */
-	public DialogoProyecto() {
+	public DialogoProyecto(ArrayList<Persona> personas) {
 		setTitle("Nuevo Proyecto");
 		setResizable(false);
 		setModal(true);
@@ -124,16 +122,30 @@ public class DialogoProyecto extends JDialog {
 			txtFin.setColumns(10);
 		}
 		{
-			JList list = new JList();
-			list.setBorder(new TitledBorder(null, "Integrantes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			GridBagConstraints gbc_list = new GridBagConstraints();
-			gbc_list.gridheight = 2;
-			gbc_list.gridwidth = 2;
-			gbc_list.insets = new Insets(0, 0, 5, 5);
-			gbc_list.fill = GridBagConstraints.BOTH;
-			gbc_list.gridx = 2;
-			gbc_list.gridy = 4;
-			contentPanel.add(list, gbc_list);
+			
+			
+			JList<Persona> lista = new JList<Persona>();
+			
+			
+			lista.setModel(new AbstractListModel<Persona>() {
+				ArrayList<Persona> values =personas;
+				public int getSize() {
+					return personas.size();
+				}
+				public Persona getElementAt(int index) {
+					return personas.get(index);
+				}
+			});
+			listaPersonas=lista;
+			lista.setBorder(new TitledBorder(null, "Integrantes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			GridBagConstraints gbc_lista = new GridBagConstraints();
+			gbc_lista.gridheight = 2;
+			gbc_lista.gridwidth = 2;
+			gbc_lista.insets = new Insets(0, 0, 5, 5);
+			gbc_lista.fill = GridBagConstraints.BOTH;
+			gbc_lista.gridx = 2;
+			gbc_lista.gridy = 4;
+			contentPanel.add(lista, gbc_lista);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -141,28 +153,49 @@ public class DialogoProyecto extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new OkButtonActionListener());
+				okButton.addActionListener(new OkButtonActionListener( personas));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new CancelButtonActionListener());
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 }
 	private class OkButtonActionListener implements ActionListener {
+		private ArrayList<Persona> seleccionadas;
+		public OkButtonActionListener(ArrayList<Persona> personas) {
+			seleccionadas=personas;
+		}
+
 		public void actionPerformed(ActionEvent e) {
-			Proyecto nproyecto= new Proyecto("",null,"","");
+			Proyecto nproyecto= new Proyecto("","","");
 			nproyecto.setNombre(txtNombre.getText());
 			nproyecto.setFechaInin(txtInicio.getText());
 			nproyecto.setFechaFin(txtFin.getText());
-			//integrantes 
+			
+			int [] x= listaPersonas.getSelectedIndices();
+			for (int i = 0; i < x.length; i++) {
+				nproyecto.añadirIntegrante(seleccionadas.get(i));
+			}
+			
+			
+			 
 			proyecto=nproyecto;
+			dispose();
 		}
 	}
+	private class CancelButtonActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+		}
+	}
+	
+	
 	public Proyecto getProyecto() {
 		return proyecto;
 	}

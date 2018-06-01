@@ -6,14 +6,14 @@ import java.util.Date;
 public class Proyecto {
 
 	private String nombre;
-	private ArrayList<Actividad> actividades;
-	private ArrayList<Persona> integrantes;
+	private ArrayList<Actividad> actividades= new ArrayList<Actividad>();
+	private ArrayList<Persona> integrantes = new ArrayList<Persona>();
 	private String fechaInin;
 	private String fechaFin;
 	
-	public Proyecto(String nombre, ArrayList<Persona> integrantes, String fechaInin, String fechaFin) {
+	public Proyecto(String nombre, String fechaInin, String fechaFin) {
 		this.nombre = nombre;
-		this.integrantes = integrantes;
+		
 		this.fechaInin = fechaInin;
 		this.fechaFin = fechaFin;
 	}
@@ -23,6 +23,22 @@ public class Proyecto {
 	public void añadirIntegrante(Persona integrante) {
 		integrantes.add(integrante);
 	}
+	// metodo modificar actividad
+	public void modificarActividad(String nact,Actividad act) {
+		
+		for (int i = 0; i < actividades.size(); i++) {
+			
+			if(actividades.get(i).getNombre().equals(nact)) {
+				actividades.get(i).setNombre(act.getNombre());
+				actividades.get(i).setFechaInin(act.getFechaInin());
+				actividades.get(i).setFechaFin(act.getFechaFin());
+				actividades.get(i).setEstado(act.getEstado());
+				actividades.get(i).setPrioridad(act.getPrioridad());
+			}
+		}
+		
+	}
+	
 	// metodos eliminar V.1.0 abra que probar si fincionan me imagino que si.....
 	public void eliminarActividad(Actividad actividad) {
 		for(int i=0;i<actividades.size();i++)
