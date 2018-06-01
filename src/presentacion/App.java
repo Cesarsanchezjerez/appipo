@@ -37,17 +37,12 @@ import dominio.Actividad;
 import dominio.Persona;
 import dominio.Proyecto;
 import net.miginfocom.swing.MigLayout;
-import presentacion.App.CustomListModel;
-
 import javax.swing.SwingConstants;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 
 import java.awt.Component;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
+import java.awt.Event;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -58,6 +53,10 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
 import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 
 public class App {
 //asassadassd
@@ -86,11 +85,13 @@ public class App {
 	private JScrollPane scrollPane_2;
 	private ArrayList<Proyecto> proyectos= new ArrayList<Proyecto>();
 	private ArrayList<Persona> personas= new ArrayList<Persona>();
-	private JList listaProceso;
-	private JList listaTerminadas;
+	private JList<Actividad> listaProceso;
+	private JList<Actividad> listaTerminadas;
 	private JScrollPane scrollPane;
 	private JList<Actividad> listaPendientes;
-	 ListTransferHandler lh;
+	
+	
+	ListTransferHandler lh;
 	/**
 	 * Launch the application.
 	 */
@@ -144,6 +145,7 @@ public class App {
 			
 			
 				listaProyectos = new JList<Proyecto>();
+				
 				listaProyectos.addListSelectionListener(new ListaProyectosListSelectionListener());
 				listaProyectos.setBorder(new TitledBorder(null, "Lista de proyectos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				listaProyectos.setModel(new AbstractListModel<Proyecto>() {
@@ -159,6 +161,7 @@ public class App {
 		}
 		{
 			pnlProyecto = new JPanel();
+			pnlProyecto.addMouseListener(new PnlProyectoMouseListener());
 			pnlProyecto.setBorder(new TitledBorder(null, "Proyecto ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			frame.getContentPane().add(pnlProyecto, "cell 1 0 1 3,grow");
 			GridBagLayout gbl_pnlProyecto = new GridBagLayout();
@@ -194,8 +197,9 @@ public class App {
 						pnlPendientes.add(scrollPane, BorderLayout.CENTER);
 						{
 							
-							CustomListModel modeloPendientes = new CustomListModel();
+							DefaultListModel modeloPendientes = new DefaultListModel();
 							listaPendientes = new JList<Actividad>(modeloPendientes);
+							listaPendientes.addMouseListener(new ListaPendientesMouseListener());
 							
 							
 							listaPendientes.setDragEnabled(true);
@@ -225,16 +229,21 @@ public class App {
 						pnlEnProceso.add(scrollPane_1, BorderLayout.CENTER);
 						{
 							
-							CustomListModel modeloProceso = new CustomListModel();
-						
+							DefaultListModel modeloProceso = new DefaultListModel();
+							
 							
 							listaProceso = new JList<Actividad>(modeloProceso);
+							
 							listaProceso.setDragEnabled(true);
 							listaProceso.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 							listaProceso.setTransferHandler(lh);
 							listaProceso.setDropMode(DropMode.ON_OR_INSERT);
 							setMappings(listaProceso);
 							scrollPane_1.setViewportView(listaProceso);
+							
+							
+							
+							
 						}
 					}
 				}
@@ -253,7 +262,7 @@ public class App {
 						scrollPane_2 = new JScrollPane();
 						pnlTerminadas.add(scrollPane_2, BorderLayout.CENTER);
 						{
-							CustomListModel modeloTerminadas = new CustomListModel();
+							DefaultListModel modeloTerminadas = new DefaultListModel();
 						
 							listaTerminadas = new JList<Actividad>(modeloTerminadas);
 							listaTerminadas.setDragEnabled(true);
@@ -357,24 +366,118 @@ public class App {
 			
 			da = new DialogoActividad(listaProyectos.getSelectedValue());
 			da.setVisible(true);
+			cargarActividades(listaProyectos.getSelectedValue());
+			
+			//limpiarpanel();
 			
 		}
 	}
+	
 	private class ListaProyectosListSelectionListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
 			pnlProyecto.setVisible(true);
+			//limpiarpanel();
+			cargarActividades(listaProyectos.getSelectedValue());
+			
+		}
+	}
+	
+	// para hacaer el editar 
+	private class ListaPendientesMouseListener extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if(e.getClickCount()==2 && listaPendientes.getSelectedValue()!=null) {
+				System.out.println("estoy en una actividad");
+				for (int i = 0; i < listaProyectos.getSelectedValue().getActividades().size(); i++) {
+					System.out.println("estoy en el for");
+					if(listaProyectos.getSelectedValue().getActividades().get(i).getNombre().equals(listaPendientes.getSelectedValue())) {
+						System.out.println(listaPendientes.getSelectedValue());
+						listaProyectos.getSelectedValue().getActividades().get(i).setNombre("tu puta madre");
+						System.out.println(listaPendientes.getSelectedValue());
+						System.out.println(listaProyectos.getSelectedValue().getActividades().get(i));
+					}
+				}
+				
+				
+			}
+		}
+	}
+	private class PnlProyectoMouseListener extends MouseAdapter {
+		@Override
+		public void mouseExited(MouseEvent e) {
 			limpiarpanel();
 			cargarActividades(listaProyectos.getSelectedValue());
 		}
 	}
+	
+	private void cambiarEstado(Proyecto pr) {
+			
+		
+			
+			DefaultListModel modeloPendientes = (DefaultListModel) listaPendientes.getModel();
+			DefaultListModel modeloProceso = (DefaultListModel) listaProceso.getModel();
+			DefaultListModel modeloTerminadas = (DefaultListModel) listaTerminadas.getModel();
+			 
+			
+			for (int i = 0; i < modeloPendientes.getSize(); i++) {
+				for (int j = 0; j < pr.getActividades().size(); j++) {
+					if(modeloPendientes.get(i).equals(pr.getActividades().get(j).getNombre())) {
+						pr.getActividades().get(j).setEstado("pendiente");
+					}
+				}
+			}
+			for (int i = 0; i < modeloProceso.getSize(); i++) {
+				for (int j = 0; j < pr.getActividades().size(); j++) {
+					if(modeloProceso.get(i).equals(pr.getActividades().get(j).getNombre())) {
+						pr.getActividades().get(j).setEstado("proceso");
+					}
+				}
+			}
+			for (int i = 0; i < modeloTerminadas.getSize(); i++) {
+				for (int j = 0; j < pr.getActividades().size(); j++) {
+					if(modeloTerminadas.get(i).equals(pr.getActividades().get(j).getNombre())) {
+						pr.getActividades().get(j).setEstado("terminada");
+					}
+				}
+			}
+			
+		
+	
+		
+		
+	}
+	
 	private void cargarActividades(Proyecto pr) {
 		
-		CustomListModel modeloPendientes = new CustomListModel();
+		DefaultListModel modeloPendientes = new DefaultListModel();
+		DefaultListModel modeloProceso = new DefaultListModel();
+		DefaultListModel modeloTerminadas =new DefaultListModel();
 		 
+		 
+		cambiarEstado(pr);
 		
 		try {
 			for(int i =0; i<pr.getActividades().size();i++) {
-				modeloPendientes.addActividad(pr.getActividades().get(i));
+				//modeloPendientes.addActividad(pr.getActividades().get(i));
+				
+				
+				switch (pr.getActividades().get(i).getEstado()) {
+				
+				case "pendiente":
+					modeloPendientes.addElement(pr.getActividades().get(i).getNombre());
+					
+					break;
+				case "proceso":
+					modeloProceso.addElement(pr.getActividades().get(i).getNombre());
+				
+					break;
+				case "terminada":
+					modeloTerminadas.addElement(pr.getActividades().get(i).getNombre());
+					break;
+				default:
+					break;
+				}
+				
 			}
 			
 			
@@ -382,6 +485,8 @@ public class App {
 			// TODO: handle exception
 		}
 		listaPendientes.setModel(modeloPendientes);
+		listaProceso.setModel(modeloProceso);
+		listaTerminadas.setModel(modeloTerminadas);
 	}
 	private void limpiarpanel() {
 		
@@ -389,9 +494,10 @@ public class App {
 		 
 		
 		try {
-			//for(int i =0; i<lista_lbl.length;i++) {
-				//lista_lbl[i].setText("");
-			//}
+			
+			listaPendientes.removeAll();
+			listaProceso.removeAll();
+			listaTerminadas.removeAll();
 			
 			
 		} catch (Exception e) {
@@ -400,7 +506,7 @@ public class App {
 	}
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44
 	// solo puesto en el modelo el copiar y el añadir
-	public class CustomListModel extends DefaultListModel{
+	 /*public class CustomListModel extends DefaultListModel{
 		 
 	    private ArrayList<Actividad> lista = new ArrayList<>();
 	 
@@ -426,50 +532,9 @@ public class App {
 	        return lista.get(index);
 	    }
 	}
-	
+	*/
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	 public JMenuBar createMenuBar() {
-		    JMenuItem menuItem = null;
-		    JMenuBar menuBar = new JMenuBar();
-		    JMenu mainMenu = new JMenu("Edit");
-		    mainMenu.setMnemonic(KeyEvent.VK_E);
-		    TransferActionListener actionListener = new TransferActionListener();
-
-		    menuItem = new JMenuItem("Cut");
-		    menuItem.setActionCommand((String) TransferHandler.getCutAction().getValue(
-		        Action.NAME));
-		    menuItem.addActionListener(actionListener);
-		    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-		        ActionEvent.CTRL_MASK));
-		    menuItem.setMnemonic(KeyEvent.VK_T);
-		    mainMenu.add(menuItem);
-
-		    menuItem = new JMenuItem("Copy");
-		    menuItem.setActionCommand((String) TransferHandler.getCopyAction()
-		        .getValue(Action.NAME));
-		    menuItem.addActionListener(actionListener);
-		    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-		        ActionEvent.CTRL_MASK));
-		    menuItem.setMnemonic(KeyEvent.VK_C);
-		    mainMenu.add(menuItem);
-
-		    menuItem = new JMenuItem("Paste");
-		    menuItem.setActionCommand((String) TransferHandler.getPasteAction()
-		        .getValue(Action.NAME));
-		    menuItem.addActionListener(actionListener);
-		    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
-		        ActionEvent.CTRL_MASK));
-		    menuItem.setMnemonic(KeyEvent.VK_P);
-		    mainMenu.add(menuItem);
-
-		    menuBar.add(mainMenu);
-		    return menuBar;
-		  }
-
-		  /**
-		   * Add the cut/copy/paste actions to the action map.
-		   */
-		  private void setMappings(JList list) {
+	 private void setMappings(JList list) {
 		    ActionMap map = list.getActionMap();
 		    map.put(TransferHandler.getCutAction().getValue(Action.NAME),
 		        TransferHandler.getCutAction());
@@ -480,13 +545,9 @@ public class App {
 
 		  }
 
-		  /**
-		   * Create the GUI and show it. For thread safety, this method should be
-		   * invoked from the event-dispatching thread.
-		   */
-		  
+		
 
-		 
+		
 		}/*
 		   * Copyright (c) 1995 - 2008 Sun Microsystems, Inc. All rights reserved.
 		   * 
@@ -532,7 +593,7 @@ public class App {
 		    }
 
 		    JList list = (JList) info.getComponent();
-		    CustomListModel model = (CustomListModel) list.getModel();
+		    DefaultListModel model = (DefaultListModel) list.getModel();
 		    // Fetch the data -- bail if this fails
 		    try {
 		      data = (String) info.getTransferable().getTransferData(
@@ -594,8 +655,8 @@ public class App {
 		    if (action != MOVE) {
 		      return;
 		    }
-		    JList<Actividad> list = (JList) c;
-		    CustomListModel model = (CustomListModel) list.getModel();
+		    JList list = (JList) c;
+		    DefaultListModel model = (DefaultListModel) list.getModel();
 		    int index = list.getSelectedIndex();
 		    model.remove(index);
 		  }
@@ -676,6 +737,5 @@ public class App {
 		      a.actionPerformed(new ActionEvent(focusOwner,
 		          ActionEvent.ACTION_PERFORMED, null));
 		    }
-		  }
-	
+		  }	
 }
