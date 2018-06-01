@@ -57,6 +57,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
+import javax.swing.ImageIcon;
 
 public class App {
 //asassadassd
@@ -70,17 +71,10 @@ public class App {
 	private JPanel pnlTerminadas;
 	private JButton btnNuevaActividad;
 	private JMenu mnArchivo;
-	private JMenu mnEdicion;
 	private JMenu mnAyuda;
-	private JMenuItem mntmNuevo;
-	private JMenuItem mntmAbrir;
-	private JSeparator separator;
-	private JMenuItem mntmSalir;
-	private JMenuItem mntmGuardar;
 	private JMenuItem mntmManual;
 	private JMenuItem mntmIdioma;
 	private JSeparator separator_1;
-	private JSeparator separator_2;
 	private JScrollPane scrollPane_1;
 	private JScrollPane scrollPane_2;
 	private ArrayList<Proyecto> proyectos= new ArrayList<Proyecto>();
@@ -92,6 +86,9 @@ public class App {
 	
 	
 	ListTransferHandler lh;
+	private JMenu mnNuevo;
+	private JMenuItem mntmPersona;
+	private JMenuItem mntmProyecto;
 	/**
 	 * Launch the application.
 	 */
@@ -127,8 +124,8 @@ public class App {
 		frame.getContentPane().setLayout(new MigLayout("", "[182.00px][697px,grow]", "[421px,grow][][23px]"));
 		{
 			//********************************
-			Persona p1= new Persona("perico", "palote");
-			Persona p2= new Persona("pepe", "palote");
+			Persona p1= new Persona("Pedro", "666666");
+			Persona p2= new Persona("Cesar", "777777");
 			
 			DialogoActividad da;
 			ArrayList <Persona> listaPersonas= new ArrayList<Persona>();
@@ -172,6 +169,7 @@ public class App {
 			pnlProyecto.setLayout(gbl_pnlProyecto);
 			{
 				btnNuevaActividad = new JButton("Nueva \r\nactividad");
+				btnNuevaActividad.setIcon(new ImageIcon(App.class.getResource("/recursos/add-document.png")));
 				btnNuevaActividad.setAlignmentX(Component.CENTER_ALIGNMENT);
 				btnNuevaActividad.setAlignmentY(0.0f);
 				btnNuevaActividad.addActionListener(new BtnNuevaActividadActionListener());
@@ -292,33 +290,21 @@ public class App {
 				mnArchivo = new JMenu("Archivo");
 				menuBar.add(mnArchivo);
 				{
-					mntmNuevo = new JMenuItem("Nuevo");
-					mnArchivo.add(mntmNuevo);
+					mnNuevo = new JMenu("Nuevo");
+					mnArchivo.add(mnNuevo);
+					{
+						mntmPersona = new JMenuItem("Persona");
+						mntmPersona.addActionListener(new MntmPersonaActionListener());
+						mntmPersona.setIcon(new ImageIcon(App.class.getResource("/recursos/add-user-button.png")));
+						mnNuevo.add(mntmPersona);
+					}
+					{
+						mntmProyecto = new JMenuItem("Proyecto");
+						mntmProyecto.addActionListener(new MntmProyectoActionListener());
+						mntmProyecto.setIcon(new ImageIcon(App.class.getResource("/recursos/file-in-folder.png")));
+						mnNuevo.add(mntmProyecto);
+					}
 				}
-				{
-					mntmAbrir = new JMenuItem("Abrir");
-					mnArchivo.add(mntmAbrir);
-				}
-				{
-					separator_2 = new JSeparator();
-					mnArchivo.add(separator_2);
-				}
-				{
-					mntmGuardar = new JMenuItem("Guardar");
-					mnArchivo.add(mntmGuardar);
-				}
-				{
-					separator = new JSeparator();
-					mnArchivo.add(separator);
-				}
-				{
-					mntmSalir = new JMenuItem("Salir");
-					mnArchivo.add(mntmSalir);
-				}
-			}
-			{
-				mnEdicion = new JMenu("Edicion");
-				menuBar.add(mnEdicion);
 			}
 			{
 				mnAyuda = new JMenu("Ayuda");
@@ -439,6 +425,33 @@ public class App {
 			}
 		}
 	}
+	private class MntmProyectoActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			DialogoProyecto dp = new DialogoProyecto(personas);
+			dp.setVisible(true);
+			proyectos.add(dp.getProyecto());
+			listaProyectos.setModel(new AbstractListModel<Proyecto>() {
+				
+				public int getSize() {
+					return proyectos.size();
+				}
+				public Proyecto getElementAt(int index) {
+					return proyectos.get(index);
+				}
+			});
+			
+			pnlProyecto.setVisible(false);
+		}
+		
+	}
+	private class MntmPersonaActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Persona persona= new Persona("", "");
+			DialogoPersona dp=new DialogoPersona(persona);
+			dp.setVisible(true);
+			personas.add(persona);
+		}
+	}
 	
 	private void cambiarEstado(Proyecto pr) {
 			
@@ -447,31 +460,35 @@ public class App {
 			DefaultListModel modeloPendientes = (DefaultListModel) listaPendientes.getModel();
 			DefaultListModel modeloProceso = (DefaultListModel) listaProceso.getModel();
 			DefaultListModel modeloTerminadas = (DefaultListModel) listaTerminadas.getModel();
-			 
+			 try {
+
+					for (int i = 0; i < modeloPendientes.getSize(); i++) {
+						for (int j = 0; j < pr.getActividades().size(); j++) {
+							if(modeloPendientes.get(i).equals(pr.getActividades().get(j).getNombre())) {
+								pr.getActividades().get(j).setEstado("pendiente");
+							}
+						}
+					}
+					for (int i = 0; i < modeloProceso.getSize(); i++) {
+						for (int j = 0; j < pr.getActividades().size(); j++) {
+							if(modeloProceso.get(i).equals(pr.getActividades().get(j).getNombre())) {
+								pr.getActividades().get(j).setEstado("proceso");
+							}
+						}
+					}
+					for (int i = 0; i < modeloTerminadas.getSize(); i++) {
+						for (int j = 0; j < pr.getActividades().size(); j++) {
+							if(modeloTerminadas.get(i).equals(pr.getActividades().get(j).getNombre())) {
+								pr.getActividades().get(j).setEstado("terminada");
+							}
+						}
+					}
+					
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			
-			for (int i = 0; i < modeloPendientes.getSize(); i++) {
-				for (int j = 0; j < pr.getActividades().size(); j++) {
-					if(modeloPendientes.get(i).equals(pr.getActividades().get(j).getNombre())) {
-						pr.getActividades().get(j).setEstado("pendiente");
-					}
-				}
-			}
-			for (int i = 0; i < modeloProceso.getSize(); i++) {
-				for (int j = 0; j < pr.getActividades().size(); j++) {
-					if(modeloProceso.get(i).equals(pr.getActividades().get(j).getNombre())) {
-						pr.getActividades().get(j).setEstado("proceso");
-					}
-				}
-			}
-			for (int i = 0; i < modeloTerminadas.getSize(); i++) {
-				for (int j = 0; j < pr.getActividades().size(); j++) {
-					if(modeloTerminadas.get(i).equals(pr.getActividades().get(j).getNombre())) {
-						pr.getActividades().get(j).setEstado("terminada");
-					}
-				}
-			}
-			
-		
 	
 		
 		
@@ -535,35 +552,7 @@ public class App {
 			// TODO: handle exception
 		}
 	}
-//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44
-	// solo puesto en el modelo el copiar y el añadir
-	 /*public class CustomListModel extends DefaultListModel{
-		 
-	    private ArrayList<Actividad> lista = new ArrayList<>();
-	 
-	    @Override
-	    public int getSize() {
-	        return lista.size();
-	    }
-	 
-	    @Override
-	    public Object getElementAt(int index) {
-	    	Actividad a = lista.get(index);	
-	        return a.getNombre();
-	    }
-	    public void addActividad(Actividad a){
-	        lista.add(a);
-	        this.fireIntervalAdded(this, getSize(), getSize()+1);
-	    }
-	    public void eliminarActividad(int index0){
-	        lista.remove(index0);
-	        this.fireIntervalRemoved(index0, getSize(), getSize()+1);
-	    }
-	    public Actividad getActividad(int index){
-	        return lista.get(index);
-	    }
-	}
-	*/
+
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	 private void setMappings(JList list) {
 		    ActionMap map = list.getActionMap();
