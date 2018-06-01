@@ -28,6 +28,8 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DialogoProyecto extends JDialog {
 
@@ -124,6 +126,7 @@ public class DialogoProyecto extends JDialog {
 			
 			JList<Persona> lista = new JList<Persona>();
 			
+			
 			lista.setModel(new AbstractListModel<Persona>() {
 				ArrayList<Persona> values =personas;
 				public int getSize() {
@@ -174,14 +177,14 @@ public class DialogoProyecto extends JDialog {
 			nproyecto.setNombre(txtNombre.getText());
 			nproyecto.setFechaInin(txtInicio.getText());
 			nproyecto.setFechaFin(txtFin.getText());
-			System.out.println(listaPersonas.getSelectedValue().toString());
+			
 			int [] x= listaPersonas.getSelectedIndices();
 			for (int i = 0; i < x.length; i++) {
 				nproyecto.añadirIntegrante(seleccionadas.get(i));
 			}
 			
 			
-			//integrantes 
+			 
 			proyecto=nproyecto;
 			dispose();
 		}
@@ -191,6 +194,8 @@ public class DialogoProyecto extends JDialog {
 			dispose();
 		}
 	}
+	
+	
 	public Proyecto getProyecto() {
 		return proyecto;
 	}

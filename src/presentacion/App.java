@@ -233,6 +233,7 @@ public class App {
 							
 							
 							listaProceso = new JList<Actividad>(modeloProceso);
+							listaProceso.addMouseListener(new ListaProcesoMouseListener());
 							
 							listaProceso.setDragEnabled(true);
 							listaProceso.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -265,6 +266,7 @@ public class App {
 							DefaultListModel modeloTerminadas = new DefaultListModel();
 						
 							listaTerminadas = new JList<Actividad>(modeloTerminadas);
+							listaTerminadas.addMouseListener(new ListaTerminadasMouseListener());
 							listaTerminadas.setDragEnabled(true);
 							listaTerminadas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 							listaTerminadas.setTransferHandler(lh);
@@ -386,18 +388,15 @@ public class App {
 	private class ListaPendientesMouseListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			
+			DefaultListModel modeloPendientes = (DefaultListModel) listaPendientes.getModel();
+			String act=(String) modeloPendientes.get(listaPendientes.getSelectedIndex());
+			
 			if(e.getClickCount()==2 && listaPendientes.getSelectedValue()!=null) {
-				System.out.println("estoy en una actividad");
-				for (int i = 0; i < listaProyectos.getSelectedValue().getActividades().size(); i++) {
-					System.out.println("estoy en el for");
-					if(listaProyectos.getSelectedValue().getActividades().get(i).getNombre().equals(listaPendientes.getSelectedValue())) {
-						System.out.println(listaPendientes.getSelectedValue());
-						listaProyectos.getSelectedValue().getActividades().get(i).setNombre("tu puta madre");
-						System.out.println(listaPendientes.getSelectedValue());
-						System.out.println(listaProyectos.getSelectedValue().getActividades().get(i));
-					}
-				}
 				
+				Dialogoeditaractividad dga=new Dialogoeditaractividad(listaProyectos.getSelectedValue(),act);
+				dga.setVisible(true);
+				cargarActividades(listaProyectos.getSelectedValue());
 				
 			}
 		}
@@ -407,6 +406,37 @@ public class App {
 		public void mouseExited(MouseEvent e) {
 			limpiarpanel();
 			cargarActividades(listaProyectos.getSelectedValue());
+		}
+	}
+	private class ListaProcesoMouseListener extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			DefaultListModel modeloproceso = (DefaultListModel) listaProceso.getModel();
+			String act=(String) modeloproceso.get(listaProceso.getSelectedIndex());
+			
+			if(e.getClickCount()==2 && listaProceso.getSelectedValue()!=null) {
+				
+				Dialogoeditaractividad dga=new Dialogoeditaractividad(listaProyectos.getSelectedValue(),act);
+				dga.setVisible(true);
+				cargarActividades(listaProyectos.getSelectedValue());
+				
+			}
+			
+		}
+	}
+	private class ListaTerminadasMouseListener extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			DefaultListModel modeloterminadas = (DefaultListModel) listaTerminadas.getModel();
+			String act=(String) modeloterminadas.get(listaTerminadas.getSelectedIndex());
+			
+			if(e.getClickCount()==2 && listaTerminadas.getSelectedValue()!=null) {
+				
+				Dialogoeditaractividad dga=new Dialogoeditaractividad(listaProyectos.getSelectedValue(),act);
+				dga.setVisible(true);
+				cargarActividades(listaProyectos.getSelectedValue());
+				
+			}
 		}
 	}
 	
@@ -487,6 +517,7 @@ public class App {
 		listaPendientes.setModel(modeloPendientes);
 		listaProceso.setModel(modeloProceso);
 		listaTerminadas.setModel(modeloTerminadas);
+		
 	}
 	private void limpiarpanel() {
 		
@@ -673,69 +704,6 @@ public class App {
 		  }
 		}
 
-		/*
-		 * Copyright (c) 1995 - 2008 Sun Microsystems, Inc. All rights reserved.
-		 * 
-		 * Redistribution and use in source and binary forms, with or without
-		 * modification, are permitted provided that the following conditions are met:
-		 *  - Redistributions of source code must retain the above copyright notice,
-		 * this list of conditions and the following disclaimer.
-		 *  - Redistributions in binary form must reproduce the above copyright notice,
-		 * this list of conditions and the following disclaimer in the documentation
-		 * and/or other materials provided with the distribution.
-		 *  - Neither the name of Sun Microsystems nor the names of its contributors may
-		 * be used to endorse or promote products derived from this software without
-		 * specific prior written permission.
-		 * 
-		 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-		 * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-		 * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-		 * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-		 * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-		 * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-		 * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-		 * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-		 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-		 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-		 * POSSIBILITY OF SUCH DAMAGE.
-		 */
+	
+		
 
-		/*
-		 * TransferActionListener.java is used by the ListCutPaste example.
-		 */
-
-		/**
-		 * A class that tracks the focused component. This is necessary to delegate the
-		 * menu cut/copy/paste commands to the right component. An instance of this
-		 * class is listening and when the user fires one of these commands, it calls
-		 * the appropriate action on the currently focused component.
-		 */
-		class TransferActionListener implements ActionListener, PropertyChangeListener {
-		  private JComponent focusOwner = null;
-
-		  public TransferActionListener() {
-		    KeyboardFocusManager manager = KeyboardFocusManager
-		        .getCurrentKeyboardFocusManager();
-		    manager.addPropertyChangeListener("permanentFocusOwner", this);
-		  }
-
-		  public void propertyChange(PropertyChangeEvent e) {
-		    Object o = e.getNewValue();
-		    if (o instanceof JComponent) {
-		      focusOwner = (JComponent) o;
-		    } else {
-		      focusOwner = null;
-		    }
-		  }
-
-		  public void actionPerformed(ActionEvent e) {
-		    if (focusOwner == null)
-		      return;
-		    String action = (String) e.getActionCommand();
-		    Action a = focusOwner.getActionMap().get(action);
-		    if (a != null) {
-		      a.actionPerformed(new ActionEvent(focusOwner,
-		          ActionEvent.ACTION_PERFORMED, null));
-		    }
-		  }	
-}

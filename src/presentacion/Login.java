@@ -5,11 +5,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class Login {
 
@@ -18,8 +20,9 @@ public class Login {
 	private JLabel lblNewLabel;
 	private JLabel lblPassword;
 	private JTextField txtUser;
-	private JTextField txtPass;
 	private JButton btnConectar;
+	private JPasswordField passwordField;
+	private JLabel labelError;
 
 	/**
 	 * Launch the application.
@@ -68,21 +71,28 @@ public class Login {
 			}
 			{
 				txtUser = new JTextField();
+				txtUser.addActionListener(new TxtUserActionListener());
 				txtUser.setBounds(150, 83, 130, 26);
 				panel.add(txtUser);
 				txtUser.setColumns(10);
-			}
-			{
-				txtPass = new JTextField();
-				txtPass.setBounds(150, 125, 130, 26);
-				panel.add(txtPass);
-				txtPass.setColumns(10);
 			}
 			{
 				btnConectar = new JButton("Conectar");
 				btnConectar.addActionListener(new BtnConectarActionListener());
 				btnConectar.setBounds(150, 219, 117, 29);
 				panel.add(btnConectar);
+			}
+			{
+				passwordField = new JPasswordField();
+				passwordField.setEnabled(false);
+				passwordField.setBounds(150, 125, 130, 26);
+				panel.add(passwordField);
+			}
+			{
+				labelError = new JLabel("");
+				
+				labelError.setBounds(150, 159, 221, 16);
+				panel.add(labelError);
 			}
 		}
 	}
@@ -91,12 +101,22 @@ public class Login {
 			
 			
 			
-			if(txtUser.getText().equals("perico") && txtPass.getText().equals("palote")) {
+			if(txtUser.getText().equals("Pedro") && passwordField.getText().equals("Cesar")) {
 				
 				frame.setVisible(false);
 				
 				App.main(null);
+			}else {
+				labelError.setBackground(Color.red);
+				labelError.setText("Usuario o contraseña Erroneo");
 			}
+		}
+	}
+	private class TxtUserActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			passwordField.setEnabled(true);
+			passwordField.requestFocus();
+			
 		}
 	}
 }

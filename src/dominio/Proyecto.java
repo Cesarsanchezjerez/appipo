@@ -23,6 +23,22 @@ public class Proyecto {
 	public void añadirIntegrante(Persona integrante) {
 		integrantes.add(integrante);
 	}
+	// metodo modificar actividad
+	public void modificarActividad(String nact,Actividad act) {
+		
+		for (int i = 0; i < actividades.size(); i++) {
+			
+			if(actividades.get(i).getNombre().equals(nact)) {
+				actividades.get(i).setNombre(act.getNombre());
+				actividades.get(i).setFechaInin(act.getFechaInin());
+				actividades.get(i).setFechaFin(act.getFechaFin());
+				actividades.get(i).setEstado(act.getEstado());
+				actividades.get(i).setPrioridad(act.getPrioridad());
+			}
+		}
+		
+	}
+	
 	// metodos eliminar V.1.0 abra que probar si fincionan me imagino que si.....
 	public void eliminarActividad(Actividad actividad) {
 		for(int i=0;i<actividades.size();i++)
