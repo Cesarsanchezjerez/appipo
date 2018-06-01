@@ -1,26 +1,31 @@
 package presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.Action;
 import javax.swing.ActionMap;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -28,39 +33,20 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
+import javax.swing.TransferHandler;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.metal.MetalPopupMenuSeparatorUI;
 
 import dominio.Actividad;
 import dominio.Persona;
 import dominio.Proyecto;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.SwingConstants;
-import javax.swing.TransferHandler;
-import javax.swing.UIManager;
-
-import java.awt.Component;
-import java.awt.Event;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.KeyboardFocusManager;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-
-import javax.swing.ListSelectionModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
-import javax.swing.ImageIcon;
 
 public class App {
-//asassadassd
+
 	private JFrame frame;
 	private JButton btnAadirProyecto;
 	private JMenuBar menuBar;
@@ -73,7 +59,6 @@ public class App {
 	private JMenu mnArchivo;
 	private JMenu mnAyuda;
 	private JMenuItem mntmManual;
-	private JMenuItem mntmIdioma;
 	private JSeparator separator_1;
 	private JScrollPane scrollPane_1;
 	private JScrollPane scrollPane_2;
@@ -89,6 +74,9 @@ public class App {
 	private JMenu mnNuevo;
 	private JMenuItem mntmPersona;
 	private JMenuItem mntmProyecto;
+	private JMenu mnIdioma;
+	private JMenuItem mntmEspaol;
+	private JMenuItem mntmEnglish;
 	/**
 	 * Launch the application.
 	 */
@@ -144,7 +132,7 @@ public class App {
 				listaProyectos = new JList<Proyecto>();
 				
 				listaProyectos.addListSelectionListener(new ListaProyectosListSelectionListener());
-				listaProyectos.setBorder(new TitledBorder(null, "Lista de proyectos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				listaProyectos.setBorder(new TitledBorder(null, Messages.getString("App.listaProyectos.borderTitle"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 				listaProyectos.setModel(new AbstractListModel<Proyecto>() {
 					
 					public int getSize() {
@@ -159,7 +147,7 @@ public class App {
 		{
 			pnlProyecto = new JPanel();
 			pnlProyecto.addMouseListener(new PnlProyectoMouseListener());
-			pnlProyecto.setBorder(new TitledBorder(null, "Proyecto ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			pnlProyecto.setBorder(new TitledBorder(null, Messages.getString("App.pnlProyecto.borderTitle"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 			frame.getContentPane().add(pnlProyecto, "cell 1 0 1 3,grow");
 			GridBagLayout gbl_pnlProyecto = new GridBagLayout();
 			gbl_pnlProyecto.columnWidths = new int[]{193, 193, 193, 64, 0};
@@ -168,7 +156,7 @@ public class App {
 			gbl_pnlProyecto.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 			pnlProyecto.setLayout(gbl_pnlProyecto);
 			{
-				btnNuevaActividad = new JButton("Nueva \r\nactividad");
+				btnNuevaActividad = new JButton(Messages.getString("App.btnNuevaActividad.text")); //$NON-NLS-1$
 				btnNuevaActividad.setIcon(new ImageIcon(App.class.getResource("/recursos/add-document.png")));
 				btnNuevaActividad.setAlignmentX(Component.CENTER_ALIGNMENT);
 				btnNuevaActividad.setAlignmentY(0.0f);
@@ -181,7 +169,7 @@ public class App {
 				pnlProyecto.add(btnNuevaActividad, gbc_btnNuevaActividad);
 				{
 					pnlPendientes = new JPanel();
-					pnlPendientes.setBorder(new TitledBorder(null, "Pendientes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+					pnlPendientes.setBorder(new TitledBorder(null, Messages.getString("App.pnlPendientes.borderTitle"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 					GridBagConstraints gbc_pnlPendientes = new GridBagConstraints();
 					gbc_pnlPendientes.gridheight = 3;
 					gbc_pnlPendientes.fill = GridBagConstraints.BOTH;
@@ -213,7 +201,7 @@ public class App {
 				}
 				{
 					pnlEnProceso = new JPanel();
-					pnlEnProceso.setBorder(new TitledBorder(null, "En proceso", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+					pnlEnProceso.setBorder(new TitledBorder(null, Messages.getString("App.pnlEnProceso.borderTitle"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 					GridBagConstraints gbc_pnlEnProceso = new GridBagConstraints();
 					gbc_pnlEnProceso.gridheight = 3;
 					gbc_pnlEnProceso.fill = GridBagConstraints.BOTH;
@@ -248,7 +236,7 @@ public class App {
 				}
 				{
 					pnlTerminadas = new JPanel();
-					pnlTerminadas.setBorder(new TitledBorder(null, "Terminadas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+					pnlTerminadas.setBorder(new TitledBorder(null, Messages.getString("App.pnlTerminadas.borderTitle"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 					GridBagConstraints gbc_pnlTerminadas = new GridBagConstraints();
 					gbc_pnlTerminadas.gridheight = 3;
 					gbc_pnlTerminadas.fill = GridBagConstraints.BOTH;
@@ -278,7 +266,7 @@ public class App {
 		}
 		pnlProyecto.setVisible(false);
 		{
-			btnAadirProyecto = new JButton("Añadir proyecto");
+			btnAadirProyecto = new JButton(Messages.getString("App.btnAadirProyecto.text")); //$NON-NLS-1$
 			btnAadirProyecto.addActionListener(new BtnAadirProyectoActionListener());
 			frame.getContentPane().add(btnAadirProyecto, "cell 0 2,alignx center,aligny center");
 			
@@ -287,19 +275,19 @@ public class App {
 			menuBar = new JMenuBar();
 			frame.setJMenuBar(menuBar);
 			{
-				mnArchivo = new JMenu("Archivo");
+				mnArchivo = new JMenu(Messages.getString("App.mnArchivo.text")); //$NON-NLS-1$
 				menuBar.add(mnArchivo);
 				{
-					mnNuevo = new JMenu("Nuevo");
+					mnNuevo = new JMenu(Messages.getString("App.mnNuevo.text")); //$NON-NLS-1$
 					mnArchivo.add(mnNuevo);
 					{
-						mntmPersona = new JMenuItem("Persona");
+						mntmPersona = new JMenuItem(Messages.getString("App.mntmPersona.text")); //$NON-NLS-1$
 						mntmPersona.addActionListener(new MntmPersonaActionListener());
 						mntmPersona.setIcon(new ImageIcon(App.class.getResource("/recursos/add-user-button.png")));
 						mnNuevo.add(mntmPersona);
 					}
 					{
-						mntmProyecto = new JMenuItem("Proyecto");
+						mntmProyecto = new JMenuItem(Messages.getString("App.mntmProyecto.text")); //$NON-NLS-1$
 						mntmProyecto.addActionListener(new MntmProyectoActionListener());
 						mntmProyecto.setIcon(new ImageIcon(App.class.getResource("/recursos/file-in-folder.png")));
 						mnNuevo.add(mntmProyecto);
@@ -307,10 +295,11 @@ public class App {
 				}
 			}
 			{
-				mnAyuda = new JMenu("Ayuda");
+				mnAyuda = new JMenu(Messages.getString("App.mnAyuda.text")); //$NON-NLS-1$
 				menuBar.add(mnAyuda);
 				{
-					mntmManual = new JMenuItem("Manual");
+					mntmManual = new JMenuItem(Messages.getString("App.mntmManual.text")); //$NON-NLS-1$
+					
 					mnAyuda.add(mntmManual);
 				}
 				{
@@ -318,8 +307,18 @@ public class App {
 					mnAyuda.add(separator_1);
 				}
 				{
-					mntmIdioma = new JMenuItem("Idioma");
-					mnAyuda.add(mntmIdioma);
+					mnIdioma = new JMenu(Messages.getString("App.mnIdioma.text")); //$NON-NLS-1$
+					mnAyuda.add(mnIdioma);
+					{
+						mntmEspaol = new JMenuItem(Messages.getString("App.mntmEspaol.text")); //$NON-NLS-1$
+						mntmEspaol.addActionListener(new MntmEspaolActionListener());
+						mnIdioma.add(mntmEspaol);
+					}
+					{
+						mntmEnglish = new JMenuItem(Messages.getString("App.mntmEnglish.text")); //$NON-NLS-1$
+						mntmEnglish.addActionListener(new MntmEnglishActionListener());
+						mnIdioma.add(mntmEnglish);
+					}
 				}
 			}
 		}
@@ -364,13 +363,12 @@ public class App {
 	private class ListaProyectosListSelectionListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
 			pnlProyecto.setVisible(true);
-			//limpiarpanel();
 			cargarActividades(listaProyectos.getSelectedValue());
 			
 		}
 	}
 	
-	// para hacaer el editar 
+	
 	private class ListaPendientesMouseListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -452,6 +450,29 @@ public class App {
 			personas.add(persona);
 		}
 	}
+	private class MntmEspaolActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+
+			Messages.setIdioma("spain");
+			App app =new App();
+			
+			app.frame.setVisible(true);
+			frame.dispose();
+			
+		}
+	}
+	
+	private class MntmEnglishActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+			Messages.setIdioma("ingles");
+			App app =new App();
+			
+			app.frame.setVisible(true);
+			frame.dispose();
+		}
+	}
+	
 	
 	private void cambiarEstado(Proyecto pr) {
 			
@@ -505,7 +526,7 @@ public class App {
 		
 		try {
 			for(int i =0; i<pr.getActividades().size();i++) {
-				//modeloPendientes.addActividad(pr.getActividades().get(i));
+				
 				
 				
 				switch (pr.getActividades().get(i).getEstado()) {

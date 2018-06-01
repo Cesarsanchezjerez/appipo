@@ -22,7 +22,6 @@ public class Login {
 	private JTextField txtUser;
 	private JButton btnConectar;
 	private JPasswordField passwordField;
-	private JLabel labelError;
 
 	/**
 	 * Launch the application.
@@ -60,12 +59,12 @@ public class Login {
 			frame.getContentPane().add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			{
-				lblNewLabel = new JLabel("user");
+				lblNewLabel = new JLabel(Messages.getString("Login.lblNewLabel.text")); //$NON-NLS-1$
 				lblNewLabel.setBounds(60, 88, 61, 16);
 				panel.add(lblNewLabel);
 			}
 			{
-				lblPassword = new JLabel("password");
+				lblPassword = new JLabel(Messages.getString("Login.lblPassword.text")); //$NON-NLS-1$
 				lblPassword.setBounds(60, 130, 61, 16);
 				panel.add(lblPassword);
 			}
@@ -77,7 +76,7 @@ public class Login {
 				txtUser.setColumns(10);
 			}
 			{
-				btnConectar = new JButton("Conectar");
+				btnConectar = new JButton(Messages.getString("Login.btnConectar.text")); //$NON-NLS-1$
 				btnConectar.addActionListener(new BtnConectarActionListener());
 				btnConectar.setBounds(150, 219, 117, 29);
 				panel.add(btnConectar);
@@ -87,12 +86,6 @@ public class Login {
 				passwordField.setEnabled(false);
 				passwordField.setBounds(150, 125, 130, 26);
 				panel.add(passwordField);
-			}
-			{
-				labelError = new JLabel("");
-				
-				labelError.setBounds(150, 159, 221, 16);
-				panel.add(labelError);
 			}
 		}
 	}
@@ -107,8 +100,7 @@ public class Login {
 				
 				App.main(null);
 			}else {
-				labelError.setBackground(Color.red);
-				labelError.setText("Usuario o contraseña Erroneo");
+				
 			}
 		}
 	}

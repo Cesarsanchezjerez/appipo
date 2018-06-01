@@ -2,22 +2,20 @@ package presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import dominio.Persona;
-
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class DialogoPersona extends JDialog {
 
@@ -44,7 +42,7 @@ public class DialogoPersona extends JDialog {
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
-			JLabel lblNombre = new JLabel("Nombre");
+			JLabel lblNombre = new JLabel(Messages.getString("DialogoPersona.lblNombre.text")); //$NON-NLS-1$
 			GridBagConstraints gbc_lblNombre = new GridBagConstraints();
 			gbc_lblNombre.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNombre.anchor = GridBagConstraints.EAST;
@@ -64,7 +62,7 @@ public class DialogoPersona extends JDialog {
 			txtNombre.setColumns(10);
 		}
 		{
-			JLabel lblDni = new JLabel("DNI");
+			JLabel lblDni = new JLabel(Messages.getString("DialogoPersona.lblDni.text")); //$NON-NLS-1$
 			GridBagConstraints gbc_lblDni = new GridBagConstraints();
 			gbc_lblDni.anchor = GridBagConstraints.EAST;
 			gbc_lblDni.insets = new Insets(0, 0, 0, 5);
@@ -86,15 +84,15 @@ public class DialogoPersona extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton(Messages.getString("DialogoPersona.okButton.text")); //$NON-NLS-1$
 				okButton.addActionListener(new OkButtonActionListener(persona));
-				okButton.setActionCommand("OK");
+				okButton.setActionCommand(Messages.getString("DialogoPersona.okButton.actionCommand")); //$NON-NLS-1$
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
+				JButton cancelButton = new JButton(Messages.getString("DialogoPersona.cancelButton.text")); //$NON-NLS-1$
+				cancelButton.setActionCommand(Messages.getString("DialogoPersona.cancelButton.actionCommand")); //$NON-NLS-1$
 				buttonPane.add(cancelButton);
 			}
 		}
