@@ -89,7 +89,7 @@ public class DialogoProyecto extends JDialog {
 		}
 		{
 			
-			JFormattedTextField frmtdtxtfldInicio = new JFormattedTextField(formatter);
+			frmtdtxtfldInicio = new JFormattedTextField(formatter);
 			frmtdtxtfldInicio.setToolTipText(Messages.getString("DialogoProyecto.frmtdtxtfldInicio.toolTipText")); //$NON-NLS-1$
 			GridBagConstraints gbc_frmtInicio = new GridBagConstraints();
 			gbc_frmtInicio.fill = GridBagConstraints.HORIZONTAL;
@@ -109,7 +109,7 @@ public class DialogoProyecto extends JDialog {
 			contentPanel.add(lblFin, gbc_lblFin);
 		}
 		{
-			JFormattedTextField frmtdtxtfldFin = new JFormattedTextField(formatter);
+			frmtdtxtfldFin = new JFormattedTextField(formatter);
 			frmtdtxtfldFin.setToolTipText(Messages.getString("DialogoProyecto.frmtdtxtfldFin.toolTipText")); //$NON-NLS-1$
 			GridBagConstraints gbc_frmtdtxtfldFin = new GridBagConstraints();
 			gbc_frmtdtxtfldFin.fill = GridBagConstraints.HORIZONTAL;
