@@ -7,10 +7,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -21,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeListener;
 
 import dominio.Actividad;
 import dominio.Persona;
@@ -34,7 +37,10 @@ public class Dialogoeditaractividad extends JDialog {
 	private JTextField txtNombre;
 	private JTextField txtInicio;
 	private JTextField txtFin;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private ButtonGroup buttonGroup = new ButtonGroup();
+	private JRadioButton rdbtnBaja;
+	private JRadioButton rdbtnMedia;
+	private JRadioButton rdbtnAlta;
 	private Actividad actividad;
 
 	/**
@@ -166,8 +172,9 @@ public class Dialogoeditaractividad extends JDialog {
 			contentPanel.add(lblPrioridad, gbc_lblPrioridad);
 		}
 		{
-			JRadioButton rdbtnBaja = new JRadioButton(Messages.getString("Dialogoeditaractividad.rdbtnBaja.text")); //$NON-NLS-1$
+			rdbtnBaja = new JRadioButton(Messages.getString("Dialogoeditaractividad.rdbtnBaja.text")); //$NON-NLS-1$
 			rdbtnBaja.setMnemonic('3');
+			
 			buttonGroup.add(rdbtnBaja);
 			GridBagConstraints gbc_rdbtnBaja = new GridBagConstraints();
 			gbc_rdbtnBaja.anchor = GridBagConstraints.WEST;
@@ -177,7 +184,7 @@ public class Dialogoeditaractividad extends JDialog {
 			contentPanel.add(rdbtnBaja, gbc_rdbtnBaja);
 		}
 		{
-			JRadioButton rdbtnMedia = new JRadioButton(Messages.getString("Dialogoeditaractividad.rdbtnMedia.text")); //$NON-NLS-1$
+			rdbtnMedia = new JRadioButton(Messages.getString("Dialogoeditaractividad.rdbtnMedia.text")); //$NON-NLS-1$
 			rdbtnMedia.setMnemonic('2');
 			buttonGroup.add(rdbtnMedia);
 			GridBagConstraints gbc_rdbtnMedia = new GridBagConstraints();
@@ -188,8 +195,9 @@ public class Dialogoeditaractividad extends JDialog {
 			contentPanel.add(rdbtnMedia, gbc_rdbtnMedia);
 		}
 		{
-			JRadioButton rdbtnAlta = new JRadioButton(Messages.getString("Dialogoeditaractividad.rdbtnAlta.text")); //$NON-NLS-1$
+			rdbtnAlta = new JRadioButton(Messages.getString("Dialogoeditaractividad.rdbtnAlta.text")); //$NON-NLS-1$
 			rdbtnAlta.setMnemonic('1');
+			
 			buttonGroup.add(rdbtnAlta);
 			GridBagConstraints gbc_rdbtnAlta = new GridBagConstraints();
 			gbc_rdbtnAlta.anchor = GridBagConstraints.WEST;
@@ -224,14 +232,33 @@ public class Dialogoeditaractividad extends JDialog {
 			}
 		}
 		
+		
+		
 		for (int i = 0; i < pr.getActividades().size(); i++) {
 			if(pr.getActividades().get(i).getNombre().equals(act)) {
 				txtNombre.setText(pr.getActividades().get(i).getNombre());
 				txtInicio.setText(pr.getActividades().get(i).getFechaInin());
 				txtFin.setText(pr.getActividades().get(i).getFechaFin());
+				switch (pr.getActividades().get(i).getPrioridad()) {
+				case 1:
+					rdbtnAlta.setSelected(true);
+					break;
+				case 2 :
+					rdbtnMedia.setSelected(true);
+					break;
+				case 3 :
+					rdbtnBaja.setSelected(true);
+				break;
+				
+				default:
+					break;
+				}
+					
+				}
+			//	
 				
 			}
-		}
+		
 	}
 	
 	private int prioridad( int pr) {
@@ -290,6 +317,7 @@ public class Dialogoeditaractividad extends JDialog {
 			txtNombre.setEditable(true);
 			 txtFin.setEditable(true);
 			 txtInicio.setEditable(true);
+			 
 			 
 		}
 	}

@@ -163,8 +163,8 @@ public class DialogoActividad extends JDialog {
 		}
 		{
 			JRadioButton rdbtnBaja = new JRadioButton(Messages.getString("DialogoActividad.rdbtnBaja.text")); //$NON-NLS-1$
-			rdbtnBaja.setMnemonic('3');
 			rdbtnBaja.setSelected(true);
+			rdbtnBaja.setMnemonic('3');
 			buttonGroup.add(rdbtnBaja);
 			GridBagConstraints gbc_rdbtnBaja = new GridBagConstraints();
 			gbc_rdbtnBaja.anchor = GridBagConstraints.WEST;

@@ -22,6 +22,7 @@ public class Login {
 	private JTextField txtUser;
 	private JButton btnConectar;
 	private JPasswordField passwordField;
+	private JLabel mensaje;
 
 	/**
 	 * Launch the application.
@@ -87,6 +88,12 @@ public class Login {
 				passwordField.setBounds(150, 125, 130, 26);
 				panel.add(passwordField);
 			}
+			{
+				mensaje = new JLabel(); //$NON-NLS-1$
+				mensaje.setForeground(Color.RED);
+				mensaje.setBounds(150, 177, 211, 16);
+				panel.add(mensaje);
+			}
 		}
 	}
 	private class BtnConectarActionListener implements ActionListener {
@@ -100,7 +107,7 @@ public class Login {
 				
 				App.main(null);
 			}else {
-				
+				mensaje.setText("usuario o contraseña erronea");
 			}
 		}
 	}

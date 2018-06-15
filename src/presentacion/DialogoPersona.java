@@ -16,6 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import dominio.Persona;
+import javax.swing.JSeparator;
+import java.awt.Color;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class DialogoPersona extends JDialog {
 
@@ -31,15 +35,15 @@ public class DialogoPersona extends JDialog {
 	 * Create the dialog.
 	 */
 	public DialogoPersona(Persona persona) {
-		setBounds(100, 100, 231, 183);
+		setBounds(100, 100, 551, 284);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lblNombre = new JLabel(Messages.getString("DialogoPersona.lblNombre.text")); //$NON-NLS-1$
@@ -54,7 +58,7 @@ public class DialogoPersona extends JDialog {
 			txtNombre = new JTextField();
 			GridBagConstraints gbc_txtNombre = new GridBagConstraints();
 			gbc_txtNombre.anchor = GridBagConstraints.SOUTH;
-			gbc_txtNombre.insets = new Insets(0, 0, 5, 0);
+			gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
 			gbc_txtNombre.fill = GridBagConstraints.HORIZONTAL;
 			gbc_txtNombre.gridx = 2;
 			gbc_txtNombre.gridy = 1;
@@ -65,7 +69,7 @@ public class DialogoPersona extends JDialog {
 			JLabel lblDni = new JLabel(Messages.getString("DialogoPersona.lblDni.text")); //$NON-NLS-1$
 			GridBagConstraints gbc_lblDni = new GridBagConstraints();
 			gbc_lblDni.anchor = GridBagConstraints.EAST;
-			gbc_lblDni.insets = new Insets(0, 0, 0, 5);
+			gbc_lblDni.insets = new Insets(0, 0, 5, 5);
 			gbc_lblDni.gridx = 1;
 			gbc_lblDni.gridy = 2;
 			contentPanel.add(lblDni, gbc_lblDni);
@@ -73,11 +77,21 @@ public class DialogoPersona extends JDialog {
 		{
 			txtDni = new JTextField();
 			GridBagConstraints gbc_txtDni = new GridBagConstraints();
+			gbc_txtDni.insets = new Insets(0, 0, 5, 5);
 			gbc_txtDni.fill = GridBagConstraints.HORIZONTAL;
 			gbc_txtDni.gridx = 2;
 			gbc_txtDni.gridy = 2;
 			contentPanel.add(txtDni, gbc_txtDni);
 			txtDni.setColumns(10);
+		}
+		{
+			Component horizontalGlue = Box.createHorizontalGlue();
+			GridBagConstraints gbc_horizontalGlue = new GridBagConstraints();
+			gbc_horizontalGlue.gridwidth = 5;
+			gbc_horizontalGlue.insets = new Insets(0, 0, 5, 5);
+			gbc_horizontalGlue.gridx = 1;
+			gbc_horizontalGlue.gridy = 4;
+			contentPanel.add(horizontalGlue, gbc_horizontalGlue);
 		}
 		{
 			JPanel buttonPane = new JPanel();
