@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
@@ -329,7 +330,13 @@ public class App {
 	
 	private class BtnAadirProyectoActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			DialogoProyecto dp = new DialogoProyecto(personas);
+			DialogoProyecto dp = null;
+			try {
+				dp = new DialogoProyecto(personas);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			dp.setVisible(true);
 			proyectos.add(dp.getProyecto());
 			listaProyectos.setModel(new AbstractListModel<Proyecto>() {
@@ -425,7 +432,13 @@ public class App {
 	}
 	private class MntmProyectoActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			DialogoProyecto dp = new DialogoProyecto(personas);
+			DialogoProyecto dp = null;
+			try {
+				dp = new DialogoProyecto(personas);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			dp.setVisible(true);
 			proyectos.add(dp.getProyecto());
 			listaProyectos.setModel(new AbstractListModel<Proyecto>() {

@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
@@ -18,18 +19,22 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
 
 import dominio.Persona;
 import dominio.Proyecto;
+import javax.swing.JFormattedTextField;
+
 
 public class DialogoProyecto extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombre;
-	private JTextField txtInicio;
-	private JTextField txtFin;
 	private Proyecto proyecto;
 	private JList<Persona> listaPersonas;
+	MaskFormatter formatter =new MaskFormatter("##/##/####");
+	private JFormattedTextField frmtdtxtfldInicio;
+	private JFormattedTextField frmtdtxtfldFin;
 	/**
 	 * Launch the application.
 	 */
@@ -37,8 +42,9 @@ public class DialogoProyecto extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws ParseException 
 	 */
-	public DialogoProyecto(ArrayList<Persona> personas) {
+	public DialogoProyecto(ArrayList<Persona> personas) throws ParseException {
 		setTitle(Messages.getString("DialogoProyecto.this.title")); //$NON-NLS-1$
 		setResizable(false);
 		setModal(true);
@@ -49,7 +55,7 @@ public class DialogoProyecto extends JDialog {
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
@@ -82,15 +88,16 @@ public class DialogoProyecto extends JDialog {
 			contentPanel.add(lblInicio, gbc_lblInicio);
 		}
 		{
-			txtInicio = new JTextField();
-			GridBagConstraints gbc_txtInicio = new GridBagConstraints();
-			gbc_txtInicio.gridwidth = 2;
-			gbc_txtInicio.insets = new Insets(0, 0, 5, 5);
-			gbc_txtInicio.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtInicio.gridx = 2;
-			gbc_txtInicio.gridy = 2;
-			contentPanel.add(txtInicio, gbc_txtInicio);
-			txtInicio.setColumns(10);
+			
+			JFormattedTextField frmtdtxtfldInicio = new JFormattedTextField(formatter);
+			frmtdtxtfldInicio.setToolTipText(Messages.getString("DialogoProyecto.frmtdtxtfldInicio.toolTipText")); //$NON-NLS-1$
+			GridBagConstraints gbc_frmtInicio = new GridBagConstraints();
+			gbc_frmtInicio.fill = GridBagConstraints.HORIZONTAL;
+			gbc_frmtInicio.gridwidth = 2;
+			gbc_frmtInicio.insets = new Insets(0, 0, 5, 5);
+			gbc_frmtInicio.gridx = 2;
+			gbc_frmtInicio.gridy = 2;
+			contentPanel.add(frmtdtxtfldInicio, gbc_frmtInicio);
 		}
 		{
 			JLabel lblFin = new JLabel(Messages.getString("DialogoProyecto.lblFin.text")); //$NON-NLS-1$
@@ -102,15 +109,15 @@ public class DialogoProyecto extends JDialog {
 			contentPanel.add(lblFin, gbc_lblFin);
 		}
 		{
-			txtFin = new JTextField();
-			GridBagConstraints gbc_txtFin = new GridBagConstraints();
-			gbc_txtFin.anchor = GridBagConstraints.WEST;
-			gbc_txtFin.gridwidth = 2;
-			gbc_txtFin.insets = new Insets(0, 0, 5, 0);
-			gbc_txtFin.gridx = 5;
-			gbc_txtFin.gridy = 2;
-			contentPanel.add(txtFin, gbc_txtFin);
-			txtFin.setColumns(10);
+			JFormattedTextField frmtdtxtfldFin = new JFormattedTextField(formatter);
+			frmtdtxtfldFin.setToolTipText(Messages.getString("DialogoProyecto.frmtdtxtfldFin.toolTipText")); //$NON-NLS-1$
+			GridBagConstraints gbc_frmtdtxtfldFin = new GridBagConstraints();
+			gbc_frmtdtxtfldFin.fill = GridBagConstraints.HORIZONTAL;
+			gbc_frmtdtxtfldFin.gridwidth = 2;
+			gbc_frmtdtxtfldFin.insets = new Insets(0, 0, 5, 5);
+			gbc_frmtdtxtfldFin.gridx = 5;
+			gbc_frmtdtxtfldFin.gridy = 2;
+			contentPanel.add(frmtdtxtfldFin, gbc_frmtdtxtfldFin);
 		}
 		{
 			
@@ -166,8 +173,8 @@ public class DialogoProyecto extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 			Proyecto nproyecto= new Proyecto("","","");
 			nproyecto.setNombre(txtNombre.getText());
-			nproyecto.setFechaInin(txtInicio.getText());
-			nproyecto.setFechaFin(txtFin.getText());
+			nproyecto.setFechaInin(frmtdtxtfldInicio.getText());
+			nproyecto.setFechaFin(frmtdtxtfldFin.getText());
 			
 			int [] x= listaPersonas.getSelectedIndices();
 			for (int i = 0; i < x.length; i++) {
