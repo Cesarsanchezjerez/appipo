@@ -7,13 +7,16 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import dominio.Persona;
 import javax.swing.JSeparator;
@@ -75,7 +78,16 @@ public class DialogoPersona extends JDialog {
 			contentPanel.add(lblDni, gbc_lblDni);
 		}
 		{
-			txtDni = new JTextField();
+			
+			MaskFormatter formatoDNI;
+			try {
+			formatoDNI = new MaskFormatter("########'-U"); 
+			formatoDNI.setPlaceholderCharacter('X'); 
+			txtDni = new JFormattedTextField(formatoDNI);
+			} catch (ParseException e) {
+			    // TODO Auto-generated catch block
+			e.printStackTrace(); }
+			
 			GridBagConstraints gbc_txtDni = new GridBagConstraints();
 			gbc_txtDni.insets = new Insets(0, 0, 5, 5);
 			gbc_txtDni.fill = GridBagConstraints.HORIZONTAL;
@@ -83,15 +95,6 @@ public class DialogoPersona extends JDialog {
 			gbc_txtDni.gridy = 2;
 			contentPanel.add(txtDni, gbc_txtDni);
 			txtDni.setColumns(10);
-		}
-		{
-			Component horizontalGlue = Box.createHorizontalGlue();
-			GridBagConstraints gbc_horizontalGlue = new GridBagConstraints();
-			gbc_horizontalGlue.gridwidth = 5;
-			gbc_horizontalGlue.insets = new Insets(0, 0, 5, 5);
-			gbc_horizontalGlue.gridx = 1;
-			gbc_horizontalGlue.gridy = 4;
-			contentPanel.add(horizontalGlue, gbc_horizontalGlue);
 		}
 		{
 			JPanel buttonPane = new JPanel();
