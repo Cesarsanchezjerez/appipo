@@ -31,7 +31,6 @@ public class DialogoCorreo extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField Asunto;
 	private JComboBox<String> comboBox;
-	private JLabel lblCorreo;
 
 	
 	public DialogoCorreo(ArrayList<Persona> personas) {
@@ -73,25 +72,16 @@ public class DialogoCorreo extends JDialog {
 		}
 		{
 			comboBox = new JComboBox<String>();
-			comboBox.addItemListener(new ComboBoxItemListener());
 			for (Persona persona : personas) {
 				comboBox.addItem(persona.getNombre());
 			}
+			comboBox.setSelectedIndex(-1);
 			GridBagConstraints gbc_comboBox = new GridBagConstraints();
 			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 			gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 			gbc_comboBox.gridx = 1;
 			gbc_comboBox.gridy = 1;
 			contentPanel.add(comboBox, gbc_comboBox);
-		}
-		{
-			lblCorreo = new JLabel("");
-			GridBagConstraints gbc_lblCorreo = new GridBagConstraints();
-			gbc_lblCorreo.anchor = GridBagConstraints.WEST;
-			gbc_lblCorreo.insets = new Insets(0, 0, 5, 0);
-			gbc_lblCorreo.gridx = 2;
-			gbc_lblCorreo.gridy = 1;
-			contentPanel.add(lblCorreo, gbc_lblCorreo);
 		}
 		{
 			JLabel lblAsunto = new JLabel("Asunto:");
@@ -143,11 +133,6 @@ public class DialogoCorreo extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 			
-		}
-	}
-	private class ComboBoxItemListener implements ItemListener {
-		public void itemStateChanged(ItemEvent arg0) {
-			//lblCorreo.setText(comboBox.getSelectedItem().toString()+"@IPO.com");
 		}
 	}
 }
