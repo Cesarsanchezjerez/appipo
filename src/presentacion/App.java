@@ -46,6 +46,7 @@ import dominio.Persona;
 import dominio.Proyecto;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import java.awt.Toolkit;
 
 public class App {
 
@@ -111,8 +112,10 @@ public class App {
 	 */
 	private void initialize() {
 		
+		
 		lh = new ListTransferHandler();
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(App.class.getResource("/recursos/guinea-pig-heag.png")));
 		frame.setBounds(100, 100, 1003, 585);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[182.00px][670.00px,grow,left]", "[76.00px][][][grow][23px]"));
@@ -357,6 +360,8 @@ public class App {
 				}
 			}
 		}
+		Credenciales cr=new Credenciales();
+		cr.setVisible(true);
 	}
 
 	
@@ -384,7 +389,9 @@ public class App {
 			});
 			
 			pnlProyecto.setVisible(false);
+			
 		}
+		
 	}
 	private class BtnNuevaActividadActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {

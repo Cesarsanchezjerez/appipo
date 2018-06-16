@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class Login {
 
@@ -23,6 +25,7 @@ public class Login {
 	private JButton btnConectar;
 	private JPasswordField passwordField;
 	private JLabel mensaje;
+	private JLabel label;
 
 	/**
 	 * Launch the application.
@@ -52,6 +55,7 @@ public class Login {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/recursos/guinea-pig-heag.png")));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 400, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,38 +65,42 @@ public class Login {
 			panel.setLayout(null);
 			{
 				lblNewLabel = new JLabel(Messages.getString("Login.lblNewLabel.text")); //$NON-NLS-1$
-				lblNewLabel.setBounds(60, 88, 61, 16);
+				lblNewLabel.setBounds(38, 236, 61, 16);
 				panel.add(lblNewLabel);
 			}
 			{
 				lblPassword = new JLabel(Messages.getString("Login.lblPassword.text")); //$NON-NLS-1$
-				lblPassword.setBounds(60, 130, 61, 16);
+				lblPassword.setBounds(38, 278, 61, 16);
 				panel.add(lblPassword);
 			}
 			{
 				txtUser = new JTextField();
-				txtUser.addActionListener(new TxtUserActionListener());
-				txtUser.setBounds(150, 83, 130, 26);
+				txtUser.setBounds(128, 231, 130, 26);
 				panel.add(txtUser);
 				txtUser.setColumns(10);
 			}
 			{
 				btnConectar = new JButton(Messages.getString("Login.btnConectar.text")); //$NON-NLS-1$
 				btnConectar.addActionListener(new BtnConectarActionListener());
-				btnConectar.setBounds(150, 219, 117, 29);
+				btnConectar.setBounds(128, 331, 117, 29);
 				panel.add(btnConectar);
 			}
 			{
 				passwordField = new JPasswordField();
-				passwordField.setEnabled(false);
-				passwordField.setBounds(150, 125, 130, 26);
+				passwordField.setBounds(128, 273, 130, 26);
 				panel.add(passwordField);
 			}
 			{
 				mensaje = new JLabel(); //$NON-NLS-1$
 				mensaje.setForeground(Color.RED);
-				mensaje.setBounds(150, 177, 211, 16);
+				mensaje.setBounds(113, 310, 211, 16);
 				panel.add(mensaje);
+			}
+			{
+				label = new JLabel(); 
+				label.setIcon(new ImageIcon(Login.class.getResource("/recursos/240px-LogoUCLM.svg.png")));
+				label.setBounds(73, 0, 251, 227);
+				panel.add(label);
 			}
 		}
 	}
@@ -109,13 +117,6 @@ public class Login {
 			}else {
 				mensaje.setText("usuario o contraseña erronea");
 			}
-		}
-	}
-	private class TxtUserActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			passwordField.setEnabled(true);
-			passwordField.requestFocus();
-			
 		}
 	}
 }
