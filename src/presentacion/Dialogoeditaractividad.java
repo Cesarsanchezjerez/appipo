@@ -283,6 +283,11 @@ public class Dialogoeditaractividad extends JDialog {
 				txtNombre.setText(pr.getActividades().get(i).getNombre());
 				txtInicio.setText(pr.getActividades().get(i).getFechaInin());
 				txtFin.setText(pr.getActividades().get(i).getFechaFin());
+				areadibujo.setIcon(pr.getActividades().get(i).getImagen());
+				for(int j =0; j < pr.getActividades().get(i).getdibujo().gettodos().size();j++) {
+					areadibujo.addObjetoGrafico(pr.getActividades().get(j).getdibujo().getObjetoGrafico(j));
+				}
+				
 				switch (pr.getActividades().get(i).getPrioridad()) {
 				case 1:
 					rdbtnAlta.setSelected(true);

@@ -3,6 +3,10 @@ package dominio;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.ImageIcon;
+
+import presentacion.areadibujo;
+
 public class Actividad {
 
 	private String nombre;
@@ -11,6 +15,8 @@ public class Actividad {
 	private String fechaFin;
 	private int prioridad;
 	private String estado;
+	private areadibujo dibujo;
+	private ImageIcon imagen;
 	
 	
 	public Actividad (String nomb, ArrayList<Persona> integ, String fechaI, String fechaF, int prior ) {
@@ -20,6 +26,7 @@ public class Actividad {
 		fechaFin=fechaF;
 		prioridad=prior;
 		estado="pendiente";
+		
 	}
 	
 	public String getNombre() {
@@ -71,6 +78,21 @@ public class Actividad {
 		this.estado = estado;
 	}
 
+	public void setAreadibujo(areadibujo x) {
+		dibujo= x;
+	}
+	public areadibujo getdibujo() {
+		return dibujo;
+	}
+
+	public ImageIcon getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(ImageIcon imagen) {
+		this.imagen = imagen;
+	}
+	
 	
 	
 	

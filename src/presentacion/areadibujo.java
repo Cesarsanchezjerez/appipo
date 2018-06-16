@@ -16,6 +16,13 @@ public class areadibujo extends JLabel{
 	 void addObjetoGrafico(objetoGrafico objg) { 
 		 objetosGraficos.add(objg);
 	 }
+	 
+	 public ArrayList<objetoGrafico> gettodos(){
+		 return objetosGraficos;
+	 }
+	 public objetoGrafico getObjetoGrafico(int i) {
+		 return objetosGraficos.get(i); 
+	 }
 	 public objetoGrafico getUltimoObjetoGrafico() {
 		 return objetosGraficos.get(objetosGraficos.size()-1); 
 	 }

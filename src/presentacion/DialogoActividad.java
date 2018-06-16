@@ -286,7 +286,8 @@ public class DialogoActividad extends JDialog {
 			nActividad.setNombre(txtNombre.getText());
 			nActividad.setFechaInin(formattedInicio.getText());
 			nActividad.setFechaFin(formattedFin.getText());
-			
+			nActividad.setAreadibujo(areadibujo);
+			nActividad.setImagen(imagen);
 			nActividad.setPrioridad(prioridad(buttonGroup.getSelection().getMnemonic()));
 			actividad=nActividad;
 			proyecto.añadirActividad(nActividad);
