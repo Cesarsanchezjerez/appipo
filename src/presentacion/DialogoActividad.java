@@ -1,19 +1,24 @@
 package presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -28,6 +33,9 @@ import dominio.Actividad;
 import dominio.Persona;
 import dominio.Proyecto;
 import javax.swing.JFormattedTextField;
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 
@@ -40,7 +48,12 @@ public class DialogoActividad extends JDialog {
 	private JFormattedTextField formattedInicio;
 	private JFormattedTextField formattedFin;
 	MaskFormatter formatter =new MaskFormatter("##/##/####");
-
+	private areadibujo areadibujo;
+	private ImageIcon imagen;
+	private int x, y;
+	
+	private JTextField txtTexto = new JTextField();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -51,24 +64,26 @@ public class DialogoActividad extends JDialog {
 	 *  
 	 */
 	public DialogoActividad(Proyecto pr) throws ParseException{
-		setTitle(Messages.getString("DialogoActividad.this.title")); //$NON-NLS-1$
-		setResizable(false);
+		setTitle(Messages.getString("DialogoActividad.this.title"));
 		setModal(true);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 534, 508);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 44, 79, 56, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWidths = new int[]{0, 46, 47, 0, 44, 79, 56, 0, 0, 0, 0};
+		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
+		
+		
+		
 		{
 			JLabel lblNombre = new JLabel(Messages.getString("DialogoActividad.lblNombre.text")); //$NON-NLS-1$
 			GridBagConstraints gbc_lblNombre = new GridBagConstraints();
 			gbc_lblNombre.insets = new Insets(0, 0, 5, 5);
-			gbc_lblNombre.anchor = GridBagConstraints.EAST;
+			gbc_lblNombre.anchor = GridBagConstraints.WEST;
 			gbc_lblNombre.gridx = 1;
 			gbc_lblNombre.gridy = 1;
 			contentPanel.add(lblNombre, gbc_lblNombre);
@@ -88,7 +103,7 @@ public class DialogoActividad extends JDialog {
 		{
 			JLabel lblInicio = new JLabel(Messages.getString("DialogoActividad.lblInicio.text")); //$NON-NLS-1$
 			GridBagConstraints gbc_lblInicio = new GridBagConstraints();
-			gbc_lblInicio.anchor = GridBagConstraints.EAST;
+			gbc_lblInicio.anchor = GridBagConstraints.WEST;
 			gbc_lblInicio.insets = new Insets(0, 0, 5, 5);
 			gbc_lblInicio.gridx = 1;
 			gbc_lblInicio.gridy = 2;
@@ -152,7 +167,7 @@ public class DialogoActividad extends JDialog {
 			GridBagConstraints gbc_txtpnDescripcin = new GridBagConstraints();
 			gbc_txtpnDescripcin.gridwidth = 3;
 			gbc_txtpnDescripcin.gridheight = 2;
-			gbc_txtpnDescripcin.insets = new Insets(0, 0, 5, 0);
+			gbc_txtpnDescripcin.insets = new Insets(0, 0, 5, 5);
 			gbc_txtpnDescripcin.fill = GridBagConstraints.BOTH;
 			gbc_txtpnDescripcin.gridx = 5;
 			gbc_txtpnDescripcin.gridy = 4;
@@ -173,7 +188,7 @@ public class DialogoActividad extends JDialog {
 			buttonGroup.add(rdbtnBaja);
 			GridBagConstraints gbc_rdbtnBaja = new GridBagConstraints();
 			gbc_rdbtnBaja.anchor = GridBagConstraints.WEST;
-			gbc_rdbtnBaja.insets = new Insets(0, 0, 0, 5);
+			gbc_rdbtnBaja.insets = new Insets(0, 0, 5, 5);
 			gbc_rdbtnBaja.gridx = 2;
 			gbc_rdbtnBaja.gridy = 7;
 			contentPanel.add(rdbtnBaja, gbc_rdbtnBaja);
@@ -184,7 +199,7 @@ public class DialogoActividad extends JDialog {
 			buttonGroup.add(rdbtnMedia);
 			GridBagConstraints gbc_rdbtnMedia = new GridBagConstraints();
 			gbc_rdbtnMedia.anchor = GridBagConstraints.WEST;
-			gbc_rdbtnMedia.insets = new Insets(0, 0, 0, 5);
+			gbc_rdbtnMedia.insets = new Insets(0, 0, 5, 5);
 			gbc_rdbtnMedia.gridx = 3;
 			gbc_rdbtnMedia.gridy = 7;
 			contentPanel.add(rdbtnMedia, gbc_rdbtnMedia);
@@ -195,10 +210,35 @@ public class DialogoActividad extends JDialog {
 			buttonGroup.add(rdbtnAlta);
 			GridBagConstraints gbc_rdbtnAlta = new GridBagConstraints();
 			gbc_rdbtnAlta.anchor = GridBagConstraints.WEST;
-			gbc_rdbtnAlta.insets = new Insets(0, 0, 0, 5);
+			gbc_rdbtnAlta.insets = new Insets(0, 0, 5, 5);
 			gbc_rdbtnAlta.gridx = 4;
 			gbc_rdbtnAlta.gridy = 7;
 			contentPanel.add(rdbtnAlta, gbc_rdbtnAlta);
+		}
+		{
+			JButton btnAdjuntarImagen = new JButton(Messages.getString("DialogoActividad.btnAdjuntarImagen.text")); //$NON-NLS-1$
+			btnAdjuntarImagen.addActionListener(new BtnAdjuntarImagenActionListener());
+			GridBagConstraints gbc_btnAdjuntarImagen = new GridBagConstraints();
+			gbc_btnAdjuntarImagen.insets = new Insets(0, 0, 5, 5);
+			gbc_btnAdjuntarImagen.gridx = 6;
+			gbc_btnAdjuntarImagen.gridy = 8;
+			contentPanel.add(btnAdjuntarImagen, gbc_btnAdjuntarImagen);
+		}
+		{
+			JScrollPane scrollPane = new JScrollPane();
+			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+			gbc_scrollPane.gridheight = 3;
+			gbc_scrollPane.gridwidth = 4;
+			gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+			gbc_scrollPane.fill = GridBagConstraints.BOTH;
+			gbc_scrollPane.gridx = 2;
+			gbc_scrollPane.gridy = 8;
+			contentPanel.add(scrollPane, gbc_scrollPane);
+			
+			areadibujo = new areadibujo(); 
+			areadibujo.addMouseListener(new AreadibujoMouseListener());
+			areadibujo.setIcon(null);
+			scrollPane.setViewportView(areadibujo);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -257,6 +297,40 @@ public class DialogoActividad extends JDialog {
 	private class CancelButtonActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			dispose();
+		}
+	}
+	private class BtnAdjuntarImagenActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+			JFileChooser fcAbrir = new JFileChooser();
+			
+			int valorDevuelto = fcAbrir.showOpenDialog(getParent()); 
+			if (valorDevuelto == JFileChooser.APPROVE_OPTION) {	
+				File file = fcAbrir.getSelectedFile();
+				imagen = new ImageIcon(file.getAbsolutePath());
+				areadibujo.setIcon(imagen);
+		}
+	}
+	}
+	private class AreadibujoMouseListener extends MouseAdapter {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			x = e.getX();
+			y = e.getY();
+			txtTexto.setBounds(x, y, 200,30);
+			txtTexto.setVisible(true); 
+			txtTexto.requestFocus(); 
+			txtTexto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg) { 
+					if(!txtTexto.getText().equals(""))areadibujo.addObjetoGrafico(new objetoGrafico(x,y+15,txtTexto.getText(),Color.blue));
+					txtTexto.setText(""); 
+					txtTexto.setVisible(false); 
+					areadibujo.repaint();
+				}
+
+				
+			});
+			areadibujo.add(txtTexto);
 		}
 	}
 	public Actividad getActividad() {
