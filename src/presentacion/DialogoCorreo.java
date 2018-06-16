@@ -34,7 +34,8 @@ public class DialogoCorreo extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField Asunto;
 	private JComboBox<String> comboBox;
-
+	private JLabel lblAviso;
+	private JTextArea textArea;
 	
 	public DialogoCorreo(ArrayList<Persona> personas) {
 		setBounds(100, 100, 450, 300);
@@ -128,7 +129,7 @@ public class DialogoCorreo extends JDialog {
 				JButton okButton = new JButton("Enviar\r\n");
 				okButton.addActionListener(new OkButtonActionListener());
 				{
-					JLabel lblAviso = new JLabel("");
+					lblAviso = new JLabel("");
 					lblAviso.setForeground(Color.RED);
 					buttonPane.add(lblAviso);
 				}
@@ -152,9 +153,18 @@ public class DialogoCorreo extends JDialog {
 	}
 	private class OkButtonActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (comboBox.getSelectedItem()==null) {
 			
-			}
+				if (comboBox.getSelectedItem()==null) {
+					lblAviso.setText("Debe elegir un destinatario");
+					} else if(Asunto.getText()==null) {
+						lblAviso.setText("Debe definir un asunto");
+					}else {
+						CorreoCorrecto c =new CorreoCorrecto();
+						c.setVisible(true);
+						dispose();
+					}
+			
+			
 		}
 	}
 }

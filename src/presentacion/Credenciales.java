@@ -14,6 +14,15 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.Window.Type;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class Credenciales extends JDialog {
 
@@ -24,6 +33,8 @@ public class Credenciales extends JDialog {
 	private JLabel label;
 	private JLabel lblPedroipocom;
 	private JLabel lblHola;
+	private JPanel panel;
+	private JButton btnAceptar;
 
 	
 	
@@ -44,34 +55,62 @@ public class Credenciales extends JDialog {
 		{
 			lblHolaPedroRamrez = new JLabel("PEDRO RAMÍREZ");
 			lblHolaPedroRamrez.setFont(new Font("Tahoma", Font.BOLD, 11));
-			lblHolaPedroRamrez.setBounds(169, 276, 95, 14);
+			lblHolaPedroRamrez.setBounds(183, 276, 95, 14);
 			contentPanel.add(lblHolaPedroRamrez);
 		}
 		{
 			lblImagen = new JLabel("");
 			lblImagen.setIcon(new ImageIcon(Credenciales.class.getResource("/recursos/user.png")));
-			lblImagen.setBounds(86, 0, 290, 265);
+			lblImagen.setBounds(100, 0, 290, 265);
 			contentPanel.add(lblImagen);
 		}
 		{
 			lblltimaConexin = new JLabel("Última conexión:");
-			lblltimaConexin.setBounds(74, 355, 105, 14);
+			lblltimaConexin.setBounds(88, 326, 105, 14);
 			contentPanel.add(lblltimaConexin);
 		}
 		{
 			label = new JLabel("16/06/2018");
-			label.setBounds(169, 355, 64, 14);
+			label.setBounds(199, 326, 64, 14);
 			contentPanel.add(label);
 		}
 		{
 			lblPedroipocom = new JLabel("pedro@IPO.com");
-			lblPedroipocom.setBounds(169, 301, 95, 14);
+			lblPedroipocom.setBounds(183, 301, 95, 14);
 			contentPanel.add(lblPedroipocom);
 		}
 		{
 			lblHola = new JLabel("Hola!");
-			lblHola.setBounds(113, 276, 46, 14);
+			lblHola.setBounds(127, 276, 46, 14);
 			contentPanel.add(lblHola);
+		}
+		{
+			panel = new JPanel();
+			panel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+			getContentPane().add(panel, BorderLayout.SOUTH);
+			{
+				GridBagLayout gbl_panel = new GridBagLayout();
+				gbl_panel.columnWidths = new int[]{453, 0, 0};
+				gbl_panel.rowHeights = new int[]{23, 0};
+				gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+				gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+				panel.setLayout(gbl_panel);
+			}
+			btnAceptar = new JButton("Aceptar");
+			btnAceptar.setHorizontalAlignment(SwingConstants.RIGHT);
+			btnAceptar.addActionListener(new BtnAceptarActionListener());
+			GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
+			gbc_btnAceptar.anchor = GridBagConstraints.EAST;
+			gbc_btnAceptar.insets = new Insets(0, 0, 0, 5);
+			gbc_btnAceptar.fill = GridBagConstraints.VERTICAL;
+			gbc_btnAceptar.gridx = 0;
+			gbc_btnAceptar.gridy = 0;
+			panel.add(btnAceptar, gbc_btnAceptar);
+		}
+	}
+	private class BtnAceptarActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
 		}
 	}
 }

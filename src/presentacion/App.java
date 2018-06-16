@@ -322,6 +322,7 @@ public class App {
 					mnArchivo.add(mnPersonas);
 					{
 						mntmListaDePersonas = new JMenuItem(Messages.getString("App.mntmListaDePersonas.text")); //$NON-NLS-1$
+						mntmListaDePersonas.addActionListener(new MntmListaDePersonasActionListener());
 						mnPersonas.add(mntmListaDePersonas);
 					}
 					{
@@ -534,6 +535,10 @@ public class App {
 		public void actionPerformed(ActionEvent e) {
 			DialogoCorreo dc = new DialogoCorreo(personas);
 			dc.setVisible(true);
+		}
+	}
+	private class MntmListaDePersonasActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
 		}
 	}
 	

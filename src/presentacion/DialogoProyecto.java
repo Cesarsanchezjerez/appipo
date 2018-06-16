@@ -35,11 +35,8 @@ public class DialogoProyecto extends JDialog {
 	MaskFormatter formatter =new MaskFormatter("##/##/####");
 	private JFormattedTextField frmtdtxtfldInicio;
 	private JFormattedTextField frmtdtxtfldFin;
-	/**
-	 * Launch the application.
-	 */
+	private JLabel lblAviso;
 	
-
 	/**
 	 * Create the dialog.
 	 * @throws ParseException 
@@ -153,6 +150,10 @@ public class DialogoProyecto extends JDialog {
 			{
 				JButton okButton = new JButton(Messages.getString("DialogoProyecto.okButton.text")); //$NON-NLS-1$
 				okButton.addActionListener(new OkButtonActionListener( personas));
+				{
+					lblAviso = new JLabel(); //$NON-NLS-1$
+					buttonPane.add(lblAviso);
+				}
 				okButton.setActionCommand(Messages.getString("DialogoProyecto.okButton.actionCommand")); //$NON-NLS-1$
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -172,20 +173,25 @@ public class DialogoProyecto extends JDialog {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			Proyecto nproyecto= new Proyecto("","","");
-			nproyecto.setNombre(txtNombre.getText());
-			nproyecto.setFechaInin(frmtdtxtfldInicio.getText());
-			nproyecto.setFechaFin(frmtdtxtfldFin.getText());
-			
-			int [] x= listaPersonas.getSelectedIndices();
-			for (int i = 0; i < x.length; i++) {
-				nproyecto.añadirIntegrante(seleccionadas.get(i));
+			if(txtNombre.getText().isEmpty()) {
+				lblAviso.setText("El nombre del proyecto no puede estar vacío");
+			}else {
+				Proyecto nproyecto= new Proyecto("","","");
+				nproyecto.setNombre(txtNombre.getText());
+				nproyecto.setFechaInin(frmtdtxtfldInicio.getText());
+				nproyecto.setFechaFin(frmtdtxtfldFin.getText());
+				
+				int [] x= listaPersonas.getSelectedIndices();
+				for (int i = 0; i < x.length; i++) {
+					nproyecto.añadirIntegrante(seleccionadas.get(i));
+				}
+				
+				
+				 
+				proyecto=nproyecto;
+				dispose();
 			}
 			
-			
-			 
-			proyecto=nproyecto;
-			dispose();
 		}
 	}
 	private class CancelButtonActionListener implements ActionListener {
