@@ -33,8 +33,9 @@ public class DialogoProyecto extends JDialog {
 	private Proyecto proyecto;
 	private JList<Persona> listaPersonas;
 	MaskFormatter formatter =new MaskFormatter("##/##/####");
+	MaskFormatter formatter2 =new MaskFormatter("##/##/####");
 	private JFormattedTextField frmtdtxtfldInicio;
-	private JFormattedTextField frmtdtxtfldFin;
+	private JFormattedTextField fechaFin;
 	private JLabel lblAviso;
 	
 	/**
@@ -88,7 +89,7 @@ public class DialogoProyecto extends JDialog {
 		{
 			
 			frmtdtxtfldInicio = new JFormattedTextField(formatter);
-			frmtdtxtfldInicio.setToolTipText(Messages.getString("DialogoProyecto.frmtdtxtfldInicio.toolTipText")); //$NON-NLS-1$
+			frmtdtxtfldInicio.setToolTipText(Messages.getString("DialogoProyecto.frmtdtxtfldInicio.toolTipText"));
 			GridBagConstraints gbc_frmtInicio = new GridBagConstraints();
 			gbc_frmtInicio.fill = GridBagConstraints.HORIZONTAL;
 			gbc_frmtInicio.gridwidth = 2;
@@ -107,15 +108,15 @@ public class DialogoProyecto extends JDialog {
 			contentPanel.add(lblFin, gbc_lblFin);
 		}
 		{
-			frmtdtxtfldFin = new JFormattedTextField(formatter);
-			frmtdtxtfldFin.setToolTipText(Messages.getString("DialogoProyecto.frmtdtxtfldFin.toolTipText")); //$NON-NLS-1$
-			GridBagConstraints gbc_frmtdtxtfldFin = new GridBagConstraints();
-			gbc_frmtdtxtfldFin.fill = GridBagConstraints.HORIZONTAL;
-			gbc_frmtdtxtfldFin.gridwidth = 2;
-			gbc_frmtdtxtfldFin.insets = new Insets(0, 0, 5, 5);
-			gbc_frmtdtxtfldFin.gridx = 5;
-			gbc_frmtdtxtfldFin.gridy = 2;
-			contentPanel.add(frmtdtxtfldFin, gbc_frmtdtxtfldFin);
+			fechaFin = new JFormattedTextField(formatter2);
+			fechaFin.setToolTipText(Messages.getString("DialogoProyecto.frmtdtxtfldFin.toolTipText")); 
+			GridBagConstraints gbc_fechaFin = new GridBagConstraints();
+			gbc_fechaFin.fill = GridBagConstraints.HORIZONTAL;
+			gbc_fechaFin.gridwidth = 2;
+			gbc_fechaFin.insets = new Insets(0, 0, 5, 5);
+			gbc_fechaFin.gridx = 5;
+			gbc_fechaFin.gridy = 2;
+			contentPanel.add(fechaFin, gbc_fechaFin);
 		}
 		{
 			
@@ -135,7 +136,7 @@ public class DialogoProyecto extends JDialog {
 			listaPersonas=lista;
 			lista.setBorder(new TitledBorder(null, Messages.getString("DialogoProyecto.lista.borderTitle"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 			GridBagConstraints gbc_lista = new GridBagConstraints();
-			gbc_lista.gridheight = 2;
+			gbc_lista.gridheight = 3;
 			gbc_lista.gridwidth = 2;
 			gbc_lista.insets = new Insets(0, 0, 5, 5);
 			gbc_lista.fill = GridBagConstraints.BOTH;
@@ -175,11 +176,16 @@ public class DialogoProyecto extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 			if(txtNombre.getText().isEmpty()) {
 				lblAviso.setText("El nombre del proyecto no puede estar vacío");
+			
+			}else if(!fechasCorrectas(frmtdtxtfldInicio.getText(), fechaFin.getText())){
+				lblAviso.setText("Las fechas no son correctas");
+			}else if(listaPersonas.getSelectedValue()==null){
+				lblAviso.setText("Debe elegir al menos un integrante");
 			}else {
 				Proyecto nproyecto= new Proyecto("","","");
 				nproyecto.setNombre(txtNombre.getText());
 				nproyecto.setFechaInin(frmtdtxtfldInicio.getText());
-				nproyecto.setFechaFin(frmtdtxtfldFin.getText());
+				nproyecto.setFechaFin(fechaFin.getText());
 				
 				int [] x= listaPersonas.getSelectedIndices();
 				for (int i = 0; i < x.length; i++) {
@@ -200,7 +206,39 @@ public class DialogoProyecto extends JDialog {
 		}
 	}
 	
-	
+	public boolean fechasCorrectas(String ini, String fin) {
+		boolean correcto=false;
+		int diaI=0;
+		int mesI=0;
+		int anoI=0;
+		int diaF=0;
+		int mesF=0;
+		int anoF=0;
+		if (ini.equals("  /  /    ") || fin.equals("  /  /    ")) {
+			
+		}else {
+			diaI=Integer.parseInt(ini.charAt(0)+""+ini.charAt(1));
+			mesI=Integer.parseInt(ini.charAt(3)+""+ini.charAt(4));
+			anoI=Integer.parseInt(ini.charAt(6)+""+ini.charAt(7)+""+ini.charAt(8)+""+ini.charAt(9));
+			
+			diaF=Integer.parseInt(ini.charAt(0)+""+ini.charAt(1));
+			mesF=Integer.parseInt(ini.charAt(3)+""+ini.charAt(4));
+			anoF=Integer.parseInt(ini.charAt(6)+""+ini.charAt(7)+""+ini.charAt(8)+""+ini.charAt(9));
+			
+			System.out.println(diaI+" "+mesI+" "+anoI);
+			System.out.println(diaF+" "+mesF+" "+anoF);
+			if (anoF>=anoI) {
+				if(mesF>=mesI){
+					if(diaF>=diaI) {
+						correcto=true;
+					}
+				}
+			}
+			
+			
+		}
+		return correcto;
+	}
 	public Proyecto getProyecto() {
 		return proyecto;
 	}
