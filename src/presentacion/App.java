@@ -45,6 +45,7 @@ import dominio.Actividad;
 import dominio.Persona;
 import dominio.Proyecto;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JLabel;
 
 public class App {
 
@@ -78,6 +79,10 @@ public class App {
 	private JMenu mnIdioma;
 	private JMenuItem mntmEspaol;
 	private JMenuItem mntmEnglish;
+	private JLabel lblUltimaConexin;
+	private JMenu mnPersonas;
+	private JMenuItem mntmListaDePersonas;
+	private JMenuItem mntmEnviarUnCorreo;
 	/**
 	 * Launch the application.
 	 */
@@ -110,17 +115,28 @@ public class App {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1003, 585);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[182.00px][697px,grow]", "[421px,grow][][23px]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[182.00px][670.00px,grow,left]", "[76.00px][][][grow][23px]"));
 		{
 			//********************************
 			Persona p1= new Persona("Pedro", "666666");
 			Persona p2= new Persona("Cesar", "777777");
-			
+			Persona p3= new Persona("Paco", "222223");
+			Persona p4= new Persona("Sergio", "745234");
+			Persona p5= new Persona("María", "623585");
+			Persona p6= new Persona("Juliana", "834224");
+			Persona p7= new Persona("Julio", "455774");
+			Persona p8= new Persona("Martina", "723345");
 			DialogoActividad da;
 			ArrayList <Persona> listaPersonas= new ArrayList<Persona>();
 			
 			listaPersonas.add(p1);
 			listaPersonas.add(p2);
+			listaPersonas.add(p3);
+			listaPersonas.add(p4);
+			listaPersonas.add(p5);
+			listaPersonas.add(p6);
+			listaPersonas.add(p7);
+			listaPersonas.add(p8);
 			personas=listaPersonas;
 			
 			
@@ -143,13 +159,13 @@ public class App {
 						return proyectos.get(index);
 					}
 				});
-			frame.getContentPane().add(listaProyectos, "cell 0 0,grow");
+			frame.getContentPane().add(listaProyectos, "cell 0 0 1 4,grow");
 		}
 		{
 			pnlProyecto = new JPanel();
 			pnlProyecto.addMouseListener(new PnlProyectoMouseListener());
 			pnlProyecto.setBorder(new TitledBorder(null, Messages.getString("App.pnlProyecto.borderTitle"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
-			frame.getContentPane().add(pnlProyecto, "cell 1 0 1 3,grow");
+			frame.getContentPane().add(pnlProyecto, "cell 1 0 1 4,grow");
 			GridBagLayout gbl_pnlProyecto = new GridBagLayout();
 			gbl_pnlProyecto.columnWidths = new int[]{193, 193, 193, 64, 0};
 			gbl_pnlProyecto.rowHeights = new int[]{61, 181, 0, 0};
@@ -270,8 +286,12 @@ public class App {
 		{
 			btnAadirProyecto = new JButton(Messages.getString("App.btnAadirProyecto.text")); //$NON-NLS-1$
 			btnAadirProyecto.addActionListener(new BtnAadirProyectoActionListener());
-			frame.getContentPane().add(btnAadirProyecto, "cell 0 2,alignx center,aligny center");
+			frame.getContentPane().add(btnAadirProyecto, "cell 0 4,alignx center,aligny center");
 			
+		}
+		{
+			lblUltimaConexin = new JLabel(Messages.getString("App.lblUltimaConexin.text")); //$NON-NLS-1$
+			frame.getContentPane().add(lblUltimaConexin, "cell 1 4");
 		}
 		{
 			menuBar = new JMenuBar();
@@ -293,6 +313,19 @@ public class App {
 						mntmProyecto.addActionListener(new MntmProyectoActionListener());
 						mntmProyecto.setIcon(new ImageIcon(App.class.getResource("/recursos/file-in-folder.png")));
 						mnNuevo.add(mntmProyecto);
+					}
+				}
+				{
+					mnPersonas = new JMenu(Messages.getString("App.mnPersonas.text")); //$NON-NLS-1$
+					mnArchivo.add(mnPersonas);
+					{
+						mntmListaDePersonas = new JMenuItem(Messages.getString("App.mntmListaDePersonas.text")); //$NON-NLS-1$
+						mnPersonas.add(mntmListaDePersonas);
+					}
+					{
+						mntmEnviarUnCorreo = new JMenuItem(Messages.getString("App.mntmEnviarUnCorreo.text")); //$NON-NLS-1$
+						mntmEnviarUnCorreo.addActionListener(new MntmEnviarUnCorreoActionListener());
+						mnPersonas.add(mntmEnviarUnCorreo);
 					}
 				}
 			}
@@ -489,6 +522,12 @@ public class App {
 			
 			app.frame.setVisible(true);
 			frame.dispose();
+		}
+	}
+	private class MntmEnviarUnCorreoActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			DialogoCorreo dc = new DialogoCorreo(personas);
+			dc.setVisible(true);
 		}
 	}
 	
