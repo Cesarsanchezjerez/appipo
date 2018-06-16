@@ -51,8 +51,9 @@ public class DialogoActividad extends JDialog {
 	private areadibujo areadibujo;
 	private ImageIcon imagen;
 	private int x, y;
-	
+	private JLabel lblAviso;
 	private JTextField txtTexto = new JTextField();
+	private JList<Persona> list;
 	
 	/**
 	 * Launch the application.
@@ -71,7 +72,7 @@ public class DialogoActividad extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 46, 47, 0, 44, 79, 56, 0, 0, 0, 0};
+		gbl_contentPanel.columnWidths = new int[]{0, 46, 47, 0, 44, 79, 99, 0, 0, 0, 0};
 		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
@@ -141,7 +142,8 @@ public class DialogoActividad extends JDialog {
 			contentPanel.add(formattedFin, gbc_formattedFin);
 		}
 		{
-			JList<Persona> list = new JList<Persona>();
+			list = new JList<Persona>();
+			list.setToolTipText(Messages.getString("DialogoActividad.list.toolTipText")); //$NON-NLS-1$
 			list.setModel(new AbstractListModel<Persona>() {
 				ArrayList<Persona> values = pr.getIntegrantes();
 				public int getSize() {
@@ -247,6 +249,11 @@ public class DialogoActividad extends JDialog {
 			{
 				JButton okButton = new JButton(Messages.getString("DialogoActividad.okButton.text")); //$NON-NLS-1$
 				okButton.addActionListener(new OkButtonActionListener(pr));
+				{
+					lblAviso = new JLabel(); //$NON-NLS-1$
+					lblAviso.setForeground(Color.RED);
+					buttonPane.add(lblAviso);
+				}
 				okButton.setActionCommand(Messages.getString("DialogoActividad.okButton.actionCommand")); //$NON-NLS-1$
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -282,18 +289,63 @@ public class DialogoActividad extends JDialog {
 			proyecto=pr;
 		}
 		public void actionPerformed(ActionEvent e) {
-			Actividad nActividad = new Actividad("", null,"","",0);;
-			nActividad.setNombre(txtNombre.getText());
-			nActividad.setFechaInin(formattedInicio.getText());
-			nActividad.setFechaFin(formattedFin.getText());
-			nActividad.setAreadibujo(areadibujo);
-			nActividad.setImagen(imagen);
-			nActividad.setPrioridad(prioridad(buttonGroup.getSelection().getMnemonic()));
-			actividad=nActividad;
-			proyecto.añadirActividad(nActividad);
 			
-			dispose();
+			if(txtNombre.getText().isEmpty()) {
+				lblAviso.setText("El nombre del proyecto no puede estar vacío");
+			
+			}else if(!fechasCorrectas(formattedInicio.getText(), formattedFin.getText())){
+				lblAviso.setText("Las fechas no son correctas");
+			}else if(list.getSelectedValue()==null){
+				lblAviso.setText("Debe elegir al menos un integrante");
+			}else {
+				Actividad nActividad = new Actividad("", null,"","",0);;
+				nActividad.setNombre(txtNombre.getText());
+				nActividad.setFechaInin(formattedInicio.getText());
+				nActividad.setFechaFin(formattedFin.getText());
+				nActividad.setAreadibujo(areadibujo);
+				nActividad.setImagen(imagen);
+				nActividad.setPrioridad(prioridad(buttonGroup.getSelection().getMnemonic()));
+				actividad=nActividad;
+				proyecto.añadirActividad(nActividad);
+				ActividadCorrecta ac= new ActividadCorrecta();
+				ac.setVisible(true);
+				dispose();
+			}
+			
+			
 		}
+	}
+	public boolean fechasCorrectas(String ini, String fin) {
+		boolean correcto=false;
+		int diaI=0;
+		int mesI=0;
+		int anoI=0;
+		int diaF=0;
+		int mesF=0;
+		int anoF=0;
+		if (ini.equals("  /  /    ") || fin.equals("  /  /    ")) {
+			
+		}else {
+			diaI=Integer.parseInt(ini.charAt(0)+""+ini.charAt(1));
+			mesI=Integer.parseInt(ini.charAt(3)+""+ini.charAt(4));
+			anoI=Integer.parseInt(ini.charAt(6)+""+ini.charAt(7)+""+ini.charAt(8)+""+ini.charAt(9));
+			
+			diaF=Integer.parseInt(ini.charAt(0)+""+ini.charAt(1));
+			mesF=Integer.parseInt(ini.charAt(3)+""+ini.charAt(4));
+			anoF=Integer.parseInt(ini.charAt(6)+""+ini.charAt(7)+""+ini.charAt(8)+""+ini.charAt(9));
+			
+			
+			if (anoF>=anoI) {
+				if(mesF>=mesI){
+					if(diaF>=diaI) {
+						correcto=true;
+					}
+				}
+			}
+			
+			
+		}
+		return correcto;
 	}
 	private class CancelButtonActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {

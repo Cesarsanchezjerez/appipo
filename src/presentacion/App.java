@@ -322,11 +322,13 @@ public class App {
 					mnArchivo.add(mnPersonas);
 					{
 						mntmListaDePersonas = new JMenuItem(Messages.getString("App.mntmListaDePersonas.text")); //$NON-NLS-1$
+						mntmListaDePersonas.setIcon(new ImageIcon(App.class.getResource("/recursos/users-group.png")));
 						mntmListaDePersonas.addActionListener(new MntmListaDePersonasActionListener());
 						mnPersonas.add(mntmListaDePersonas);
 					}
 					{
 						mntmEnviarUnCorreo = new JMenuItem(Messages.getString("App.mntmEnviarUnCorreo.text")); //$NON-NLS-1$
+						mntmEnviarUnCorreo.setIcon(new ImageIcon(App.class.getResource("/recursos/email-filled-closed-envelope.png")));
 						mntmEnviarUnCorreo.addActionListener(new MntmEnviarUnCorreoActionListener());
 						mnPersonas.add(mntmEnviarUnCorreo);
 					}
@@ -539,6 +541,8 @@ public class App {
 	}
 	private class MntmListaDePersonasActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			Usuarios u =new Usuarios(personas);
+			u.setVisible(true);
 		}
 	}
 	

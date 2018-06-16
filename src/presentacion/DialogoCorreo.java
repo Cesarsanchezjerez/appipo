@@ -156,9 +156,9 @@ public class DialogoCorreo extends JDialog {
 			
 				if (comboBox.getSelectedItem()==null) {
 					lblAviso.setText("Debe elegir un destinatario");
-					} else if(Asunto.getText()==null) {
+				} else if(Asunto.getText().isEmpty()) {
 						lblAviso.setText("Debe definir un asunto");
-					}else {
+				}else {
 						CorreoCorrecto c =new CorreoCorrecto();
 						c.setVisible(true);
 						dispose();

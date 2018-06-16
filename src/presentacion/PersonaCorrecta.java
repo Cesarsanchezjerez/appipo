@@ -2,51 +2,36 @@ package presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
 
-import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
-import javax.swing.border.TitledBorder;
-
-import dominio.Persona;
+import javax.swing.JLabel;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Usuarios extends JDialog {
+public class PersonaCorrecta extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 
-
+	
 	/**
 	 * Create the dialog.
 	 */
-	public Usuarios(ArrayList<Persona> personas) {
-		setBounds(100, 100, 450, 300);
+	public PersonaCorrecta() {
+		setResizable(false);
+		setModal(true);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(PersonaCorrecta.class.getResource("/recursos/check-mark.png")));
+		setBounds(100, 100, 343, 145);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
-			JScrollPane scrollPane = new JScrollPane();
-			contentPanel.add(scrollPane, BorderLayout.CENTER);
-			{
-				JList list = new JList();
-				list.setModel(new AbstractListModel<Persona>() {
-					public int getSize() {
-						return personas.size();
-					}
-					public Persona getElementAt(int index) {
-						return personas.get(index);
-					}
-				});
-				list.setBorder(new TitledBorder(null, "Lista de empleados", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				scrollPane.setViewportView(list);
-			}
+			JLabel lblLaPersonaHa = new JLabel("La Persona ha sido creada correctamente");
+			contentPanel.add(lblLaPersonaHa);
 		}
 		{
 			JPanel buttonPane = new JPanel();

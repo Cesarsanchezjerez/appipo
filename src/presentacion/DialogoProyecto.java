@@ -24,6 +24,7 @@ import javax.swing.text.MaskFormatter;
 import dominio.Persona;
 import dominio.Proyecto;
 import javax.swing.JFormattedTextField;
+import java.awt.Color;
 
 
 public class DialogoProyecto extends JDialog {
@@ -51,7 +52,7 @@ public class DialogoProyecto extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 62, 0, 0};
+		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 103, 0, 0, 91, 0, 0};
 		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -122,6 +123,7 @@ public class DialogoProyecto extends JDialog {
 			
 			
 			JList<Persona> lista = new JList<Persona>();
+			lista.setToolTipText(Messages.getString("DialogoProyecto.lista.toolTipText")); //$NON-NLS-1$
 			
 			
 			lista.setModel(new AbstractListModel<Persona>() {
@@ -136,7 +138,7 @@ public class DialogoProyecto extends JDialog {
 			listaPersonas=lista;
 			lista.setBorder(new TitledBorder(null, Messages.getString("DialogoProyecto.lista.borderTitle"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 			GridBagConstraints gbc_lista = new GridBagConstraints();
-			gbc_lista.gridheight = 3;
+			gbc_lista.gridheight = 4;
 			gbc_lista.gridwidth = 2;
 			gbc_lista.insets = new Insets(0, 0, 5, 5);
 			gbc_lista.fill = GridBagConstraints.BOTH;
@@ -153,6 +155,7 @@ public class DialogoProyecto extends JDialog {
 				okButton.addActionListener(new OkButtonActionListener( personas));
 				{
 					lblAviso = new JLabel(); //$NON-NLS-1$
+					lblAviso.setForeground(Color.RED);
 					buttonPane.add(lblAviso);
 				}
 				okButton.setActionCommand(Messages.getString("DialogoProyecto.okButton.actionCommand")); //$NON-NLS-1$
@@ -193,7 +196,8 @@ public class DialogoProyecto extends JDialog {
 				}
 				
 				
-				 
+				ProyectoCorrecto pc=new ProyectoCorrecto();
+				pc.setVisible(true);
 				proyecto=nproyecto;
 				dispose();
 			}
@@ -225,8 +229,6 @@ public class DialogoProyecto extends JDialog {
 			mesF=Integer.parseInt(ini.charAt(3)+""+ini.charAt(4));
 			anoF=Integer.parseInt(ini.charAt(6)+""+ini.charAt(7)+""+ini.charAt(8)+""+ini.charAt(9));
 			
-			System.out.println(diaI+" "+mesI+" "+anoI);
-			System.out.println(diaF+" "+mesF+" "+anoF);
 			if (anoF>=anoI) {
 				if(mesF>=mesI){
 					if(diaF>=diaI) {

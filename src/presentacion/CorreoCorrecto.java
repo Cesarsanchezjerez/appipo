@@ -24,7 +24,7 @@ public class CorreoCorrecto extends JDialog {
 	 */
 	public CorreoCorrecto() {
 		setModal(true);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(CorreoCorrecto.class.getResource("/recursos/icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CorreoCorrecto.class.getResource("/recursos/check-mark.png")));
 		setBounds(100, 100, 258, 113);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
@@ -40,10 +40,16 @@ public class CorreoCorrecto extends JDialog {
 			getContentPane().add(panel, BorderLayout.SOUTH);
 			{
 				JButton btnAceptar = new JButton("Aceptar");
+				btnAceptar.addActionListener(new BtnAceptarActionListener());
 				panel.add(btnAceptar);
 			}
 		}
 	}
 
 	
+	private class BtnAceptarActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+		}
+	}
 }
