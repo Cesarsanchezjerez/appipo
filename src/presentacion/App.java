@@ -115,7 +115,6 @@ public class App {
 		
 		lh = new ListTransferHandler();
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(App.class.getResource("/recursos/guinea-pig-heag.png")));
 		frame.setBounds(100, 100, 1003, 585);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[182.00px][670.00px,grow,left]", "[76.00px][][][grow][23px]"));

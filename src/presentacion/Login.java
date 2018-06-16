@@ -55,7 +55,6 @@ public class Login {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/recursos/guinea-pig-heag.png")));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 400, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
