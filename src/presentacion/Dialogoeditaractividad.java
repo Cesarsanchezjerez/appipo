@@ -1,6 +1,7 @@
 package presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,13 +9,16 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -29,6 +33,10 @@ import dominio.Actividad;
 import dominio.Persona;
 import dominio.Proyecto;
 
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 
 
 public class Dialogoeditaractividad extends JDialog {
@@ -42,7 +50,14 @@ public class Dialogoeditaractividad extends JDialog {
 	private JRadioButton rdbtnMedia;
 	private JRadioButton rdbtnAlta;
 	private Actividad actividad;
-
+	private JButton btnAdjuntarImagen ;
+	
+	private areadibujo areadibujo;
+	private ImageIcon imagen;
+	private int x, y;
+	private boolean editable=false; 
+	private JTextField txtTexto = new JTextField();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -57,15 +72,15 @@ public class Dialogoeditaractividad extends JDialog {
 		setTitle(Messages.getString("Dialogoeditaractividad.this.title")); //$NON-NLS-1$
 		setResizable(false);
 		setModal(true);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 519, 518);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lblNombre = new JLabel(Messages.getString("Dialogoeditaractividad.lblNombre.text")); //$NON-NLS-1$
@@ -157,7 +172,7 @@ public class Dialogoeditaractividad extends JDialog {
 			GridBagConstraints gbc_txtpnDescripcin = new GridBagConstraints();
 			gbc_txtpnDescripcin.gridwidth = 3;
 			gbc_txtpnDescripcin.gridheight = 2;
-			gbc_txtpnDescripcin.insets = new Insets(0, 0, 5, 0);
+			gbc_txtpnDescripcin.insets = new Insets(0, 0, 5, 5);
 			gbc_txtpnDescripcin.fill = GridBagConstraints.BOTH;
 			gbc_txtpnDescripcin.gridx = 5;
 			gbc_txtpnDescripcin.gridy = 4;
@@ -178,7 +193,7 @@ public class Dialogoeditaractividad extends JDialog {
 			buttonGroup.add(rdbtnBaja);
 			GridBagConstraints gbc_rdbtnBaja = new GridBagConstraints();
 			gbc_rdbtnBaja.anchor = GridBagConstraints.WEST;
-			gbc_rdbtnBaja.insets = new Insets(0, 0, 0, 5);
+			gbc_rdbtnBaja.insets = new Insets(0, 0, 5, 5);
 			gbc_rdbtnBaja.gridx = 2;
 			gbc_rdbtnBaja.gridy = 7;
 			contentPanel.add(rdbtnBaja, gbc_rdbtnBaja);
@@ -189,7 +204,7 @@ public class Dialogoeditaractividad extends JDialog {
 			buttonGroup.add(rdbtnMedia);
 			GridBagConstraints gbc_rdbtnMedia = new GridBagConstraints();
 			gbc_rdbtnMedia.anchor = GridBagConstraints.WEST;
-			gbc_rdbtnMedia.insets = new Insets(0, 0, 0, 5);
+			gbc_rdbtnMedia.insets = new Insets(0, 0, 5, 5);
 			gbc_rdbtnMedia.gridx = 3;
 			gbc_rdbtnMedia.gridy = 7;
 			contentPanel.add(rdbtnMedia, gbc_rdbtnMedia);
@@ -201,10 +216,39 @@ public class Dialogoeditaractividad extends JDialog {
 			buttonGroup.add(rdbtnAlta);
 			GridBagConstraints gbc_rdbtnAlta = new GridBagConstraints();
 			gbc_rdbtnAlta.anchor = GridBagConstraints.WEST;
-			gbc_rdbtnAlta.insets = new Insets(0, 0, 0, 5);
+			gbc_rdbtnAlta.insets = new Insets(0, 0, 5, 5);
 			gbc_rdbtnAlta.gridx = 4;
 			gbc_rdbtnAlta.gridy = 7;
 			contentPanel.add(rdbtnAlta, gbc_rdbtnAlta);
+		}
+		{
+			JScrollPane scrollPane = new JScrollPane();
+			
+			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+			gbc_scrollPane.gridheight = 3;
+			gbc_scrollPane.gridwidth = 4;
+			gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+			gbc_scrollPane.fill = GridBagConstraints.BOTH;
+			gbc_scrollPane.gridx = 2;
+			gbc_scrollPane.gridy = 8;
+			contentPanel.add(scrollPane, gbc_scrollPane);
+			
+			areadibujo = new areadibujo();
+			areadibujo.addMouseListener(new AreadibujoMouseListener());
+			areadibujo.setIcon(null);
+			scrollPane.setViewportView(areadibujo);
+		}
+		{
+			btnAdjuntarImagen = new JButton(Messages.getString("Dialogoeditaractividad.btnAdjuntarImagen.text")); //$NON-NLS-1$
+			btnAdjuntarImagen.setEnabled(false);
+			btnAdjuntarImagen.addActionListener(new BtnAdjuntarImagenActionListener());
+			GridBagConstraints gbc_btnAdjuntarImagen = new GridBagConstraints();
+			gbc_btnAdjuntarImagen.insets = new Insets(0, 0, 5, 5);
+			gbc_btnAdjuntarImagen.gridx = 6;
+			gbc_btnAdjuntarImagen.gridy = 8;
+			contentPanel.add(btnAdjuntarImagen, gbc_btnAdjuntarImagen);
+			
+			
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -317,8 +361,43 @@ public class Dialogoeditaractividad extends JDialog {
 			txtNombre.setEditable(true);
 			 txtFin.setEditable(true);
 			 txtInicio.setEditable(true);
-			 
-			 
+			 btnAdjuntarImagen.setEnabled(true);
+			 editable=true;
+		}
+	}
+	private class BtnAdjuntarImagenActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser fcAbrir = new JFileChooser();
+			
+			int valorDevuelto = fcAbrir.showOpenDialog(getParent()); 
+			if (valorDevuelto == JFileChooser.APPROVE_OPTION) {	
+				File file = fcAbrir.getSelectedFile();
+				imagen = new ImageIcon(file.getAbsolutePath());
+				areadibujo.setIcon(imagen);
+		}
+		}
+	}
+	private class AreadibujoMouseListener extends MouseAdapter {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			if (editable) {
+			x = e.getX();
+			y = e.getY();
+			txtTexto.setBounds(x, y, 200,30);
+			txtTexto.setVisible(true); 
+			txtTexto.requestFocus(); 
+			txtTexto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg) { 
+					if(!txtTexto.getText().equals(""))areadibujo.addObjetoGrafico(new objetoGrafico(x,y+15,txtTexto.getText(),Color.blue));
+					txtTexto.setText(""); 
+					txtTexto.setVisible(false); 
+					areadibujo.repaint();
+				}
+
+				
+			});
+			areadibujo.add(txtTexto);
+		}
 		}
 	}
 	public Actividad getActividad() {

@@ -66,7 +66,7 @@ public class DialogoActividad extends JDialog {
 	public DialogoActividad(Proyecto pr) throws ParseException{
 		setTitle(Messages.getString("DialogoActividad.this.title"));
 		setModal(true);
-		setBounds(100, 100, 534, 508);
+		setBounds(100, 100, 535, 508);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
