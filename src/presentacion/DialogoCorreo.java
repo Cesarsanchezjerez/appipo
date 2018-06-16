@@ -25,6 +25,9 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class DialogoCorreo extends JDialog {
 
@@ -123,16 +126,35 @@ public class DialogoCorreo extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Enviar\r\n");
+				okButton.addActionListener(new OkButtonActionListener());
+				{
+					JLabel lblAviso = new JLabel("");
+					lblAviso.setForeground(Color.RED);
+					buttonPane.add(lblAviso);
+				}
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new CancelButtonActionListener());
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 			
+		}
+	}
+	private class CancelButtonActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			dispose();
+		}
+	}
+	private class OkButtonActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (comboBox.getSelectedItem()==null) {
+			
+			}
 		}
 	}
 }
