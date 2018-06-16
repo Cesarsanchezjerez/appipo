@@ -186,6 +186,7 @@ public class App {
 							
 							DefaultListModel modeloPendientes = new DefaultListModel();
 							listaPendientes = new JList<Actividad>(modeloPendientes);
+							listaPendientes.setToolTipText(Messages.getString("App.listaPendientes.toolTipText")); //$NON-NLS-1$
 							listaPendientes.addMouseListener(new ListaPendientesMouseListener());
 							
 							
@@ -356,9 +357,14 @@ public class App {
 		public void actionPerformed(ActionEvent e) {
 			
 			
-			DialogoActividad da;
+			DialogoActividad da = null;
 			
-			da = new DialogoActividad(listaProyectos.getSelectedValue());
+			try {
+				da = new DialogoActividad(listaProyectos.getSelectedValue());
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			da.setVisible(true);
 			cargarActividades(listaProyectos.getSelectedValue());
 			

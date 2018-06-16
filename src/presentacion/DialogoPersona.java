@@ -59,6 +59,7 @@ public class DialogoPersona extends JDialog {
 		}
 		{
 			txtNombre = new JTextField();
+			txtNombre.setToolTipText(Messages.getString("DialogoPersona.txtNombre.toolTipText")); //$NON-NLS-1$
 			GridBagConstraints gbc_txtNombre = new GridBagConstraints();
 			gbc_txtNombre.anchor = GridBagConstraints.SOUTH;
 			gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
@@ -84,6 +85,7 @@ public class DialogoPersona extends JDialog {
 			formatoDNI = new MaskFormatter("########'-U"); 
 			formatoDNI.setPlaceholderCharacter('X'); 
 			txtDni = new JFormattedTextField(formatoDNI);
+			txtDni.setToolTipText(Messages.getString("DialogoPersona.txtDni.toolTipText")); //$NON-NLS-1$
 			} catch (ParseException e) {
 			    // TODO Auto-generated catch block
 			e.printStackTrace(); }

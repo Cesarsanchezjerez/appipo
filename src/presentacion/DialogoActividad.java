@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
@@ -21,10 +22,12 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
 
 import dominio.Actividad;
 import dominio.Persona;
 import dominio.Proyecto;
+import javax.swing.JFormattedTextField;
 
 
 
@@ -32,10 +35,11 @@ public class DialogoActividad extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombre;
-	private JTextField txtInicio;
-	private JTextField txtFin;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private Actividad actividad;
+	private JFormattedTextField formattedInicio;
+	private JFormattedTextField formattedFin;
+	MaskFormatter formatter =new MaskFormatter("##/##/####");
 
 	/**
 	 * Launch the application.
@@ -46,7 +50,7 @@ public class DialogoActividad extends JDialog {
 	 * Create the dialog.
 	 *  
 	 */
-	public DialogoActividad(Proyecto pr) {
+	public DialogoActividad(Proyecto pr) throws ParseException{
 		setTitle(Messages.getString("DialogoActividad.this.title")); //$NON-NLS-1$
 		setResizable(false);
 		setModal(true);
@@ -55,9 +59,9 @@ public class DialogoActividad extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 44, 79, 56, 0, 0};
 		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
@@ -71,6 +75,7 @@ public class DialogoActividad extends JDialog {
 		}
 		{
 			txtNombre = new JTextField();
+			txtNombre.setToolTipText(Messages.getString("DialogoActividad.txtNombre.toolTipText")); //$NON-NLS-1$
 			GridBagConstraints gbc_txtNombre = new GridBagConstraints();
 			gbc_txtNombre.gridwidth = 2;
 			gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
@@ -90,15 +95,15 @@ public class DialogoActividad extends JDialog {
 			contentPanel.add(lblInicio, gbc_lblInicio);
 		}
 		{
-			txtInicio = new JTextField();
-			GridBagConstraints gbc_txtInicio = new GridBagConstraints();
-			gbc_txtInicio.gridwidth = 2;
-			gbc_txtInicio.insets = new Insets(0, 0, 5, 5);
-			gbc_txtInicio.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtInicio.gridx = 2;
-			gbc_txtInicio.gridy = 2;
-			contentPanel.add(txtInicio, gbc_txtInicio);
-			txtInicio.setColumns(10);
+			formattedInicio = new JFormattedTextField(formatter);
+			formattedInicio.setToolTipText(Messages.getString("DialogoActividad.formattedInicio.toolTipText")); //$NON-NLS-1$
+			GridBagConstraints gbc_formattedInicio = new GridBagConstraints();
+			gbc_formattedInicio.gridwidth = 2;
+			gbc_formattedInicio.insets = new Insets(0, 0, 5, 5);
+			gbc_formattedInicio.fill = GridBagConstraints.HORIZONTAL;
+			gbc_formattedInicio.gridx = 2;
+			gbc_formattedInicio.gridy = 2;
+			contentPanel.add(formattedInicio, gbc_formattedInicio);
 		}
 		{
 			JLabel lblFin = new JLabel(Messages.getString("DialogoActividad.lblFin.text")); //$NON-NLS-1$
@@ -110,15 +115,15 @@ public class DialogoActividad extends JDialog {
 			contentPanel.add(lblFin, gbc_lblFin);
 		}
 		{
-			txtFin = new JTextField();
-			GridBagConstraints gbc_txtFin = new GridBagConstraints();
-			gbc_txtFin.anchor = GridBagConstraints.WEST;
-			gbc_txtFin.gridwidth = 2;
-			gbc_txtFin.insets = new Insets(0, 0, 5, 5);
-			gbc_txtFin.gridx = 5;
-			gbc_txtFin.gridy = 2;
-			contentPanel.add(txtFin, gbc_txtFin);
-			txtFin.setColumns(10);
+			formattedFin = new JFormattedTextField(formatter);
+			formattedFin.setToolTipText(Messages.getString("DialogoActividad.formattedFin.toolTipText")); //$NON-NLS-1$
+			GridBagConstraints gbc_formattedFin = new GridBagConstraints();
+			gbc_formattedFin.gridwidth = 2;
+			gbc_formattedFin.insets = new Insets(0, 0, 5, 5);
+			gbc_formattedFin.fill = GridBagConstraints.HORIZONTAL;
+			gbc_formattedFin.gridx = 5;
+			gbc_formattedFin.gridy = 2;
+			contentPanel.add(formattedFin, gbc_formattedFin);
 		}
 		{
 			JList<Persona> list = new JList<Persona>();
@@ -239,8 +244,8 @@ public class DialogoActividad extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 			Actividad nActividad = new Actividad("", null,"","",0);;
 			nActividad.setNombre(txtNombre.getText());
-			nActividad.setFechaInin(txtInicio.getText());
-			nActividad.setFechaFin(txtFin.getText());
+			nActividad.setFechaInin(formattedInicio.getText());
+			nActividad.setFechaFin(formattedFin.getText());
 			
 			nActividad.setPrioridad(prioridad(buttonGroup.getSelection().getMnemonic()));
 			actividad=nActividad;

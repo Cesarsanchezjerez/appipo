@@ -53,7 +53,7 @@ public class DialogoProyecto extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 62, 0, 0};
 		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -69,6 +69,7 @@ public class DialogoProyecto extends JDialog {
 		}
 		{
 			txtNombre = new JTextField();
+			txtNombre.setToolTipText(Messages.getString("DialogoProyecto.txtNombre.toolTipText")); //$NON-NLS-1$
 			GridBagConstraints gbc_txtNombre = new GridBagConstraints();
 			gbc_txtNombre.gridwidth = 2;
 			gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
